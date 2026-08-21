@@ -71,8 +71,33 @@ const WA_GLYPH = '<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.
 
 const ph = () => '<span class="ph">Placeholder</span>';
 /* One prefill for every WhatsApp entry point on the site, so the message
-   Stephen receives is consistent no matter which button was pressed. */
-const WA_PREFILL = 'Hello S. Sparham Electrical, I would like a quote for some electrical work.';
+   Stephen receives is consistent no matter which button was pressed.
+
+   It carries where it came from. Stephen gets enquiries from Facebook,
+   MyBuilder and word of mouth as well as the site, and a message that says so
+   is the difference between knowing the website is earning its keep and
+   guessing. The page name is in there too, because "EV charger installation"
+   tells him what the customer was reading when they pressed the button.
+
+   PAGE_TOKEN is substituted per page in page() rather than threaded through
+   every helper that builds a WhatsApp link. It survives encodeURIComponent
+   untouched (underscores are not escaped), so it can be swapped in after the
+   URL has been built, which is why it looks like this rather than being a
+   template hole. */
+const PAGE_TOKEN = '__PAGE__';
+const WA_PREFILL = 'Hello S. Sparham Electrical, I would like a quote for some electrical work.' +
+  '\n\nSent from ssparhamelectrical.co.uk (' + PAGE_TOKEN + ')';
+
+/* The human label for the page, used in the WhatsApp prefill and on the body
+   element for the form to read. The last breadcrumb is already the readable
+   name of the page, so there is nothing extra to maintain. */
+function pageLabel(p) {
+  if (p.waLabel) return p.waLabel;
+  if (!p.slug) return 'Home page';
+  if (p.slug === '404') return 'Page not found';
+  const t = p.trail && p.trail.length ? p.trail[p.trail.length - 1][1] : null;
+  return t || p.slug;
+}
 const waLink = txt => `https://wa.me/${biz.whatsapp}${txt ? '?text=' + encodeURIComponent(txt) : ''}`;
 const tel = `tel:${biz.phoneRaw}`;
 
@@ -118,7 +143,7 @@ function head(p) {
 <link rel="stylesheet" href="${asset(d, A.cssName)}">
 <script type="application/ld+json">${JSON.stringify(p.schema)}</script>
 </head>
-<body>`;
+<body data-page="${esc(pageLabel(p))}">`;
 }
 
 /* ---------- header ---------- */
@@ -402,7 +427,7 @@ function footer(d) {
   const soc = [];
   if (biz.facebook) soc.push(`<a href="${biz.facebook}" target="_blank" rel="noopener" aria-label="Facebook">${ic('facebook')}</a>`);
   if (biz.instagram) soc.push(`<a href="${biz.instagram}" target="_blank" rel="noopener" aria-label="Instagram">${ic('instagram')}</a>`);
-  soc.push(`<a href="${waLink()}" target="_blank" rel="noopener" aria-label="WhatsApp">${ic('chat')}</a>`);
+  soc.push(`<a href="${waLink(WA_PREFILL)}" target="_blank" rel="noopener" aria-label="WhatsApp" data-track="whatsapp">${ic('chat')}</a>`);
 
   return `
 <footer class="ft">
@@ -603,7 +628,8 @@ function serviceNode(s, areaNames) {
 }
 
 module.exports = {
-  esc, root, href, asset, abs, ic, ICON, WA_GLYPH, G_MARK, ph, waLink, tel, WA_PREFILL,
+  esc, root, href, asset, abs, ic, ICON, WA_GLYPH, G_MARK, ph, waLink, tel,
+  WA_PREFILL, PAGE_TOKEN, pageLabel,
   head, header, crumbs, phead, ticks, steps, faqBlock, band,
   quotePanel, servicePanel, areaPanel, footer,
   credentialsBlock, credBadges, credStrip, projectRow,

@@ -175,6 +175,14 @@
       if (val('area')) lines.push('Area: ' + val('area'));
       if (val('job')) lines.push('Job: ' + val('job'));
       if (val('message')) lines.push('', 'Details: ' + val('message'));
+
+      /* Where the enquiry came from, matching the line the plain WhatsApp
+         buttons carry. Stephen also gets enquiries from Facebook, MyBuilder
+         and word of mouth, so a message that says which is worth having.
+         data-page is set on <body> by the generator. */
+      var src = (document.body && document.body.getAttribute('data-page')) || '';
+      lines.push('', 'Sent from the enquiry form on ssparhamelectrical.co.uk' + (src ? ' (' + src + ')' : ''));
+
       window.location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(lines.join('\n'));
     });
   }

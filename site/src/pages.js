@@ -14,11 +14,19 @@ const {
   ticks, steps, faqBlock, band, quotePanel, servicePanel, areaPanel, footer,
   credentialsBlock, credBadges, credStrip, projectRow,
   starRow, reviewCard, reviewsCarousel, reviewLinks, ratingsBar,
-  graph, serviceNode, reviewNodes, G_MARK
+  graph, serviceNode, reviewNodes, G_MARK, PAGE_TOKEN, pageLabel
 } = L;
 
-const page = (p, body) => head(p) + header(p.depth, p.nav || p.slug) +
-  (p.trail ? crumbs(p.depth, p.trail) : '') + `<main id="main">` + body + `</main>` + footer(p.depth);
+/* Single funnel for every page, which is also where the WhatsApp prefill gets
+   its page name. Doing the substitution here rather than threading a label
+   through footer(), band(), quotePanel() and every inline link means there is
+   exactly one place it can be wrong, and no way to add a new WhatsApp link
+   that forgets to carry the source. */
+const page = (p, body) => {
+  const html = head(p) + header(p.depth, p.nav || p.slug) +
+    (p.trail ? crumbs(p.depth, p.trail) : '') + `<main id="main">` + body + `</main>` + footer(p.depth);
+  return html.split(PAGE_TOKEN).join(encodeURIComponent(pageLabel(p)));
+};
 
 const areaSlug = l => 'electrician-in-' + l.slug;
 const AREA_NAMES = locations.map(l => l.name);
@@ -456,6 +464,9 @@ function locationPage(l, i) {
     title: `Electrician in ${l.name} | S. Sparham Electrical`,
     ogTitle: `Electrician in ${l.name}`,
     description: `Qualified electrician covering ${l.name} and ${l.nearby.slice(0, 3).join(', ')}. Rewires, fuse boards, EICRs, fault finding and EV chargers. Call ${biz.phone}.`,
+    /* the breadcrumb says "Derby", which is right there but too thin on its
+       own in a WhatsApp message */
+    waLabel: `Electrician in ${l.name}`,
     faqs,
     extraNodes: [{
       '@type': 'Service',
