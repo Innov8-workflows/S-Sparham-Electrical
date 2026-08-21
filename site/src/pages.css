@@ -1,0 +1,184 @@
+/* ============================================================
+   INNER PAGES
+   Concatenated onto site.css at build time. Everything here is used
+   by the service, location and information pages; the homepage
+   styles in site.css are untouched.
+   ============================================================ */
+
+/* page header band, sits under the navbar in place of the hero */
+.phead{position:relative;background:var(--ink);color:#fff;isolation:isolate;overflow:hidden}
+.phead__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.34;z-index:0}
+.phead::after{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(16,18,21,.86),rgba(16,18,21,.7) 45%,rgba(16,18,21,.94));
+}
+.phead__in{position:relative;z-index:2;padding-block:clamp(26px,4.6vw,54px) clamp(30px,4.6vw,58px)}
+.phead h1{font-size:clamp(1.75rem,5.6vw,3rem);text-wrap:balance;max-width:20ch}
+.phead__sub{margin-top:12px;color:#C3C9D1;font-size:clamp(.95rem,2.5vw,1.12rem);max-width:60ch;text-wrap:balance}
+.phead__cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.phead__cta .btn{flex:1 1 auto;min-width:150px;max-width:250px}
+@media(min-width:760px){.phead__cta .btn{flex:0 0 auto}}
+
+/* breadcrumbs */
+.crumb{padding-block:12px;font-size:.8rem;color:var(--muted);background:var(--bg-2);border-bottom:1px solid var(--line)}
+.crumb ol{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0;padding:0;list-style:none}
+.crumb li{display:flex;align-items:center;gap:6px}
+.crumb a{color:var(--steel);text-decoration:underline;text-underline-offset:2px}
+.crumb a:hover{color:var(--brand-dp)}
+.crumb svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4;opacity:.55}
+.crumb [aria-current]{color:var(--ink);font-weight:600}
+
+/* the answer-first block: the short, self-contained summary that an answer
+   engine can lift straight out of the page and still have it make sense */
+.keyfact{
+  background:var(--bg-2);border:1px solid var(--line);border-left:4px solid var(--brand);
+  border-radius:var(--radius);padding:clamp(16px,3.2vw,24px);margin-bottom:clamp(22px,3.4vw,32px);
+}
+.keyfact h2{font-size:1rem;letter-spacing:.02em;margin-bottom:8px}
+.keyfact p{color:var(--steel);font-size:clamp(.94rem,2.5vw,1.06rem);line-height:1.62}
+
+/* long-form body copy */
+.prose{max-width:72ch}
+.prose h2{font-size:clamp(1.35rem,3.9vw,1.85rem);margin-top:clamp(30px,4vw,44px);margin-bottom:12px;scroll-margin-top:90px}
+.prose h3{font-size:clamp(1.05rem,3vw,1.24rem);margin-top:26px;margin-bottom:8px}
+.prose p{color:var(--steel);margin-bottom:14px;font-size:clamp(.92rem,2.4vw,1.02rem);line-height:1.68}
+.prose>p:first-child{margin-top:0}
+.prose a{color:var(--brand-dp);text-decoration:underline;text-underline-offset:2px;font-weight:500}
+.prose a:hover{color:var(--ink)}
+
+/* tick list */
+.ticks{display:grid;gap:9px;margin:16px 0 4px}
+.ticks li{display:flex;gap:11px;align-items:flex-start;color:var(--steel);font-size:clamp(.9rem,2.4vw,1rem);line-height:1.55}
+.ticks svg{width:19px;height:19px;flex:none;margin-top:2px;stroke:var(--brand-dp);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* numbered process steps */
+.steps{counter-reset:s;display:grid;gap:12px;margin-top:18px}
+.step{
+  position:relative;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 16px 16px 58px;
+}
+.step::before{
+  counter-increment:s;content:counter(s,decimal-leading-zero);
+  position:absolute;left:16px;top:15px;font-family:'Archivo';font-weight:800;font-size:.9rem;
+  color:var(--brand-dp);background:var(--bg-3);width:30px;height:30px;border-radius:8px;
+  display:grid;place-items:center;
+}
+.step h3{font-size:1rem;margin:0 0 4px}
+.step p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.55}
+
+/* FAQ accordion */
+.faq{display:grid;gap:8px;margin-top:18px}
+.faq__i{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.faq__i[open]{border-color:#D3D8DE;box-shadow:var(--shadow)}
+.faq__q{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;cursor:pointer;
+  padding:15px 16px;font-family:'Archivo';font-weight:700;font-size:clamp(.95rem,2.6vw,1.06rem);
+  line-height:1.35;list-style:none;
+}
+.faq__q::-webkit-details-marker{display:none}
+.faq__q::after{
+  content:"";flex:none;width:11px;height:11px;border-right:2.5px solid var(--brand-dp);
+  border-bottom:2.5px solid var(--brand-dp);transform:rotate(45deg);margin-top:-4px;transition:transform .22s;
+}
+.faq__i[open] .faq__q::after{transform:rotate(-135deg);margin-top:2px}
+.faq__a{padding:0 16px 16px;color:var(--steel);font-size:clamp(.89rem,2.4vw,.98rem);line-height:1.65}
+.faq__a p{margin:0}
+
+/* card grids used for the service and location indexes */
+.cards{display:grid;gap:12px}
+@media(min-width:640px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.cards--3{grid-template-columns:repeat(3,1fr)}}
+.card{
+  display:flex;flex-direction:column;gap:8px;background:var(--white);border:1px solid var(--line);
+  border-radius:var(--radius);padding:clamp(16px,3vw,22px);transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#D3D8DE}
+.card__ico{
+  width:38px;height:38px;border-radius:10px;display:grid;place-items:center;
+  background:var(--ink);color:var(--brand);flex:none;
+}
+.card__ico svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:clamp(1rem,2.8vw,1.14rem);line-height:1.25}
+.card p{color:var(--muted);font-size:.88rem;line-height:1.5;flex:1}
+.card__go{
+  display:inline-flex;align-items:center;gap:7px;font-family:'Archivo';font-weight:700;
+  font-size:.85rem;color:var(--brand-dp);margin-top:2px;
+}
+.card__go svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.card:hover .card__go svg{transform:translateX(3px)}
+
+/* compact link chips, used for service and location interlinking */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;background:var(--white);border:1px solid var(--line);
+  border-radius:100px;padding:8px 14px;font-size:.84rem;font-weight:600;color:var(--steel);
+  transition:border-color .18s,color .18s,background .18s;
+}
+.chip:hover{border-color:var(--brand);color:var(--ink);background:var(--bg-2)}
+.chip svg{width:14px;height:14px;flex:none;stroke:var(--brand-dp);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* two column layout with a sticky aside */
+.layout{display:grid;gap:clamp(26px,4vw,48px)}
+@media(min-width:980px){
+  .layout{grid-template-columns:minmax(0,1fr) 330px;align-items:start}
+  .aside{position:sticky;top:104px}
+}
+.aside{display:grid;gap:12px}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.panel--dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.panel--dark p{color:#B7BEC7}
+.panel h3{font-size:1.06rem;margin-bottom:8px}
+.panel p{color:var(--muted);font-size:.88rem;line-height:1.55;margin-bottom:12px}
+.panel .btn{width:100%}
+.panel__list{display:grid;gap:2px}
+.panel__list a{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;
+  border-bottom:1px solid var(--line);font-size:.88rem;font-weight:500;color:var(--steel);
+}
+.panel__list a:last-child{border-bottom:0}
+.panel__list a:hover{color:var(--brand-dp)}
+.panel__list svg{width:14px;height:14px;flex:none;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.5}
+.panel--dark .panel__list a{border-color:rgba(255,255,255,.12);color:#D5D9DE}
+.panel--dark .panel__list a:hover{color:var(--brand-lt)}
+
+/* comparison and spec tables */
+.tblwrap{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:var(--radius);background:var(--white)}
+table.tbl{width:100%;border-collapse:collapse;font-size:.9rem;min-width:440px}
+table.tbl th,table.tbl td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+table.tbl thead th{background:var(--bg-2);font-family:'Archivo';font-weight:700;font-size:.82rem;letter-spacing:.03em;text-transform:uppercase;color:var(--steel)}
+table.tbl tbody tr:last-child td{border-bottom:0}
+table.tbl td:first-child{font-weight:600;color:var(--ink)}
+
+/* mid page call to action band */
+.band{background:var(--ink);color:#fff;border-radius:var(--radius);padding:clamp(20px,3.6vw,32px);text-align:center;margin-block:clamp(26px,4vw,40px)}
+.band h2{font-size:clamp(1.2rem,3.4vw,1.6rem);margin-bottom:8px;text-wrap:balance}
+.band p{color:#B7BEC7;font-size:.94rem;max-width:52ch;margin:0 auto 18px;text-wrap:balance}
+.band__btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.band__btns .btn{flex:1 1 auto;min-width:150px;max-width:250px}
+@media(min-width:700px){.band__btns .btn{flex:0 0 auto}}
+
+/* related links strip at the foot of inner pages */
+.related{border-top:1px solid var(--line);padding-top:clamp(24px,3.6vw,36px);margin-top:clamp(28px,4vw,44px)}
+.related h2{font-size:1.15rem;margin-bottom:14px}
+
+/* legal and plain text pages */
+.legal{max-width:70ch}
+.legal h2{font-size:1.2rem;margin-top:30px;margin-bottom:10px}
+.legal p,.legal li{color:var(--steel);font-size:.95rem;line-height:1.68;margin-bottom:12px}
+.legal ul{list-style:disc;padding-left:22px;margin-bottom:14px}
+.legal a{color:var(--brand-dp);text-decoration:underline;text-underline-offset:2px}
+
+/* skip link: off screen until it takes keyboard focus */
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:200;
+  background:var(--brand);color:var(--ink);font-family:'Archivo';font-weight:700;
+  padding:12px 18px;border-radius:0 0 10px 0;
+}
+.skip:focus{left:0}
+
+/* footer insurance line */
+.ft__ins{
+  display:flex;align-items:flex-start;gap:9px;margin-top:14px;
+  color:#C7CDD4;font-size:.8rem;line-height:1.45;
+}
+.ft__ins svg{width:17px;height:17px;flex:none;margin-top:1px;stroke:var(--brand);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}

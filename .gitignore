@@ -1,0 +1,9 @@
+# Generator output. `npm run build` wipes and rewrites it, and wrangler deploys
+# from it, so it is reproducible from site/ and never committed.
+_site/
+
+# npm
+node_modules/
+
+# wrangler local state
+.wrangler/

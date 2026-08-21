@@ -1,0 +1,52 @@
+{
+  // Assets-only Worker: there is deliberately no "main".
+  //
+  // Adding a `main` later would stop _headers applying to any Worker-generated
+  // response, silently dropping the security headers on those paths.
+  // See https://developers.cloudflare.com/workers/static-assets/headers/
+  "name": "s-sparham-electrical",
+  "compatibility_date": "2026-08-21",
+
+  "assets": {
+    // Build output. `node site/generate.js` wipes and rewrites this directory,
+    // so nothing may be hand-placed inside it.
+    "directory": "./_site",
+
+    // Serves <slug>/index.html at /<slug>/, and 307s /<slug> -> /<slug>/.
+    //
+    // DO NOT change to "drop-trailing-slash": every canonical, the sitemap and
+    // all internal links emit the trailing-slash form, so it would create a
+    // site-wide canonical mismatch.
+    "html_handling": "auto-trailing-slash",
+
+    // NOT the default, which is "none". Serves _site/404.html with a real 404
+    // status for a miss at any depth. The 404 page uses root-absolute asset
+    // paths for exactly this reason, and carries noindex because the file is
+    // also reachable at /404 with a 200.
+    "not_found_handling": "404-page"
+  },
+
+  // Custom domains. Cloudflare creates and manages the DNS records for these,
+  // which is why none are added by hand. www is attached so it resolves, and a
+  // Redirect Rule 301s it to the apex so there is only one canonical hostname.
+  //
+  // COMMENTED OUT until ssparhamelectrical.co.uk is registered at GoDaddy and
+  // its nameservers point at Cloudflare. Deploying with routes for a zone that
+  // is not on the account fails the whole deploy.
+  // "routes": [
+  //   { "pattern": "ssparhamelectrical.co.uk", "custom_domain": true },
+  //   { "pattern": "www.ssparhamelectrical.co.uk", "custom_domain": true }
+  // ],
+
+  // TRUE only while there is no custom domain, so the site can be seen and
+  // tested at s-sparham-electrical.<account>.workers.dev. The _headers file
+  // carries X-Robots-Tag: noindex for that hostname while this is true.
+  //
+  // Set to FALSE the moment the custom domain verifies. Leaving it on would
+  // publish a second complete copy of the site on a different hostname,
+  // competing with the real domain in search.
+  "workers_dev": true,
+
+  // Preview URLs would republish the site on yet another hostname per version.
+  "preview_urls": false
+}

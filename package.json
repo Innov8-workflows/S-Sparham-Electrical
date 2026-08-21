@@ -1,0 +1,14 @@
+{
+  "name": "s-sparham-electrical",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static site for S. Sparham Electrical, Ripley, Derbyshire",
+  "scripts": {
+    "build": "node site/generate.js && node site/check.js",
+    "serve": "node site/serve.js 8141",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.40.0"
+  }
+}
