@@ -2,7 +2,7 @@
    Shared building blocks for every generated page.
    Icons are exact Lucide paths, never hand-drawn.
    ============================================================ */
-const { SITE_URL, biz, pending, credentials, ratings, reviews, services, locations } = require('./data.js');
+const { SITE_URL, biz, pending, credentials, badges, projects, ratings, reviews, services, locations } = require('./data.js');
 const A = require('./assets.js');
 
 /* ---------- small helpers ---------- */
@@ -55,6 +55,16 @@ const ICON = {
   file: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>'
 };
 const ic = (n, cls) => `<svg class="${cls || 'ic'}" viewBox="0 0 24 24" aria-hidden="true">${ICON[n] || ''}</svg>`;
+
+/* The Google "G", exact paths from the gilbarbara/logos set. Full colour, on
+   its own 256x262 viewBox, so it cannot live in the 24x24 ICON map above.
+   Never redraw this by hand: it is a trademark and an approximation looks it. */
+const G_MARK = '<svg class="gmark" viewBox="0 0 256 262" aria-hidden="true" focusable="false">' +
+  '<path d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" fill="#4285F4"/>' +
+  '<path d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" fill="#34A853"/>' +
+  '<path d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" fill="#FBBC05"/>' +
+  '<path d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" fill="#EB4335"/>' +
+  '</svg>';
 
 /* the official WhatsApp glyph, for the float and the brand buttons */
 const WA_GLYPH = '<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.465 3.488"/>';
@@ -235,6 +245,58 @@ function areaPanel(d, exclude) {
 </div>`;
 }
 
+/* ---------- credential badge strip ----------
+   The compact form: sits directly under the hero, on every service page, and
+   in the footer. Text badges by design; see the note on `badges` in data.js
+   for why there are no scheme logos here. */
+function credBadges(d, variant) {
+  const v = variant ? ' badges--' + variant : '';
+  return `
+<div class="badges${v}">
+  ${badges.map(([icon, name, note]) => `<div class="badge">${ic(icon)}<div><b>${esc(name)}</b><small>${esc(note)}</small></div></div>`).join('\n  ')}
+</div>`;
+}
+
+function credStrip(d) {
+  return `
+<section class="credstrip" aria-label="Qualifications and cover">
+  <div class="wrap">
+    ${credBadges(d)}
+    <p class="credstrip__note">Held by ${esc(biz.owner)}. Every job that needs one is tested and certificated. <a href="${href(d, 'about')}">More about our qualifications</a></p>
+  </div>
+</section>`;
+}
+
+/* ---------- project zig-zag ----------
+   Alternating left/right rows. The direction comes from the index, so a second
+   project needs nothing but another entry in data.projects. */
+function projectRow(d, p, i) {
+  const [bf, balt] = p.before, [af, aalt] = p.after;
+  return `
+<article class="proj${i % 2 ? ' proj--flip' : ''}">
+  <div class="proj__media">
+    <div class="ba">
+      <img class="ba__after" src="${asset(d, af)}" alt="${esc(aalt)}" loading="lazy" width="1080" height="1080">
+      <img class="ba__before" src="${asset(d, bf)}" alt="${esc(balt)}" loading="lazy" width="1080" height="1080">
+      <span class="ba__tag ba__tag--b">During</span>
+      <span class="ba__tag ba__tag--a">Finished</span>
+      <div class="ba__handle" aria-hidden="true"></div>
+      <input class="ba__range" type="range" min="0" max="100" value="50" step="1"
+             aria-label="${esc(p.title)}: drag to reveal more of the finished room or more of the work in progress">
+    </div>
+    <p class="ba__cap">${ic('chevron')} Drag the handle to compare</p>
+  </div>
+  <div class="proj__body">
+    <div class="eyebrow">${esc(p.eyebrow)}</div>
+    <h3>${esc(p.title)}</h3>
+    <p class="proj__lead">${esc(p.lead)}</p>
+    <p>${esc(p.body)}</p>
+    <h4>What the job involved</h4>
+    ${ticks(p.scope.map(esc))}
+  </div>
+</article>`;
+}
+
 /* ---------- credentials ----------
    The audit's single biggest finding was that nothing on the old site told
    a customer Stephen was qualified. This block is the answer, and it appears
@@ -272,16 +334,15 @@ function credentialsBlock(d, opts) {
    averaged into one number. */
 const starRow = n => `<div class="stars" role="img" aria-label="${n} out of 5 stars">${ic('star', 'ic ic--fill').repeat(n)}</div>`;
 
-const SOURCE_ICON = { Google: 'star', Facebook: 'facebook', MyBuilder: 'check' };
-
 const reviewCard = r => `
-<figure class="rv__card"><div class="rv__inner">
+<figure class="rv__card rv__card--${r.source.toLowerCase()}"><div class="rv__inner">
   ${starRow(r.stars)}
   <blockquote class="rv__txt">${esc(r.text)}</blockquote>
   <figcaption class="rv__who">
     <div class="rv__av" aria-hidden="true">${esc(r.name.trim()[0])}</div>
     <div><b>${esc(r.name)}${r.place ? ', ' + esc(r.place) : ''}</b>
-      <small>${ic(SOURCE_ICON[r.source] || 'star')}${esc(r.source)} &middot; ${esc(r.when)}</small></div>
+      <small>${esc(r.when)}</small></div>
+    ${r.source === 'Google' ? G_MARK : `<span class="rv__src">${esc(r.source)}</span>`}
   </figcaption>
 </div></figure>`;
 
@@ -306,6 +367,21 @@ function ratingsBar(d) {
   </a>
 </div>
 <p class="rate__note">Scores as at ${esc(ratings.asAt)}. Every review on this site is a real one, reproduced word for word, and each score links to the profile it came from so you can check it yourself.</p>`;
+}
+
+/* Links out to the review profiles. Google first, because it is the one a
+   customer can check in a single tap and the one with the most reviews on it. */
+function reviewLinks(d) {
+  return `
+<div class="rvout">
+  <a class="btn btn--google" href="${biz.googleProfile}" target="_blank" rel="noopener">
+    ${G_MARK} Read all ${ratings.google.count} Google reviews ${ic('arrow')}
+  </a>
+  <a class="btn btn--dark" href="${ratings.mybuilder.url}" target="_blank" rel="noopener">
+    ${ic('check')} ${ratings.mybuilder.score}.0 from ${ratings.mybuilder.count} on MyBuilder ${ic('arrow')}
+  </a>
+</div>
+<p class="rvout__note">${esc(biz.name)} is rated ${ratings.google.score} out of 5 across ${ratings.google.count} Google reviews and ${ratings.mybuilder.score} out of 5 from ${ratings.mybuilder.count} reviews on MyBuilder, with ${ratings.facebook.recommendPct}% recommending on <a href="${ratings.facebook.url}" target="_blank" rel="noopener">Facebook</a>. Scores as at ${esc(ratings.asAt)}.</p>`;
 }
 
 /* Carousel of real reviews for the homepage. */
@@ -337,6 +413,7 @@ function footer(d) {
         <p>${esc(biz.tagline)}. Domestic, commercial and industrial electrical work across ${esc(biz.baseArea)}.</p>
         <div class="ft__soc">${soc.join('')}</div>
         <div class="ft__ins">${ic('shield')}<span>Fully insured. ${biz.publicLiabilityText} public liability cover, and a ${biz.guaranteeMonths}-month guarantee on all work.</span></div>
+        ${credBadges(d, 'ft')}
         
       </div>
       <div class="ft__cols">
@@ -526,9 +603,10 @@ function serviceNode(s, areaNames) {
 }
 
 module.exports = {
-  esc, root, href, asset, abs, ic, ICON, WA_GLYPH, ph, waLink, tel, WA_PREFILL,
+  esc, root, href, asset, abs, ic, ICON, WA_GLYPH, G_MARK, ph, waLink, tel, WA_PREFILL,
   head, header, crumbs, phead, ticks, steps, faqBlock, band,
   quotePanel, servicePanel, areaPanel, footer,
-  credentialsBlock, starRow, reviewCard, reviewsCarousel, ratingsBar,
+  credentialsBlock, credBadges, credStrip, projectRow,
+  starRow, reviewCard, reviewsCarousel, reviewLinks, ratingsBar,
   graph, serviceNode, businessNode, reviewNodes, BIZ_ID, SITE_ID
 };

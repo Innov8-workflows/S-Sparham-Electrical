@@ -621,3 +621,148 @@ ul{margin:0;padding:0;list-style:none}
 }
 .ba__range:focus-visible{opacity:1;outline:3px solid var(--brand);outline-offset:-3px}
 .ba__cap{margin-top:14px;color:var(--muted);font-size:.88rem;line-height:1.6}
+
+/* ============================================================
+   CREDENTIAL BADGE STRIP
+   Sits directly under the hero, on every service page, and in the
+   footer. Text badges, not logos: no competent-person scheme has been
+   confirmed, so there is no NICEIC or NAPIT mark to show. See the note
+   on `badges` in data.js. If certificates arrive these become images.
+   ============================================================ */
+.credstrip{background:var(--bg-2);border-bottom:1px solid var(--line);padding-block:clamp(20px,3vw,30px)}
+.credstrip__note{
+  margin-top:14px;text-align:center;color:var(--muted);font-size:.84rem;
+}
+.credstrip__note a{color:var(--brand-dp);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+/* Explicit column counts, not auto-fit. auto-fit resolved to five across
+   at desktop width and left the sixth badge stranded on its own row, which
+   read as a layout bug rather than an accreditation strip. */
+.badges{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:640px){.badges{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1040px){.badges{grid-template-columns:repeat(6,1fr);gap:8px}}
+.badge{
+  display:flex;align-items:center;gap:10px;min-width:0;
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:12px 14px;box-shadow:var(--shadow);
+}
+.badge .ic{width:20px;height:20px;color:var(--brand-dp);flex:none}
+@media(min-width:1040px){
+  .badge{padding:11px 11px;gap:8px}
+  .badge .ic{width:18px;height:18px}
+  .badge b{font-size:.79rem}
+  .badge small{font-size:.67rem}
+}
+.badge b{display:block;font-family:'Archivo';font-weight:800;font-size:.86rem;line-height:1.2;letter-spacing:-.01em}
+.badge small{display:block;color:var(--muted);font-size:.72rem;line-height:1.35;margin-top:2px}
+
+/* footer variant: on the dark ground, and quieter */
+.badges--ft{margin-top:18px;gap:8px}
+@media(min-width:1040px){.badges--ft{grid-template-columns:repeat(3,1fr)}}
+.badges--ft .badge{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);box-shadow:none;padding:10px 12px}
+.badges--ft .badge .ic{width:17px;height:17px;color:var(--brand)}
+.badges--ft .badge b{font-size:.78rem;color:#fff}
+.badges--ft .badge small{font-size:.67rem;color:#8B929C}
+
+/* ============================================================
+   PROJECT ZIG-ZAG
+   Alternating rows: media then copy, copy then media. The flip is done
+   with `order` rather than direction:rtl, so the text inside never
+   inherits a reversed writing direction.
+   ============================================================ */
+.proj{display:grid;gap:clamp(20px,3.5vw,44px);align-items:center;margin-bottom:clamp(30px,5vw,64px)}
+.proj:last-of-type{margin-bottom:0}
+.proj__body h3{font-size:clamp(1.4rem,3.6vw,2rem);margin-bottom:12px}
+.proj__lead{font-size:clamp(1rem,2.5vw,1.1rem);font-weight:500;margin-bottom:12px}
+.proj__body p{color:var(--steel);margin-bottom:14px}
+.proj__body h4{
+  font-family:'Archivo';font-weight:800;font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--brand-dp);margin:22px 0 12px;
+}
+.proj__more{margin-top:26px;text-align:center;color:var(--muted);font-size:.86rem}
+@media(min-width:900px){
+  .proj{grid-template-columns:1fr 1fr}
+  .proj--flip .proj__media{order:2}
+}
+
+/* ============================================================
+   GALLERY GRID
+   The homepage set. /our-work/ keeps the horizontal scroller for the
+   full run of photographs; here a fixed grid shows all six at once
+   rather than hiding half behind a swipe most visitors never make.
+   ============================================================ */
+.galg{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+.galg__i{
+  margin:0;border-radius:var(--radius);overflow:hidden;background:var(--bg-3);
+  aspect-ratio:1/1;cursor:zoom-in;box-shadow:var(--shadow);
+}
+.galg__i img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.galg__i:hover img{transform:scale(1.05)}
+@media(min-width:720px){.galg{grid-template-columns:repeat(3,1fr);gap:16px}}
+
+/* ============================================================
+   GOOGLE-BRANDED REVIEW CARDS AND THE WAYS OUT
+   ============================================================ */
+.gmark{width:18px;height:18px;flex:none}
+.rv__who{position:relative}
+.rv__who .gmark{margin-left:auto;width:20px;height:20px}
+.rv__src{
+  margin-left:auto;font-family:'Archivo';font-weight:700;font-size:.68rem;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line);border-radius:100px;padding:.2rem .5rem;white-space:nowrap;
+}
+.rv__card--google .rv__inner{border-top:3px solid #4285F4}
+
+.rvout{
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+  margin-top:clamp(22px,3.4vw,32px);
+}
+.rvout .btn{gap:.6rem}
+.rvout .gmark{width:19px;height:19px}
+.rvout__note{
+  margin-top:14px;text-align:center;color:var(--muted);font-size:.84rem;
+  max-width:64ch;margin-inline:auto;line-height:1.6;
+}
+.rvout__note a{color:var(--brand-dp);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+/* .btn--ghost is built for dark grounds; this is the light-ground variant */
+.btn--onlight{border:1.5px solid var(--line);color:var(--steel);background:transparent}
+.btn--onlight:hover{border-color:var(--brand);color:var(--brand-dp);background:var(--white)}
+
+/* ============================================================
+   MEET THE OWNER: branded workwear overlay
+
+   .ab__img was a single framed photo with overflow:hidden, so an inset
+   second image would have been clipped by its own container and stretched
+   by the .ab__img img rule. The frame therefore moves off the wrapper and
+   onto the main photograph, leaving the wrapper as a bare positioning
+   context that the inset can hang outside of.
+
+   These rules sit at the end of the stylesheet deliberately: they match
+   the earlier .ab__img rules at equal specificity and win on order.
+   ============================================================ */
+.ab__img{
+  position:relative;overflow:visible;aspect-ratio:auto;
+  border-radius:0;box-shadow:none;
+}
+.ab__img > img{
+  width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);
+}
+.ab__img > img.ab__sub{
+  position:absolute;right:-14px;bottom:-18px;z-index:2;
+  width:38%;max-width:190px;height:auto;aspect-ratio:1/1;
+  border:6px solid var(--bg);border-radius:var(--radius);
+  box-shadow:var(--shadow-lg);
+}
+.sec--tint .ab__img > img.ab__sub{border-color:var(--bg-2)}
+@media(max-width:860px){
+  .ab__img > img{aspect-ratio:4/3}
+  .ab__img > img.ab__sub{width:32%;right:-8px;bottom:-12px;border-width:5px;aspect-ratio:1/1}
+}
+
+/* Google button: white ground with a border, because the four-colour G loses
+   its blue segment entirely against a blue button and reads as a smudge.
+   This is also the conventional treatment for a Google-branded control. */
+.btn--google{background:var(--white);color:var(--ink);border:1.5px solid var(--line);box-shadow:var(--shadow)}
+.btn--google:hover{border-color:#4285F4;transform:translateY(-2px);box-shadow:var(--shadow-lg)}

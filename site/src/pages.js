@@ -8,12 +8,13 @@
    ============================================================ */
 const D = require('./data.js');
 const L = require('./lib.js');
-const { biz, services, locations, gallery, beforeAfter, generalFaqs, ratings, reviews } = D;
+const { biz, services, locations, gallery, projects, generalFaqs, ratings, reviews } = D;
 const {
   esc, href, asset, abs, ic, ph, waLink, tel, WA_PREFILL, head, header, crumbs, phead,
   ticks, steps, faqBlock, band, quotePanel, servicePanel, areaPanel, footer,
-  credentialsBlock, starRow, reviewCard, reviewsCarousel, ratingsBar,
-  graph, serviceNode, reviewNodes
+  credentialsBlock, credBadges, credStrip, projectRow,
+  starRow, reviewCard, reviewsCarousel, reviewLinks, ratingsBar,
+  graph, serviceNode, reviewNodes, G_MARK
 } = L;
 
 const page = (p, body) => head(p) + header(p.depth, p.nav || p.slug) +
@@ -51,6 +52,14 @@ function quoteForm(d) {
 </form>`;
 }
 
+/* Fixed grid, used on the homepage: every image visible, nothing hidden behind
+   a horizontal scroll. */
+const galleryGrid = (d, items) => `
+<div class="galg" id="gal">
+  ${items.map(([f, alt]) => `<figure class="galg__i"><img src="${asset(d, f)}" alt="${esc(alt)}" loading="lazy" width="900" height="900"></figure>`).join('\n  ')}
+</div>`;
+
+/* Horizontal scroller, used on /our-work/ where the full set lives. */
 const galleryBlock = (d, items) => `
 <div class="gal" id="gal">
   ${items.map(([f, alt]) => `<figure class="gal__i"><img src="${asset(d, f)}" alt="${esc(alt)}" loading="lazy" width="900" height="900"></figure>`).join('\n  ')}
@@ -62,24 +71,6 @@ const lightbox = () => `
   <button class="lb__x" id="lbX" aria-label="Close">${ic('x')}</button>
   <img id="lbImg" src="" alt="">
 </div>`;
-
-/* Before / after wipe. The range input is the real control; the pointer
-   handling in site.js drives the same value, so keyboard and mouse agree. */
-function beforeAfterBlock(d) {
-  const [bf, balt] = beforeAfter.before;
-  const [af, aalt] = beforeAfter.after;
-  return `
-<div class="ba">
-  <img class="ba__after" src="${asset(d, af)}" alt="${esc(aalt)}" loading="lazy" width="1080" height="1080">
-  <img class="ba__before" src="${asset(d, bf)}" alt="${esc(balt)}" loading="lazy" width="1080" height="1080">
-  <span class="ba__tag ba__tag--b">During</span>
-  <span class="ba__tag ba__tag--a">Finished</span>
-  <div class="ba__handle" aria-hidden="true"></div>
-  <input class="ba__range" type="range" min="0" max="100" value="50" step="1"
-         aria-label="Reveal more of the finished kitchen or more of the work in progress">
-</div>
-<p class="ba__cap">${esc(beforeAfter.caption)}</p>`;
-}
 
 /* ============================================================
    HOMEPAGE
@@ -132,6 +123,8 @@ function home() {
   </div>
 </section>
 
+${credStrip(d)}
+
 <section class="sec" id="services">
   <div class="wrap">
     <div class="sec-head sec-head--mid">
@@ -139,8 +132,11 @@ function home() {
       <h2>Electrical services done properly</h2>
       <p>From a single socket to a full rewire, for homes, business premises and industrial units across Derbyshire and Nottinghamshire.</p>
     </div>
+    <!-- Six on the homepage, not all twelve. The full set is one click away and
+         a twelve-card grid is more than a homepage should be asking anyone to
+         read. Order comes from data.js, so the six shown are the first six. -->
     <div class="svc">
-      ${services.map(s => `<article class="svc__c">
+      ${services.slice(0, 6).map(s => `<article class="svc__c">
         <div class="svc__ico">${ic(s.icon)}</div>
         <h3><a href="${href(d, s.slug)}" style="color:inherit">${esc(s.h1)}</a></h3>
         <p>${esc(s.blurb)}</p>
@@ -152,18 +148,15 @@ function home() {
   </div>
 </section>
 
-${credentialsBlock(d, { tint: true })}
-
-<section class="sec" id="transformations">
+<section class="sec sec--tint" id="transformations">
   <div class="wrap">
     <div class="sec-head sec-head--mid">
       <div class="eyebrow">Before and after</div>
-      <h2>The same kitchen, first fix and finished</h2>
-      <p>Drag the handle across. ${ph()} more before and after pairs to be supplied.</p>
+      <h2>A job from start to finish</h2>
+      <p>Drag the handle across each picture to see the same room during the work and finished.</p>
     </div>
-    <div style="max-width:760px;margin-inline:auto">
-      ${beforeAfterBlock(d)}
-    </div>
+    ${projects.map((p, i) => projectRow(d, p, i)).join('\n')}
+    <p class="proj__more">${ph()} More before and after projects to be added as the photographs come in.</p>
   </div>
 </section>
 
@@ -174,9 +167,9 @@ ${credentialsBlock(d, { tint: true })}
       <h2>A look at our jobs</h2>
       <p>Lighting, kitchens, sockets and EV chargers, all photographed on site. Every picture on this website is our own work.</p>
     </div>
-    ${galleryBlock(d, gallery)}
-    <div style="text-align:center;margin-top:18px">
-      <a class="btn btn--dark" href="${href(d, 'our-work')}">See more of our work ${ic('arrow')}</a>
+    ${galleryGrid(d, gallery.slice(0, 6))}
+    <div style="text-align:center;margin-top:24px">
+      <a class="btn btn--dark" href="${href(d, 'our-work')}">See all our work ${ic('arrow')}</a>
     </div>
   </div>
 </section>
@@ -186,11 +179,12 @@ ${credentialsBlock(d, { tint: true })}
     <div class="sec-head sec-head--mid">
       <div class="eyebrow">Customer reviews</div>
       <h2>What our customers say</h2>
+      <p>Real reviews, reproduced word for word. Every one of these is on Google, where you can check it yourself.</p>
     </div>
-    ${ratingsBar(d)}
-    ${reviewsCarousel(reviews.slice(0, 6))}
-    <div style="text-align:center;margin-top:22px">
-      <a class="btn btn--dark" href="${href(d, 'reviews')}">Read all reviews ${ic('arrow')}</a>
+    ${reviewsCarousel(reviews.filter(r => r.source === 'Google').slice(0, 6))}
+    ${reviewLinks(d)}
+    <div style="text-align:center;margin-top:6px">
+      <a class="btn btn--ghost btn--onlight" href="${href(d, 'reviews')}">Or read them all on our reviews page ${ic('arrow')}</a>
     </div>
   </div>
 </section>
@@ -216,7 +210,10 @@ ${credentialsBlock(d, { tint: true })}
 
 <section class="sec" id="about">
   <div class="wrap ab">
-    <div class="ab__img"><img src="${asset(d, 'about.jpg')}" alt="Stephen Sparham on site in branded S. Sparham Electrical workwear, holding an SDS drill" loading="lazy" width="700" height="845"></div>
+    <div class="ab__img">
+      <img src="${asset(d, 'about.jpg')}" alt="Stephen Sparham on site in branded S. Sparham Electrical workwear, holding an SDS drill" loading="lazy" width="700" height="845">
+      <img class="ab__sub" src="${asset(d, 'about-2.jpg')}" alt="S. Sparham Electrical branded workwear: hoodie, beanie, t-shirt and body warmer, each carrying the lightning bolt mark" loading="lazy" width="420" height="420">
+    </div>
     <div class="ab__body">
       <div class="eyebrow">Meet the owner</div>
       <h2>The face behind S. Sparham Electrical</h2>
@@ -312,7 +309,7 @@ function servicesHub() {
   </div>
   ${band(d, 'Not sure which one you need?', 'Describe it or send a photo to ' + biz.phone + ' and you will be told what it actually needs, rather than what is easiest to sell.')}
 </div></section>
-${credentialsBlock(d, { tint: true })}`;
+${credStrip(d)}`;
 
   return { ...p, html: page(p, body) };
 }
@@ -380,7 +377,7 @@ function servicePage(s) {
     ${areaPanel(d)}
   </aside>
 </div></section>
-${credentialsBlock(d, { tint: true, title: 'Who is doing the work' })}`;
+${credStrip(d)}`;
 
   return { ...p, html: page(p, body) };
 }
@@ -535,5 +532,5 @@ function locationPage(l, i) {
 
 module.exports = {
   home, servicesHub, servicePage, areasHub, locationPage,
-  quoteForm, galleryBlock, lightbox, beforeAfterBlock, page, areaSlug
+  quoteForm, galleryBlock, galleryGrid, lightbox, page, areaSlug
 };

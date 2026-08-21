@@ -10,13 +10,15 @@
 const D = require('./data.js');
 const L = require('./lib.js');
 const P = require('./pages.js');
-const { biz, services, locations, gallery, generalFaqs, credentials, ratings, reviews } = D;
+const { biz, services, locations, gallery, projects, generalFaqs, credentials, ratings, reviews } = D;
 const {
   esc, href, asset, ic, ph, waLink, tel, WA_PREFILL, phead, faqBlock, band,
-  quotePanel, servicePanel, areaPanel, credentialsBlock, ratingsBar, reviewCard,
+  quotePanel, servicePanel, areaPanel, credentialsBlock, credStrip,
+  ratingsBar, reviewCard, reviewLinks, G_MARK,
   graph, reviewNodes
 } = L;
-const { page, quoteForm, galleryBlock, lightbox, beforeAfterBlock, areaSlug } = P;
+const { page, quoteForm, galleryBlock, areaSlug } = P;
+const { lightbox } = P;
 
 const d = 1;
 
@@ -43,7 +45,10 @@ function about() {
     </div>
 
     <div class="ab" style="margin-bottom:clamp(24px,4vw,40px)">
-      <div class="ab__img"><img src="${asset(d, 'about.jpg')}" alt="Stephen Sparham on site in branded S. Sparham Electrical workwear, holding an SDS drill" loading="lazy" width="700" height="845"></div>
+      <div class="ab__img">
+        <img src="${asset(d, 'about.jpg')}" alt="Stephen Sparham on site in branded S. Sparham Electrical workwear, holding an SDS drill" loading="lazy" width="700" height="845">
+        <img class="ab__sub" src="${asset(d, 'about-2.jpg')}" alt="S. Sparham Electrical branded workwear: hoodie, beanie, t-shirt and body warmer, each carrying the lightning bolt mark" loading="lazy" width="420" height="420">
+      </div>
       <div class="ab__body">
         <div class="eyebrow">Meet the owner</div>
         <h2>${esc(biz.owner)}</h2>
@@ -165,12 +170,10 @@ function ourWork() {
   <div class="wrap">
     <div class="sec-head sec-head--mid">
       <div class="eyebrow">Before and after</div>
-      <h2>The same kitchen, first fix and finished</h2>
-      <p>Drag the handle across to compare.</p>
+      <h2>A job from start to finish</h2>
+      <p>Drag the handle across each picture to see the same room during the work and finished.</p>
     </div>
-    <div style="max-width:760px;margin-inline:auto">
-      ${beforeAfterBlock(d)}
-    </div>
+    ${projects.map((pr, n) => L.projectRow(d, pr, n)).join('\n')}
   </div>
 </section>
 
@@ -209,9 +212,10 @@ function reviews_() {
   <div class="cards cards--3" style="align-items:stretch">
     ${reviews.map(r => reviewCard(r)).join('\n    ')}
   </div>
+  ${reviewLinks(d)}
   ${band(d, 'Had work done by us?', 'A review makes a real difference to a small business. Leaving one on Google takes about a minute.')}
   <div style="text-align:center">
-    <a class="btn btn--brand" href="${ratings.google.url}" target="_blank" rel="noopener">${ic('star')} Leave a Google review</a>
+    <a class="btn btn--google" href="${biz.googleReview}" target="_blank" rel="noopener">${G_MARK} Leave a Google review</a>
   </div>
 </div></section>`;
 

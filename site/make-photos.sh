@@ -58,6 +58,11 @@ cp_img 5.jpg         ba-after.jpg
 # have, and the audit's finding was that nobody was named or shown at all.
 cp_img about-polished.JPG about.jpg
 
+# The branded workwear flat-lay, overlaid on the owner photo. Worth having: it
+# is the only asset that shows the lightning-bolt mark, which the supplied logo
+# file does not carry.
+cp_img about-small.jpg     about-2.jpg
+
 ls -l "$A" | sed 's/^/  /'
 echo
 echo "Now run: npm run build"

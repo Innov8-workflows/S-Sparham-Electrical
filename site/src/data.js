@@ -39,6 +39,10 @@ const biz = {
   facebook: 'https://www.facebook.com/profile.php?id=100063680856858',
   instagram: 'https://www.instagram.com/s.sparham_electrical',
   mybuilder: 'https://www.mybuilder.com/profile/s-sparham-electrical',
+  /* Two different Google links, and they are not interchangeable:
+     googleProfile lands on the listing where a customer READS the reviews,
+     googleReview opens the WRITE-a-review dialog. */
+  googleProfile: 'https://g.page/r/CWjHgt9bgkFIEBM',
   googleReview: 'https://g.page/r/CWjHgt9bgkFIEBM/review',
 
   /* Confirmed on the onboarding form. Every value here is a business claim
@@ -107,7 +111,13 @@ const pending = {
         'file does not. Ask for the original vector or transparent PNG.',
   certificates: 'CERTIFICATE IMAGES. IMG_1079.png was attached to the form as ' +
                 '"verification badge image / certificates" but never reached us. ' +
-                'Qualification names are listed as text in the meantime.'
+                'The credential strip under the hero is TEXT badges in the meantime. ' +
+                'Send the certificates and they become real badge images.',
+  projectDetails: 'KITCHEN PROJECT WRITE-UP. The case study on the homepage was ' +
+                  'drafted from the two photographs, so everything in it is visible ' +
+                  'in frame. Location, how long it took, and anything about the ' +
+                  'customer were deliberately left out rather than guessed. Give ' +
+                  'Stephen a read of it before treating it as a signed-off case study.'
 };
 
 /* ---------- CREDENTIALS ----------
@@ -128,6 +138,54 @@ const credentials = [
    'Trained the long way round, on the tools, rather than through a short course.'],
   ['HSE & Fire Safety in Buildings Awareness',
    'Site safety and fire safety in occupied buildings.']
+];
+
+/* ---------- CREDENTIAL BADGES ----------
+   The short form of `credentials` above, for the strip under the hero, the
+   service pages and the footer.
+
+   These are TEXT badges, not logos, and that is deliberate: no competent-person
+   scheme has been confirmed, so there is no NICEIC or NAPIT mark to show and
+   inventing one would be a straightforward lie about a real business. If
+   Stephen confirms a scheme, or sends the certificate images that were attached
+   to the onboarding form and never arrived, these become real logos. */
+const badges = [
+  ['award', '18th Edition', 'BS 7671 Wiring Regulations'],
+  ['file', '2391 Qualified', 'Inspection and testing'],
+  ['zap', 'Level 3 NVQ', 'Electrotechnical systems'],
+  ['car', 'EV Approved', 'Charge point installation'],
+  ['shield', '£1m Insured', 'Public liability cover'],
+  ['check', '12-Month Guarantee', 'On all work carried out']
+];
+
+/* ---------- PROJECTS ----------
+   Before/after case studies, rendered as an alternating left-right zig-zag.
+   The array order is the page order and the sides alternate automatically, so
+   adding a second project needs nothing but another entry here.
+
+   The write-up below was drafted FROM THE PHOTOGRAPHS: the steel over the
+   knock-through, the props, the first-fix cable, and the finished pendants and
+   downlights are all visibly in frame. Nothing that cannot be seen has been
+   invented, which is why there is no location, no duration and no price on it.
+   See pending.projectDetails. */
+const projects = [
+  {
+    slug: 'kitchen-knock-through',
+    eyebrow: 'Project 01',
+    title: 'Kitchen knock-through and rewire',
+    before: ['ba-before.jpg', 'The kitchen stripped back to brick and block during the knock-through, with acrow props holding the ceiling, the new steel beam in place and first-fix cable dropped ready for the new layout'],
+    after: ['ba-after.jpg', 'The finished open-plan kitchen, with three glass pendants over the breakfast bar, downlights set through the new ceiling and integrated ovens'],
+    lead: 'Taking the wall out between the kitchen and the dining room turns an electrical job into a bigger one than most people expect. Once a steel goes in and the ceiling is opened up, the circuits that used to run through that wall have nowhere to go, so the whole area gets rewired rather than extended.',
+    body: 'The useful part of a job like this is the timing. Everything about how the finished room is lit gets decided at the stage on the left, while the walls are open and the ceiling is down. Once the plasterer has been, a downlight moves by cutting a new hole, and a socket moves by chasing a finished wall. So the positions were set out against the kitchen drawing before any cable was run: pendant drops centred on the island, downlights worked around the joists and the new steel rather than in a grid, and switching arranged so the room can be lit for cooking or for sitting in.',
+    scope: [
+      'New circuits for the ovens, hob and extraction',
+      'Kitchen and dining sockets rewired to the new layout',
+      'Downlights set out around the new steel and the joist runs',
+      'Three pendants over the breakfast bar, separately switched',
+      'Under-cabinet lighting to the run of base units',
+      'Tested, certificated and the board relabelled on completion'
+    ]
+  }
 ];
 
 /* ---------- REVIEWS ----------
@@ -736,6 +794,6 @@ const generalFaqs = [
 ];
 
 module.exports = {
-  SITE_URL, biz, pending, credentials, ratings, reviews,
+  SITE_URL, biz, pending, credentials, badges, projects, ratings, reviews,
   services, locations, gallery, beforeAfter, generalFaqs
 };
