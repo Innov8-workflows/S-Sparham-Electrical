@@ -30,22 +30,15 @@
   // which is why none are added by hand. www is attached so it resolves, and a
   // Redirect Rule 301s it to the apex so there is only one canonical hostname.
   //
-  // COMMENTED OUT until ssparhamelectrical.co.uk is registered at GoDaddy and
-  // its nameservers point at Cloudflare. Deploying with routes for a zone that
-  // is not on the account fails the whole deploy.
-  // "routes": [
-  //   { "pattern": "ssparhamelectrical.co.uk", "custom_domain": true },
-  //   { "pattern": "www.ssparhamelectrical.co.uk", "custom_domain": true }
-  // ],
+  "routes": [
+    { "pattern": "ssparhamelectrical.co.uk", "custom_domain": true },
+    { "pattern": "www.ssparhamelectrical.co.uk", "custom_domain": true }
+  ],
 
-  // TRUE only while there is no custom domain, so the site can be seen and
-  // tested at s-sparham-electrical.<account>.workers.dev. The _headers file
-  // carries X-Robots-Tag: noindex for that hostname while this is true.
-  //
-  // Set to FALSE the moment the custom domain verifies. Leaving it on would
-  // publish a second complete copy of the site on a different hostname,
-  // competing with the real domain in search.
-  "workers_dev": true,
+  // Custom domain is live and verified, so the *.workers.dev copy is switched
+  // off. Leaving it on would publish a second complete copy of the site on a
+  // different hostname, competing with the real domain in search.
+  "workers_dev": false,
 
   // Preview URLs would republish the site on yet another hostname per version.
   "preview_urls": false
