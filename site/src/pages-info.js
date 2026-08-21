@@ -1,11 +1,12 @@
 /* ============================================================
    About, Contact, Our work, Reviews, FAQs, legal pages and 404.
 
-   PRIVACY POLICY: the text below describes the site as it ships today,
-   which sets no cookies and sends nothing to a server. The moment the
-   lead-log beacon or GA4 goes in, the "What we collect" and "Third party
-   services" sections MUST be rewritten to match, or the policy becomes a
-   false statement rather than a missing one.
+   PRIVACY POLICY: it describes what the site ACTUALLY does, and it has to be
+   rewritten whenever that changes or it becomes a false statement rather than
+   a missing one. As at August 2026 the site runs visitor tracking and a lead
+   logger, neither of which uses cookies or device storage, plus Google Fonts.
+   GA4 is still to come and WILL need this updating again, because unlike the
+   other two it does set cookies.
    ============================================================ */
 const D = require('./data.js');
 const L = require('./lib.js');
@@ -284,9 +285,20 @@ function privacy() {
   <p><strong>Last updated:</strong> August 2026</p>
   <p>This policy explains what ${esc(biz.name)} does with the information you provide through this website.</p>
 
-  <h2>What we collect</h2>
-  <p>This website does not use analytics, advertising or tracking cookies, and it does not set any cookies of its own.</p>
-  <p>The quote form on this site does not send anything to a server. It formats what you type into a WhatsApp message and opens WhatsApp on your device. Nothing is transmitted until you press send in WhatsApp, and at that point the message reaches us through WhatsApp in the ordinary way.</p>
+  <h2>Cookies</h2>
+  <p>This website sets no cookies. It does not use cookies for advertising, and it stores nothing on your device: no cookies, no local storage, no identifiers of any kind. That is why you are not being asked to accept anything.</p>
+
+  <h2>Visitor statistics</h2>
+  <p>We record basic, anonymous statistics about how the site is used: which pages are viewed, which page a visitor arrived from, and when the call, WhatsApp or email buttons are pressed. This is handled for us by Innov8 Workflows, who built and look after this website.</p>
+  <p>These statistics are not tied to you. No cookie or identifier is stored, so return visits are not linked together and no profile is built. As with any website, our provider's server can see the IP address a request came from.</p>
+
+  <h2>The enquiry form</h2>
+  <p>The form on this site does two things when you press the button.</p>
+  <p>First, it opens WhatsApp on your device with your message already written out. Nothing goes to us through WhatsApp until you press send there, and at that point it reaches us through WhatsApp in the ordinary way, under WhatsApp's own terms.</p>
+  <p>Second, it sends what you typed into the form to our own lead record, so an enquiry is not lost if WhatsApp fails to open or you change your mind. That record holds your name, phone number, the service you selected, your area and your message. It is kept in a spreadsheet we control, it triggers an email alert to us, and it is stored in the customer record system Innov8 Workflows run for us.</p>
+  <p>If you would rather not have that happen, call or message us directly on <a href="${tel}">${biz.phone}</a> instead.</p>
+
+  <h2>Contacting us directly</h2>
   <p>If you call, message or email us, we hold the details you give us, such as your name, phone number, address and what you have told us about the job, so that we can quote for and carry out the work.</p>
 
   <h2>What we use it for</h2>
@@ -297,9 +309,14 @@ function privacy() {
   </ul>
   <p>We do not sell your information, and we do not pass it to third parties for marketing.</p>
 
-  <h2>Third party services</h2>
-  <p>This site loads fonts from Google Fonts, which means your browser makes a request to Google's servers when the page loads. That request includes your IP address. No other third party service is loaded by this website.</p>
-  <p>Messages sent through WhatsApp are handled under WhatsApp's own privacy terms.</p>
+  <h2>Who else is involved</h2>
+  <ul>
+    <li><strong>Google Fonts</strong> supplies the typefaces, so your browser makes a request to Google's servers when a page loads. That request includes your IP address.</li>
+    <li><strong>Google Sheets and Google Workspace</strong> hold the enquiry record and deliver the email alert.</li>
+    <li><strong>Innov8 Workflows</strong> built and maintain this website, and run the visitor statistics and the customer record system on our behalf.</li>
+    <li><strong>WhatsApp</strong> handles anything you send through it, under WhatsApp's own privacy terms.</li>
+  </ul>
+  <p>We do not use advertising networks, social media tracking pixels, or any other third party service on this website.</p>
 
   <h2>Certificates and records</h2>
   <p>Electrical certificates and condition reports contain the property address and details of the installation. We keep copies as a record of the work carried out, as an electrician is expected to.</p>

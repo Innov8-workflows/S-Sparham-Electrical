@@ -143,7 +143,7 @@ function head(p) {
 <link rel="stylesheet" href="${asset(d, A.cssName)}">
 <script type="application/ld+json">${JSON.stringify(p.schema)}</script>
 </head>
-<body data-page="${esc(pageLabel(p))}">`;
+<body data-page="${esc(pageLabel(p))}"${biz.leadEndpoint ? ` data-lead="${esc(biz.leadEndpoint)}"` : ''}>`;
 }
 
 /* ---------- header ---------- */
@@ -475,6 +475,7 @@ function footer(d) {
   <svg viewBox="0 0 24 24" aria-hidden="true">${WA_GLYPH}</svg>
 </a>
 <script src="${asset(d, A.jsName)}" defer></script>
+${biz.trackingId ? `<script defer src="https://crm.innov8workflows.co.uk/track.js" data-id="${biz.trackingId}"></script>` : ''}
 </body>
 </html>`;
 }

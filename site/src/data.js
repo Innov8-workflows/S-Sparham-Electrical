@@ -68,7 +68,20 @@ const biz = {
 
   /* No competent-person scheme has been confirmed. Do not populate. */
   scheme: null,
-  openingHours: null
+  openingHours: null,
+
+  /* ---- lead capture ----
+     trackingId  : innov8 CRM site tracking (page views, call and WhatsApp taps
+                   -> the site-metrics tiles on the Client Dash).
+     leadEndpoint: the Apps Script web app that fans an enquiry out to the
+                   client's Sheet, an email alert, and the CRM as a real lead.
+
+     leadEndpoint is null until the script is deployed, and generate.js emits
+     NO beacon while it is null. A beacon pointing at a dead URL fails silently,
+     which is the one failure mode worth designing out: it looks exactly like a
+     working site right up until you go looking for the leads. */
+  trackingId: 'proj_0e50b9b530d3',
+  leadEndpoint: null
 };
 
 /* Everything here renders with a visible [Placeholder] chip so it cannot be

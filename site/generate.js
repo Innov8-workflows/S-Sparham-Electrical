@@ -163,15 +163,18 @@ fs.writeFileSync(path.join(OUT, 'llms.txt'), llms());
      - media-src 'self' is kept even though the hero is stills rather than
        video, because dropping it would silently break the first clip anyone
        adds later.
-     - connect-src 'self' BLOCKS the Apps Script lead beacon and GA4. Both are
-       planned. When either goes in, widen this in the same commit:
-         connect-src 'self' https://script.google.com
-                     https://script.googleusercontent.com
-                     https://www.google-analytics.com
+     - script-src and connect-src both name crm.innov8workflows.co.uk, for the
+       CRM's track.js (page views and tap counts -> the Client Dash tiles).
+     - connect-src names script.google.com AND script.googleusercontent.com.
+       Both are needed: the /exec URL 302s to the googleusercontent host, and
+       CSP is re-evaluated on the redirect target, so listing only the first
+       blocks the beacon at the second hop.
+     - GA4 is still to come. When it lands, add to this in the same commit:
+         script-src  https://www.googletagmanager.com
+         connect-src https://www.google-analytics.com
                      https://region1.google-analytics.com
-         script-src  'self' https://www.googletagmanager.com
-         img-src     'self' https://www.google-analytics.com
-       A blocked beacon fails quietly, so this will not announce itself.
+         img-src     https://www.google-analytics.com
+       A blocked beacon fails quietly, so none of this announces itself.
 
    Permissions-Policy keeps autoplay=(self) rather than autoplay=(). There is
    no video on the site today, but the common copy-paste snippet uses the
@@ -186,12 +189,12 @@ const CSP = [
   "object-src 'none'",
   "frame-src 'none'",
   "frame-ancestors 'none'",
-  "script-src 'self'",
+  "script-src 'self' https://crm.innov8workflows.co.uk",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self'",
   "media-src 'self'",
-  "connect-src 'self'",
+  "connect-src 'self' https://crm.innov8workflows.co.uk https://script.google.com https://script.googleusercontent.com",
   "form-action 'self'",
   "manifest-src 'none'",
   "worker-src 'none'",

@@ -153,6 +153,81 @@
     });
   });
 
+  /* ---- lead logger -> Google Sheet + email + innov8 CRM ----
+     Endpoint comes from <body data-lead>, written by the generator from
+     biz.leadEndpoint. When that is null nothing here is wired up, which is
+     deliberate: a beacon pointing at a dead URL fails silently and looks
+     exactly like a working site.
+
+     NEVER navigator.sendBeacon here. Brave, uBlock and Firefox strict mode
+     block it WHILE sendBeacon() still returns true, so the usual
+     `if (sendBeacon(...)) return; fetch(...)` shape skips the working fetch
+     and the lead vanishes with no error anywhere. fetch + keepalive survives
+     the tab being carried off to WhatsApp just as well, and cannot report a
+     success it did not achieve.
+
+     Not consent-gated: it sets no cookies and stores no identifiers, and a
+     submitted enquiry is data the customer chose to send. PECR governs device
+     storage, which this has none of. A declined banner must never cost a real
+     enquiry. */
+  var LEAD_URL = document.body && document.body.getAttribute('data-lead');
+  var LEAD_TEST = /[?&]test=1/.test(location.search);
+
+  function sendLead(dd) {
+    if (!LEAD_URL) return;
+    try {
+      dd.page = location.pathname || '/';
+      dd.referrer = document.referrer || '';
+      if (LEAD_TEST) dd.test = true;
+      fetch(LEAD_URL, {
+        method: 'POST',
+        mode: 'no-cors',            // we don't read the reply, just deliver it
+        keepalive: true,            // survives unload and the app-switch
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },  // no CORS preflight
+        body: JSON.stringify(dd)
+      })['catch'](function () { /* never break the page */ });
+    } catch (err) { /* never break the page */ }
+  }
+  window.sendLead = sendLead;
+
+  /* Where on the page the action happened -> the Sheet's Source column, so
+     "three calls from the bottom CTA" is an answerable question. Selectors are
+     this site's: .wa is the float, .aside .panel is the sidebar quote panel. */
+  function where(el) {
+    if (!el || !el.closest) return 'page';
+    if (el.closest('.wa')) return 'whatsapp widget';
+    if (el.closest('.nav')) return 'nav';
+    if (el.closest('.hero')) return 'hero';
+    if (el.closest('.phead')) return 'page header';
+    if (el.closest('.form')) return 'contact form';
+    if (el.closest('.aside')) return 'sidebar panel';
+    if (el.closest('.band')) return 'mid-page CTA';
+    if (el.closest('.fcta')) return 'bottom CTA';
+    if (el.closest('.ct')) return 'contact details';
+    if (el.closest('.ft')) return 'footer';
+    return 'page';
+  }
+
+  /* One delegated listener covers every link, including anything added later.
+     KEEP THESE TYPE STRINGS AND THE SCRIPT'S NOTIFY_TYPES IDENTICAL - a
+     mismatch silently disables every alert for that action. Title Case here,
+     matching site/apps-script/Code.gs. */
+  document.addEventListener('click', function (ev) {
+    var t = ev.target;
+    if (!t || !t.closest) return;
+    var a = t.closest('a');
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+
+    if (h.indexOf('tel:') === 0) {
+      sendLead({ type: 'Call click', phone: h.replace('tel:', ''), source: where(a) });
+    } else if (/wa.me|api.whatsapp.com|whatsapp:/i.test(h)) {
+      sendLead({ type: 'WhatsApp click', source: where(a) });
+    } else if (h.indexOf('mailto:') === 0) {
+      sendLead({ type: 'Email click', details: h.replace('mailto:', '').split('?')[0], source: where(a) });
+    }
+  }, true);
+
   /* ---- quote form -> WhatsApp ---- */
   var form = $('#quoteForm');
   if (form) {
@@ -182,6 +257,21 @@
          data-page is set on <body> by the generator. */
       var src = (document.body && document.body.getAttribute('data-page')) || '';
       lines.push('', 'Sent from the enquiry form on ssparhamelectrical.co.uk' + (src ? ' (' + src + ')' : ''));
+
+      /* Log the enquiry BEFORE the tab is carried off to WhatsApp. keepalive is
+         what makes that safe: the fetch completes even though this document is
+         being replaced. It fires whether or not they go on to press send in
+         WhatsApp, which is the point - a filled-in form is a lead either way,
+         and without this the ones who bail are invisible. */
+      sendLead({
+        type: 'Quote form',
+        name: name,
+        phone: phone,
+        service: val('job'),
+        area: val('area'),
+        details: val('message'),
+        source: 'contact form'
+      });
 
       window.location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(lines.join('\n'));
     });
