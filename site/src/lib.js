@@ -12,7 +12,12 @@ const esc = s => String(s)
 
 /* depth 0 = site root (index.html), depth 1 = /<slug>/index.html,
    depth -1 = root-absolute, for pages served from an arbitrary path */
-const root = d => (d === -1 ? '/' : d === 0 ? '' : '../');
+/* depth 0 = site root, depth 1 = /<slug>/, depth 2 = /<a>/<b>/, and so on.
+   -1 means root-absolute, for a page served from an arbitrary path (the 404).
+   This used to return a single '../' for every depth >= 1, which was fine while
+   every page was one level down and silently wrong the moment the /lighting/
+   section added a second. */
+const root = d => (d === -1 ? '/' : d === 0 ? '' : '../'.repeat(d));
 const href = (d, slug) => (d === -1 ? '/' + (slug ? slug + '/' : '')
                                     : root(d) + (slug ? slug + '/' : '') || './');
 const asset = (d, f) => root(d) + 'assets/' + f;
@@ -151,6 +156,7 @@ function header(d, current) {
   const on = s => (current === s ? ' aria-current="page"' : '');
   const nav = [
     ['services', 'Services'],
+    ['lighting', 'Lighting'],
     ['areas-we-cover', 'Areas'],
     ['our-work', 'Our work'],
     ['reviews', 'Reviews'],

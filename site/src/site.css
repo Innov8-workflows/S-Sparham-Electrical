@@ -766,3 +766,34 @@ ul{margin:0;padding:0;list-style:none}
    This is also the conventional treatment for a Google-branded control. */
 .btn--google{background:var(--white);color:var(--ink);border:1.5px solid var(--line);box-shadow:var(--shadow)}
 .btn--google:hover{border-color:#4285F4;transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+
+/* ============================================================
+   LIGHTING GUIDES
+   The "what to check before you buy" list is the reason these pages
+   are worth reading, so it gets more weight than a plain bullet list.
+   ============================================================ */
+.checks{display:grid;gap:12px;margin-block:clamp(16px,2.6vw,24px)}
+.check{
+  display:flex;gap:13px;align-items:flex-start;
+  background:var(--bg-2);border:1px solid var(--line);
+  border-left:3px solid var(--brand);border-radius:var(--radius-sm);
+  padding:16px 18px;
+}
+.check .ic{width:19px;height:19px;flex:none;margin-top:3px;color:var(--brand-dp);stroke-width:2.6}
+.check b{
+  display:block;font-family:'Archivo';font-weight:800;font-size:1rem;
+  line-height:1.25;margin-bottom:4px;
+}
+.check p{margin:0;color:var(--steel);font-size:.93rem;line-height:1.6}
+
+.guidepic{margin:clamp(18px,3vw,28px) 0}
+.guidepic img{
+  width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);
+}
+.guidepic figcaption{margin-top:10px;color:var(--muted);font-size:.82rem;line-height:1.5}
+.guidepic__none{
+  margin:clamp(18px,3vw,28px) 0;padding:14px 16px;
+  background:var(--bg-2);border:1px dashed var(--line);border-radius:var(--radius-sm);
+  color:var(--muted);font-size:.86rem;line-height:1.6;
+}

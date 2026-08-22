@@ -126,6 +126,17 @@ const pending = {
                 '"verification badge image / certificates" but never reached us. ' +
                 'The credential strip under the hero is TEXT badges in the meantime. ' +
                 'Send the certificates and they become real badge images.',
+  lightingSupply: 'LIGHTING GUIDES: WHO BUYS THE FITTING? The /lighting/ pages ' +
+                  'are deliberately neutral - "whether you have already bought the ' +
+                  'fitting or would like us to help you find the right one". Confirm ' +
+                  'with Stephen whether he supplies fittings, fits what the customer ' +
+                  'buys, or both, and the wording tightens to suit. It is one ' +
+                  'constant, SUPPLY_LINE in pages-lighting.js.',
+  lightingPhotos: 'LIGHTING GUIDE PHOTOGRAPHS. Chandeliers, outdoor lighting and LED ' +
+                  'strip have no photograph of that style of job, so those three pages ' +
+                  'run on copy alone and say so. Pendants, downlights, wall lights and ' +
+                  'bathroom lighting are covered by existing photos. Three photographs ' +
+                  'would finish the section.',
   projectDetails: 'KITCHEN PROJECT WRITE-UP. The case study on the homepage was ' +
                   'drafted from the two photographs, so everything in it is visible ' +
                   'in frame. Location, how long it took, and anything about the ' +

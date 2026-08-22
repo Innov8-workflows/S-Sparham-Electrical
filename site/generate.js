@@ -16,6 +16,7 @@ const path = require('path');
 const D = require('./src/data.js');
 const Pages = require('./src/pages.js');
 const Info = require('./src/pages-info.js');
+const Light = require('./src/pages-lighting.js');
 const A = require('./src/assets.js');
 const llms = require('./src/llms.js');
 
@@ -38,6 +39,8 @@ const pages = [
   ...D.services.map(s => Pages.servicePage(s)),
   Pages.areasHub(),
   ...D.locations.map((l, i) => Pages.locationPage(l, i)),
+  Light.lightingHub(),
+  ...Light.guides.map(g => Light.lightingGuide(g)),
   Info.about(),
   Info.contact(),
   Info.ourWork(),
@@ -87,7 +90,7 @@ for (const f of MEDIA) {
 const today = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
 const priority = p => {
   if (!p.slug) return '1.0';
-  if (p.slug === 'services' || p.slug === 'areas-we-cover' || p.slug === 'contact' || p.slug === 'reviews') return '0.9';
+  if (p.slug === 'services' || p.slug === 'areas-we-cover' || p.slug === 'contact' || p.slug === 'reviews' || p.slug === 'lighting') return '0.9';
   if (p.slug === 'privacy-policy' || p.slug === 'terms') return '0.3';
   return '0.8';
 };

@@ -13,6 +13,7 @@
 const D = require('./data.js');
 
 const { SITE_URL, biz, credentials, ratings, services, locations } = D;
+const { guides } = require('./lighting.js');
 
 module.exports = function llms() {
   return `# ${biz.name}
@@ -34,6 +35,14 @@ ${services.map(s => `- [${s.title}](${SITE_URL}/${s.slug}/): ${s.blurb}`).join('
 ## Areas covered
 
 ${locations.map(l => `- [Electrician in ${l.name}](${SITE_URL}/electrician-in-${l.slug}/): ${l.name}, ${l.county}. Also covers ${l.nearby.join(', ')}.`).join('\n')}
+
+## Lighting guides
+
+Written to be quoted: what each style of fitting involves and what to check
+before buying one. No prices, no products, no retailers.
+
+${guides.map(g => `- [${g.title}](${SITE_URL}/lighting/${g.slug}/): ${g.blurb}`).join('\n')}
+- [All lighting guides](${SITE_URL}/lighting/)
 
 ## Information
 

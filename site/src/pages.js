@@ -9,6 +9,7 @@
 const D = require('./data.js');
 const L = require('./lib.js');
 const { biz, services, locations, gallery, projects, generalFaqs, ratings, reviews } = D;
+const { guides: lightingGuides } = require('./lighting.js');
 const {
   esc, href, asset, abs, ic, ph, waLink, tel, WA_PREFILL, head, header, crumbs, phead,
   ticks, steps, faqBlock, band, quotePanel, servicePanel, areaPanel, footer,
@@ -356,6 +357,15 @@ function servicePage(s) {
     </div>
     ${steps(s.process)}
     ${band(d, 'Want someone to take a look?', 'Call ' + biz.phone + ' or send a photo on WhatsApp and you will get a straight answer on what it needs.')}
+    ${s.slug === 'lighting-and-led-installations' ? `
+    <div class="prose">
+      <h2>Choosing the fittings</h2>
+      <p>This page is about the installation. If you are still deciding what to put in, the <a href="${href(d, 'lighting')}">lighting guides</a> cover each style — chandeliers, pendants, downlights, wall lights, bathroom, outdoor and LED strip — and what is worth checking before you buy one.</p>
+    </div>
+    <div class="chips">
+      ${lightingGuides.map(g => `<a class="chip" href="${href(d, 'lighting/' + g.slug)}">${ic(g.icon)}${esc(g.nav)}</a>`).join('\n      ')}
+    </div>` : ''}
+
     <div class="prose">
       <h2>${esc(s.h1)} near you</h2>
       <p>${esc(biz.name)} covers ${esc(biz.baseArea)}. Pick your area for local detail, or call ${biz.phone} if you are not sure whether you are in range.</p>
