@@ -27,19 +27,45 @@
     });
   }
 
-  /* ---- hero photo slider ----
-     Three of Stephen's own job photographs, crossfading. Deliberately not
-     gated on prefers-reduced-motion at the JS level: the CSS stills the
-     Ken Burns drift for those users but the first slide must still paint,
-     because an empty hero is worse than a static one. */
-  var slides = $$('.hero-slide');
-  if (slides.length > 1) {
-    var si = 0;
-    setInterval(function () {
-      slides[si].classList.remove('is-on');
-      si = (si + 1) % slides.length;
-      slides[si].classList.add('is-on');
-    }, 5500);
+  /* ---- hero video ----
+     The slider it replaced is gone; the element carries autoplay/muted/loop/
+     playsinline itself so it starts without waiting for this file. All that is
+     left here is the two cases the attributes cannot cover.
+
+     1. A browser that REFUSES to autoplay. Brave's shields do this by default.
+        A rejected play() arms one retry on the first interaction anywhere on
+        the page; a user gesture satisfies every autoplay policy there is, and
+        no control is ever shown.
+
+     2. prefers-reduced-motion. The loop attribute comes OFF for those users, so
+        the lights come up once and hold on the lit frame instead of cycling
+        every ten seconds. That is the difference between this and the mid-page
+        clip: a one-shot dissolve is mild enough to leave alone, an endless loop
+        directly under the logo is not. The video is never hidden - the
+        stylesheet stills motion but keeps hero media, because a hidden hero is
+        a black box. */
+  var hero = document.querySelector('.hero-video');
+  if (hero) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      hero.loop = false;
+      hero.removeAttribute('loop');
+    }
+    var heroArmed = false;
+    var heroPlay = function () {
+      var pr = hero.play();
+      if (pr && pr['catch']) pr['catch'](function () {
+        if (heroArmed) return;
+        heroArmed = true;
+        var evs = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
+        var go = function () {
+          evs.forEach(function (e) { window.removeEventListener(e, go); });
+          var p2 = hero.play();
+          if (p2 && p2['catch']) p2['catch'](function () {});
+        };
+        evs.forEach(function (e) { window.addEventListener(e, go, { once: true, passive: true }); });
+      });
+    };
+    heroPlay();
   }
 
   /* ---- reviews carousel ---- */

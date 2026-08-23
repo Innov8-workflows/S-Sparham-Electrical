@@ -72,7 +72,7 @@ fs.writeFileSync(path.join(OUT_ASSETS, A.jsName), A.jsSource);
 
 const MEDIA = [
   'logo-hero.webp', 'logo-mark.webp',
-  'hero-1.jpg', 'hero-2.jpg', 'hero-3.jpg', 'hero-poster.jpg',
+  'hero-loop.mp4', 'hero-loop-poster.jpg', 'hero-poster.jpg',
   'about.jpg', 'about-2.jpg', 'cta.jpg',
   'ba-before.jpg', 'ba-after.jpg',
   'ba-1.mp4', 'ba-1-poster.jpg',

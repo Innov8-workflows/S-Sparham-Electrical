@@ -99,14 +99,26 @@ function home() {
 
   const body = `
 <section class="hero" id="top">
-  <!-- Three of Stephen's own job photographs, crossfaded by site.js.
-       Not stock: the audit found the old site used library photographs of
-       other electricians beside its services while the real work sat
-       further down the page. -->
-  <div class="hero-media hero-slides" id="heroSlides">
-    <img class="hero-slide is-on" src="${asset(d, 'hero-1.jpg')}" alt="" aria-hidden="true" fetchpriority="high" width="1400" height="1867">
-    <img class="hero-slide" src="${asset(d, 'hero-2.jpg')}" alt="" aria-hidden="true" loading="lazy" width="1400" height="1867">
-    <img class="hero-slide" src="${asset(d, 'hero-3.jpg')}" alt="" aria-hidden="true" loading="lazy" width="1400" height="1867">
+  <!-- The client's own footage: the pendants and coving strip fading up from
+       dark to lit. It replaced a three-image crossfade slider.
+
+       Encoded so it ends on the frame it starts on, so the repeat has no cut
+       to see - see site/make-video.sh.
+
+       autoplay/muted/loop/playsinline are all on the element rather than left
+       to script: this is above the fold, so unlike the mid-page clip there is
+       nothing to wait for and no reason to make playback depend on JS running.
+       site.js only handles the case where a browser REFUSES to autoplay.
+
+       Deliberately NOT gated on prefers-reduced-motion at the CSS level. The
+       stylesheet stills the Ken Burns drift for those users but never hides
+       hero media, because a hidden hero is a black box. site.js drops the loop
+       for them instead, so the motion is bounded rather than perpetual. -->
+  <div class="hero-media">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto"
+           poster="${asset(d, 'hero-loop-poster.jpg')}" aria-hidden="true">
+      <source src="${asset(d, 'hero-loop.mp4')}" type="video/mp4">
+    </video>
   </div>
   <div class="hero__scrim"></div>
   <div class="wrap hero__in">
