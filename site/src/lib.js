@@ -152,7 +152,7 @@ function head(p) {
 <link rel="stylesheet" href="${asset(d, A.cssName)}">
 <script type="application/ld+json">${JSON.stringify(p.schema)}</script>
 </head>
-<body data-page="${esc(pageLabel(p))}"${biz.leadEndpoint ? ` data-lead="${esc(biz.leadEndpoint)}"` : ''}>`;
+<body data-page="${esc(pageLabel(p))}"${biz.leadEndpoint ? ` data-lead="${esc(biz.leadEndpoint)}"` : ''}${biz.ga4Id ? ` data-ga4="${esc(biz.ga4Id)}" data-privacy="${href(d, 'privacy-policy')}"` : ''}>`;
 }
 
 /* ---------- header ---------- */

@@ -930,3 +930,54 @@ ul{margin:0;padding:0;list-style:none}
    contain-intrinsic-size per section might close the gap, but these sections
    run from 200px to 3000px tall, so any single guess is wrong nearly
    everywhere. Not worth it. */
+
+/* ============================================================
+   COOKIE BANNER
+   ============================================================
+   Built by site.js and appended to <body>, so a visitor who has already
+   answered never receives the markup. The styles live here rather than being
+   injected as a <style> element, which would lean on style-src
+   'unsafe-inline' for no reason.
+
+   Reject and Accept are the SAME SIZE AND WEIGHT. Making reject the quiet
+   option is the standard dark pattern and it is not a lawful consent under
+   PECR - the choice has to be as easy to decline as to give.
+
+   z-index sits above the WhatsApp float (100) but below the lightbox (120)
+   is not enough, because the banner must never be trapped under a photo
+   viewer either; 130 puts it above both. The float is nudged up while the
+   banner is showing so it does not sit on top of the buttons on a phone. */
+.cc{
+  position:fixed;left:0;right:0;bottom:0;z-index:130;
+  background:var(--ink);color:#fff;border-top:1px solid rgba(255,255,255,.14);
+  box-shadow:0 -10px 34px rgba(0,0,0,.34);
+  transform:translateY(110%);transition:transform .32s ease;
+}
+.cc--in{transform:translateY(0)}
+.cc__in{
+  width:min(1180px,100% - (var(--gut)*2));margin-inline:auto;
+  padding:16px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.cc__t{flex:1 1 320px;font-size:.88rem;line-height:1.55;color:#C9CDD3}
+.cc__t b{color:#fff;font-family:'Archivo';font-weight:800;margin-right:6px}
+.cc__t a{color:#fff;text-decoration:underline;text-underline-offset:2px}
+.cc__b{display:flex;gap:10px;flex:none}
+.cc__b button{
+  font-family:'Archivo';font-weight:800;font-size:.92rem;
+  padding:12px 24px;border-radius:100px;min-height:44px;min-width:112px;
+  transition:background .18s,transform .15s,border-color .18s;
+}
+.cc__b button:active{transform:translateY(1px)}
+.cc__no{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.34)}
+.cc__no:hover{background:rgba(255,255,255,.18)}
+.cc__yes{background:var(--brand);color:var(--ink)}
+.cc__yes:hover{background:var(--brand-lt)}
+/* --cc-h is the banner's measured height, set by site.js. The fallback
+   only applies for the instant before the first measurement. */
+body.has-cc .wa{bottom:calc(20px + var(--cc-h,120px))}
+@media(max-width:600px){
+  .cc__in{padding:14px 0;gap:12px}
+  .cc__t{font-size:.84rem}
+  .cc__b{width:100%}
+  .cc__b button{flex:1 1 0;min-width:0;padding:12px 10px}
+}

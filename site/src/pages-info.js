@@ -3,10 +3,16 @@
 
    PRIVACY POLICY: it describes what the site ACTUALLY does, and it has to be
    rewritten whenever that changes or it becomes a false statement rather than
-   a missing one. As at August 2026 the site runs visitor tracking and a lead
-   logger, neither of which uses cookies or device storage, plus Google Fonts.
-   GA4 is still to come and WILL need this updating again, because unlike the
-   other two it does set cookies.
+   a missing one. As at August 2026 the site runs a cookieless visitor counter,
+   a lead logger, Google Fonts, and GA4.
+
+   GA4 is the ONLY part that sets cookies and it is gated behind the consent
+   banner - see the consent block at the end of site.js. Before it landed this
+   policy said, in as many words, that the site set no cookies and that was
+   why nobody was being asked to accept anything. Adding the tag without
+   rewriting that would have turned an accurate policy into a false one on a
+   live client site. If the gate is ever removed, or GA4 swapped for something
+   else, the Cookies and Visitor statistics sections go the same way.
    ============================================================ */
 const D = require('./data.js');
 const L = require('./lib.js');
@@ -286,11 +292,16 @@ function privacy() {
   <p>This policy explains what ${esc(biz.name)} does with the information you provide through this website.</p>
 
   <h2>Cookies</h2>
-  <p>This website sets no cookies. It does not use cookies for advertising, and it stores nothing on your device: no cookies, no local storage, no identifiers of any kind. That is why you are not being asked to accept anything.</p>
+  <p>This website sets one kind of cookie, and only if you say yes to it. When you first arrive you are asked whether we may count your visit using Google Analytics. Nothing is stored on your device unless you press Accept.</p>
+  <p>If you press <strong>Accept</strong>, Google Analytics sets cookies that let it recognise the same browser across pages and on a later visit, so we can see how many separate people used the site rather than how many pages were opened. If you press <strong>Reject</strong>, no analytics cookie is set. Google is still told, anonymously and without anything being stored on your device, that a page was viewed &mdash; that is what keeps the visitor count roughly honest &mdash; but nothing links that to you or to any later visit.</p>
+  <p>Either way, none of this is used for advertising, none of it follows you to other websites, and the site behaves exactly the same. Your answer is remembered in your browser's own storage rather than in a cookie, because using a cookie to record that you would rather not have cookies would be a strange way to go about it.</p>
+  <p>You can <a href="#" data-cc-reset><strong>change your answer at any time</strong></a>, which brings the question back. Clearing your browsing data also clears it.</p>
 
   <h2>Visitor statistics</h2>
-  <p>We record basic, anonymous statistics about how the site is used: which pages are viewed, which page a visitor arrived from, and when the call, WhatsApp or email buttons are pressed. This is handled for us by Innov8 Workflows, who built and look after this website.</p>
-  <p>These statistics are not tied to you. No cookie or identifier is stored, so return visits are not linked together and no profile is built. As with any website, our provider's server can see the IP address a request came from.</p>
+  <p>We record basic statistics about how the site is used: which pages are viewed, which page a visitor arrived from, and when the call or WhatsApp buttons are pressed. Two separate things do this.</p>
+  <p><strong>Our own visitor counter</strong>, run for us by Innov8 Workflows who built and look after this website, runs on every visit. It stores no cookie and no identifier, so return visits are not linked together and no profile is built.</p>
+  <p><strong>Google Analytics</strong> runs only if you accepted cookies, as described above. It tells us how many people came, roughly whereabouts they were, which pages they read and which buttons they pressed. It does not tell us who you are, we have turned off the advertising features, and your IP address is shortened by Google before it is stored.</p>
+  <p>As with any website, our provider's server can see the IP address a request came from.</p>
 
   <h2>The enquiry form</h2>
   <p>The form on this site does two things when you press the button.</p>
@@ -313,10 +324,11 @@ function privacy() {
   <ul>
     <li><strong>Google Fonts</strong> supplies the typefaces, so your browser makes a request to Google's servers when a page loads. That request includes your IP address.</li>
     <li><strong>Google Sheets and Google Workspace</strong> hold the enquiry record and deliver the email alert.</li>
-    <li><strong>Innov8 Workflows</strong> built and maintain this website, and run the visitor statistics and the customer record system on our behalf.</li>
+    <li><strong>Innov8 Workflows</strong> built and maintain this website, and run the visitor counter and the customer record system on our behalf.</li>
+    <li><strong>Google Analytics</strong> counts visits, but only if you accepted cookies. Google acts as our processor for this and the data is held under Google's own terms.</li>
     <li><strong>WhatsApp</strong> handles anything you send through it, under WhatsApp's own privacy terms.</li>
   </ul>
-  <p>We do not use advertising networks, social media tracking pixels, or any other third party service on this website.</p>
+  <p>We do not use advertising networks or social media tracking pixels, and Google Analytics runs here with its advertising features switched off.</p>
 
   <h2>Certificates and records</h2>
   <p>Electrical certificates and condition reports contain the property address and details of the installation. We keep copies as a record of the work carried out, as an electrician is expected to.</p>

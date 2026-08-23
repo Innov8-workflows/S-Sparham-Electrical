@@ -184,12 +184,18 @@ fs.writeFileSync(path.join(OUT, 'llms.txt'), llms());
        Both are needed: the /exec URL 302s to the googleusercontent host, and
        CSP is re-evaluated on the redirect target, so listing only the first
        blocks the beacon at the second hop.
-     - GA4 is still to come. When it lands, add to this in the same commit:
-         script-src  https://www.googletagmanager.com
-         connect-src https://www.google-analytics.com
-                     https://region1.google-analytics.com
-         img-src     https://www.google-analytics.com
-       A blocked beacon fails quietly, so none of this announces itself.
+     - GA4 landed 2026-08-24 and the three directives above carry it:
+       googletagmanager.com to fetch gtag.js, google-analytics.com plus the
+       regional and analytics.google.com hosts to send hits to, and the
+       image entries because gtag still falls back to a pixel where fetch and
+       sendBeacon are unavailable. A blocked hit fails quietly, which is why
+       this had to move in the same commit as the tag itself.
+
+       NOTE there is still no script-src 'unsafe-inline', and GA4 did not get
+       one. Google's own snippet is an inline <script> and would simply be
+       refused here; the consent gate and gtag bootstrap live in site.js,
+       which is same-origin. Do not "fix" a future tag by adding
+       'unsafe-inline' - that would unpick the whole policy for one script.
 
    Permissions-Policy keeps autoplay=(self) rather than autoplay=(). There is
    no video on the site today, but the common copy-paste snippet uses the
@@ -204,12 +210,12 @@ const CSP = [
   "object-src 'none'",
   "frame-src 'none'",
   "frame-ancestors 'none'",
-  "script-src 'self' https://crm.innov8workflows.co.uk",
+  "script-src 'self' https://crm.innov8workflows.co.uk https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self'",
+  "img-src 'self' https://www.google-analytics.com https://www.googletagmanager.com",
   "media-src 'self'",
-  "connect-src 'self' https://crm.innov8workflows.co.uk https://script.google.com https://script.googleusercontent.com",
+  "connect-src 'self' https://crm.innov8workflows.co.uk https://script.google.com https://script.googleusercontent.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://www.googletagmanager.com",
   "form-action 'self'",
   "manifest-src 'none'",
   "worker-src 'none'",
