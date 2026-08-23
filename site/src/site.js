@@ -90,6 +90,50 @@
     render(); restart();
   }
 
+  /* ---- transformation clips: play on scroll into view ----
+     No play button, by design. The clip starts when it is actually on screen
+     and pauses when it is not, so nobody arrives at a video that has already
+     looped six times, and a visitor who never scrolls that far never pays for
+     the download.
+
+     Reduced motion is handled rather than ignored. Somebody who has asked their
+     OS for less movement gets the poster frame and a set of controls, so the
+     clip is still available deliberately instead of being hidden or forced on
+     them. Hiding it outright would leave a black box, which is worse than both.
+
+     play() is promise-returning and rejects if the browser declines (a battery
+     saver, an autoplay policy we did not anticipate). Swallow it: an unplayed
+     video already shows its poster, so there is nothing to recover. */
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* querySelectorAll direct rather than the $ helper: nothing subtle, it just
+     survives being written through a shell heredoc without losing a dollar. */
+  var vids = Array.prototype.slice.call(document.querySelectorAll('.pvid__v'));
+
+  if (vids.length && reduceMotion) {
+    vids.forEach(function (v) { v.setAttribute('controls', ''); });
+  } else if (vids.length && 'IntersectionObserver' in window) {
+    var vio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var v = en.target;
+        if (en.isIntersecting) {
+          var pr = v.play();
+          if (pr && pr['catch']) pr['catch'](function () {});
+        } else if (!v.paused) {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.35 });
+    vids.forEach(function (v) { vio.observe(v); });
+  } else {
+    /* No IntersectionObserver (very old browser): fall back to plain autoplay
+       rather than a video that can never start. */
+    vids.forEach(function (v) {
+      v.setAttribute('autoplay', '');
+      var pr = v.play();
+      if (pr && pr['catch']) pr['catch'](function () {});
+    });
+  }
+
   /* ---- before / after comparison ----
      A draggable wipe over two stills of the same kitchen. Pointer events
      cover mouse, touch and pen in one path; the range input underneath is

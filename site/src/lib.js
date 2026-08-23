@@ -303,19 +303,17 @@ function credStrip(d) {
    project needs nothing but another entry in data.projects. */
 function projectRow(d, p, i) {
   const [bf, balt] = p.before, [af, aalt] = p.after;
+
+  /* A project with a transition clip shows the clip. One with only a pair of
+     stills gets the drag-wipe. Both paths are live: the video is what the
+     client sent for this job, the wipe is what the next pair of photographs
+     will arrive as. */
+  const media = p.video ? videoCompare(d, p) : wipeCompare(d, bf, balt, af, aalt);
+
   return `
 <article class="proj${i % 2 ? ' proj--flip' : ''}">
   <div class="proj__media">
-    <div class="ba">
-      <img class="ba__after" src="${asset(d, af)}" alt="${esc(aalt)}" loading="lazy" width="1080" height="1080">
-      <img class="ba__before" src="${asset(d, bf)}" alt="${esc(balt)}" loading="lazy" width="1080" height="1080">
-      <span class="ba__tag ba__tag--b">During</span>
-      <span class="ba__tag ba__tag--a">Finished</span>
-      <div class="ba__handle" aria-hidden="true"></div>
-      <input class="ba__range" type="range" min="0" max="100" value="50" step="1"
-             aria-label="${esc(p.title)}: drag to reveal more of the finished room or more of the work in progress">
-    </div>
-    <p class="ba__cap">${ic('chevron')} Drag the handle to compare</p>
+    ${media}
   </div>
   <div class="proj__body">
     <div class="eyebrow">${esc(p.eyebrow)}</div>
@@ -326,6 +324,50 @@ function projectRow(d, p, i) {
     ${ticks(p.scope.map(esc))}
   </div>
 </article>`;
+}
+
+/* The transition clip.
+
+   AUTOPLAY WITHOUT A PLAY BUTTON, which is what makes this work at all:
+     - muted and playsinline are NOT optional. Every browser blocks autoplay
+       of anything with sound, and without playsinline iOS takes the video
+       fullscreen the moment it starts.
+     - preload=metadata, not auto: it sits mid-page and most visitors never
+       reach it, so pulling 2 MB on every page load would be paid for by
+       everybody to benefit some.
+     - site.js starts it on an IntersectionObserver when it scrolls into view
+       and pauses it when it leaves. It is NOT left on autoplay, because a
+       clip that has already looped four times before anyone sees it has
+       shown them nothing.
+
+   controls are absent by default and added by site.js ONLY for a visitor who
+   has asked for reduced motion. They get a still and a way to play it
+   deliberately, rather than either a silent auto-loop or nothing at all. */
+function videoCompare(d, p) {
+  const [file, poster, alt] = p.video;
+  return `
+<div class="pvid">
+  <video class="pvid__v" muted loop playsinline preload="metadata"
+         poster="${asset(d, poster)}" aria-label="${esc(alt)}">
+    <source src="${asset(d, file)}" type="video/mp4">
+  </video>
+</div>
+<p class="ba__cap">${ic('play')} The same kitchen, start to finish. Plays as you scroll to it.</p>`;
+}
+
+/* The drag-wipe, for a project supplied as a pair of stills. */
+function wipeCompare(d, bf, balt, af, aalt) {
+  return `
+<div class="ba">
+  <img class="ba__after" src="${asset(d, af)}" alt="${esc(aalt)}" loading="lazy" width="1080" height="1080">
+  <img class="ba__before" src="${asset(d, bf)}" alt="${esc(balt)}" loading="lazy" width="1080" height="1080">
+  <span class="ba__tag ba__tag--b">During</span>
+  <span class="ba__tag ba__tag--a">Finished</span>
+  <div class="ba__handle" aria-hidden="true"></div>
+  <input class="ba__range" type="range" min="0" max="100" value="50" step="1"
+         aria-label="Drag to reveal more of the finished room or more of the work in progress">
+</div>
+<p class="ba__cap">${ic('chevron')} Drag the handle to compare</p>`;
 }
 
 /* ---------- credentials ----------

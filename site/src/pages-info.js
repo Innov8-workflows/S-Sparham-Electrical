@@ -172,7 +172,7 @@ function ourWork() {
     <div class="sec-head sec-head--mid">
       <div class="eyebrow">Before and after</div>
       <h2>A job from start to finish</h2>
-      <p>Drag the handle across each picture to see the same room during the work and finished.</p>
+      <p>Watch the same room go from stripped back to finished.</p>
     </div>
     ${projects.map((pr, n) => L.projectRow(d, pr, n)).join('\n')}
   </div>

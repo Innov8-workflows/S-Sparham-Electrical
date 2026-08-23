@@ -797,3 +797,22 @@ ul{margin:0;padding:0;list-style:none}
   background:var(--bg-2);border:1px dashed var(--line);border-radius:var(--radius-sm);
   color:var(--muted);font-size:.86rem;line-height:1.6;
 }
+
+/* ============================================================
+   TRANSFORMATION CLIP
+   Same footprint as the drag-wipe it replaces, so the zig-zag row
+   does not shift depending on which one a project uses.
+   ============================================================ */
+.pvid{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow-lg);background:var(--ink);aspect-ratio:1/1;
+}
+.pvid__v{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  display:block;background:var(--ink);
+}
+/* the Before/After tags sit at opposite corners, as on the wipe */
+.pvid .ba__tag{z-index:2}
+/* controls only appear for prefers-reduced-motion, where site.js adds them.
+   Give them room so they are not flush against the rounded corner. */
+.pvid__v[controls]{object-fit:contain}

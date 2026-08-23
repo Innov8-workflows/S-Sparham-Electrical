@@ -126,12 +126,6 @@ const pending = {
                 '"verification badge image / certificates" but never reached us. ' +
                 'The credential strip under the hero is TEXT badges in the meantime. ' +
                 'Send the certificates and they become real badge images.',
-  lightingSupply: 'LIGHTING GUIDES: WHO BUYS THE FITTING? The /lighting/ pages ' +
-                  'are deliberately neutral - "whether you have already bought the ' +
-                  'fitting or would like us to help you find the right one". Confirm ' +
-                  'with Stephen whether he supplies fittings, fits what the customer ' +
-                  'buys, or both, and the wording tightens to suit. It is one ' +
-                  'constant, SUPPLY_LINE in pages-lighting.js.',
   lightingPhotos: 'LIGHTING GUIDE PHOTOGRAPHS. Chandeliers, outdoor lighting and LED ' +
                   'strip have no photograph of that style of job, so those three pages ' +
                   'run on copy alone and say so. Pendants, downlights, wall lights and ' +
@@ -197,10 +191,23 @@ const projects = [
     slug: 'kitchen-knock-through',
     eyebrow: 'Project 01',
     title: 'Kitchen knock-through and rewire',
+
+    /* The client's own transition clip: the same camera position dissolving
+       from stripped-back to finished. It REPLACES the drag-wipe on this
+       project, because it shows the whole change without the visitor having
+       to work out that the picture is draggable.
+
+       projectRow still renders the wipe for any project that has before and
+       after stills but no video, which is what the next pair will arrive as.
+       Both stay in the data here: the stills are the video's poster and its
+       fallback. */
+    video: ['ba-1.mp4', 'ba-1-poster.jpg',
+      'The kitchen dissolving from stripped back to brick, with the props and the steel beam in, through to the finished room with pendant lighting over the island'],
+
     before: ['ba-before.jpg', 'The kitchen stripped back to brick and block during the knock-through, with acrow props holding the ceiling, the new steel beam in place and first-fix cable dropped ready for the new layout'],
     after: ['ba-after.jpg', 'The finished open-plan kitchen, with three glass pendants over the breakfast bar, downlights set through the new ceiling and integrated ovens'],
     lead: 'Taking the wall out between the kitchen and the dining room turns an electrical job into a bigger one than most people expect. Once a steel goes in and the ceiling is opened up, the circuits that used to run through that wall have nowhere to go, so the whole area gets rewired rather than extended.',
-    body: 'The useful part of a job like this is the timing. Everything about how the finished room is lit gets decided at the stage on the left, while the walls are open and the ceiling is down. Once the plasterer has been, a downlight moves by cutting a new hole, and a socket moves by chasing a finished wall. So the positions were set out against the kitchen drawing before any cable was run: pendant drops centred on the island, downlights worked around the joists and the new steel rather than in a grid, and switching arranged so the room can be lit for cooking or for sitting in.',
+    body: 'The useful part of a job like this is the timing. Everything about how the finished room is lit gets decided at the start of that clip, while the walls are open and the ceiling is down. Once the plasterer has been, a downlight moves by cutting a new hole, and a socket moves by chasing a finished wall. So the positions were set out against the kitchen drawing before any cable was run: pendant drops centred on the island, downlights worked around the joists and the new steel rather than in a grid, and switching arranged so the room can be lit for cooking or for sitting in.',
     scope: [
       'New circuits for the ovens, hob and extraction',
       'Kitchen and dining sockets rewired to the new layout',

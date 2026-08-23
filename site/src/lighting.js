@@ -14,10 +14,15 @@
    their photographs and product copy are theirs, and reproducing either on a
    commercial site is infringement. No prices, in line with the rest of the site.
 
-   SUPPLY FRAMING. Deliberately neutral - "whether you have already bought the
-   fitting or would like us to source it" - because it has not been confirmed
-   whether Stephen supplies fittings or fits what the customer buys. See
-   pending.lightingSupply. Tighten the wording once he says.
+   SUPPLY. Stephen BUYS AND FITS (confirmed 2026-08-22). That is why the
+   check-lists below read as what HE checks rather than as homework for the
+   customer: the pitch is "tell us the look you want and we will source
+   something that actually works in your room", which is a stronger offer than
+   a list of things for them to get wrong on a retailer's website.
+
+   The pages still accept a fitting the customer has already bought, because
+   plenty of people buy a light they love before they ring an electrician and
+   turning that work away would be daft. Supply is the lead, not the condition.
 
    `photo` is null where we have no photograph of that style. The page then runs
    on copy alone rather than borrowing an image of something else, and the gap
@@ -36,9 +41,9 @@ const guides = [
     photo: null,
     answer: 'Fitting a chandelier is mostly a question of weight and what is above the ceiling. A standard plasterboard ceiling rose is rated for a few kilograms; a multi-arm chandelier can be fifteen or more, and it has to be fixed to a joist or to timber noggins put in specially, never to the plasterboard itself. Beyond that it is drop height, whether the ceiling is high enough to sit one at all, and whether the switching and any dimming suit a fitting with that many lamps in it.',
     intro: 'A chandelier is the one light in a house that people notice from the doorway, and it is also the one most likely to be hung off something that will not hold it. The fitting itself is usually the easy part. Everything worth thinking about happens before it goes up.',
-    checkTitle: 'Worth checking before you buy one',
+    checkTitle: 'What decides whether a chandelier will work',
     checks: [
-      ['Weight', 'The single most important number, and the one most product pages bury. Anything over about 5kg needs fixing into timber rather than into a plasterboard ceiling. Send us the weight and we will tell you what the ceiling needs before you order.'],
+      ['Weight', 'The single most important number, and the one most product pages bury. Anything over about 5kg needs fixing into timber rather than into a plasterboard ceiling. We check it against your ceiling before anything is ordered, which is the whole reason nothing arrives that will not go up.'],
       ['Drop and ceiling height', 'Most chandeliers have an adjustable drop, but there is a minimum. Over a table you want the bottom of it roughly 75 to 85cm above the surface; anywhere people walk, high enough that nobody meets it. In a room with a standard 2.4m ceiling a long-drop fitting will not work.'],
       ['Number and type of lamps', 'A twelve-arm fitting is twelve lamps to change. Check they are a type you can still buy easily, and whether they are included. If you want it dimmed, they all need to be dimmable and all the same.'],
       ['Where the existing point is', 'Ceiling roses are rarely in the middle of the room, and almost never in the middle of a room that has been extended or knocked through. Moving the point is straightforward with the ceiling open and more involved once it is finished.'],
@@ -68,7 +73,7 @@ const guides = [
     photo: ['g5.jpg', 'Three glass pendant lights hung in a row over a kitchen island, with downlights set through the ceiling beyond'],
     answer: 'A pendant is a light on a flex or rod hung from the ceiling, and the thing that decides whether a run of them looks right is the setting out: spacing, height, and whether they line up with what is underneath rather than with the ceiling. Three over an island want to be evenly spaced on the island, centred on it, and hung at a height that lights the worktop without blocking the eyeline of somebody sitting at it. Getting that wrong is far more noticeable than the fitting itself.',
     intro: 'Pendants are the most common decorative fitting we put up, and the one where the difference between a careful job and a quick one is most visible. A row hung off the existing ceiling points, rather than off the island they are meant to light, never quite looks deliberate.',
-    checkTitle: 'Worth checking before you buy',
+    checkTitle: 'What decides how a run of pendants looks',
     checks: [
       ['How many, and how wide the space is', 'Three over a two-metre island is the usual answer; two on a shorter run. Better to decide the number against the actual measurement than to buy a set and make it fit.'],
       ['Adjustable drop', 'Almost all pendants have an adjustable flex or rod, but check the range. Over an island you generally want the bottom of the shade around 75 to 90cm above the worktop, and higher in a room with a low ceiling.'],
@@ -100,14 +105,14 @@ const guides = [
     photo: ['g6.jpg', 'Recessed downlights set through the ceiling of a renovated room with an exposed stone wall and a slatted oak feature wall'],
     answer: 'Downlights are recessed fittings set into the ceiling, and the two things that decide whether they work are how many there are and where they go. A regular grid of identical downlights is the default and is almost always wrong: it over-lights the middle of the floor and leaves the worktops, corners and seating under-lit. Setting them out around what the room is actually used for takes fewer fittings and gives a better result. In a ceiling with a room above, they must be fire-rated so the fire resistance of the ceiling is maintained where holes have been cut in it.',
     intro: 'Downlights are the fitting people most often end up with too many of. The instinct is to space them evenly across the ceiling, which is easy to mark out and produces a room lit like an office. A few in the right places beats a lot in neat rows.',
-    checkTitle: 'Worth checking before you buy',
+    checkTitle: 'What has to be right with downlights',
     checks: [
       ['Fire rating', 'In any ceiling with a habitable room above, the fittings need to be fire-rated. Cutting holes in a ceiling removes part of what stops a fire spreading between floors, and a fire-rated fitting puts that back.'],
       ['Beam angle', 'A narrow beam makes a pool of light and a lot of shadow. A wider one washes the room more evenly. Kitchens generally want wider over the working areas; a narrow beam is for picking out something specific.'],
       ['Colour temperature', 'Around 2700K is warm and suits living rooms and bedrooms; 3000K is slightly crisper and common in kitchens and bathrooms. 4000K and above reads cold in a home. Be consistent within a room, because mixing them is very obvious.'],
       ['Dimmable, and on what', 'If you want them dimmed, check the fittings are dimmable and pair them with a trailing-edge dimmer rated for LED. Old dimmers built for filament lamps need a minimum load LEDs never draw, which is what causes buzzing and flicker.'],
       ['Fixed or adjustable', 'Adjustable heads let you aim light at a wall, a worktop or a picture. Fixed ones point straight down. Adjustable are worth it anywhere you want to light something rather than just light the room.'],
-      ['Cut-out size', 'Worth knowing if you are replacing existing downlights: matching the cut-out means no making good, and a different one means filling and repainting the ceiling.']
+      ['Cut-out size', 'Matters when replacing existing downlights: matching the cut-out means no making good, and a different one means filling and repainting the ceiling. We measure before ordering.']
     ],
     process: [
       ['Work out what the room is for', 'Where you stand, sit and work, and which surfaces need light. That drives the layout rather than the shape of the ceiling.'],
@@ -133,7 +138,7 @@ const guides = [
     photo: ['g7.jpg', 'A brass wall light fitted above a vanity, next to an illuminated LED mirror in a renovated bathroom'],
     answer: 'Wall lights do the job a ceiling light cannot: they put light at eye level and take the flatness out of a room. The practical question is almost always how the cable gets there. On a stud wall it is straightforward; on a solid wall it means chasing, which is fine while a room is being decorated and disruptive once it is finished. Height matters too, and the usual mistake is fitting them too high.',
     intro: 'A room lit only from the ceiling looks like a room lit only from the ceiling. Wall lights are what makes an evening setting possible, and they are also the fitting most worth planning before the plasterer arrives rather than after.',
-    checkTitle: 'Worth checking before you buy',
+    checkTitle: 'What decides where wall lights can go',
     checks: [
       ['Height', 'Around 1.5 to 1.7m from the floor suits most wall lights in a living room, a little lower either side of a bed. Too high and they light the ceiling; too low and you look into the lamp when seated.'],
       ['Which way the light goes', 'Uplighters wash the ceiling and make a room feel taller. Downlighters pool light on the wall. Ones that do both are the most flexible. It changes the feel of a room far more than the style of the fitting does.'],
@@ -165,9 +170,9 @@ const guides = [
     photo: ['g7.jpg', 'A bathroom with an illuminated LED mirror, brass wall light and an electric shower in a tiled recess'],
     answer: 'Bathroom lighting is the one area where the rules decide what you can buy. BS 7671 divides a bathroom into zones by distance from the bath and shower, and a fitting has to carry an IP rating suitable for the zone it sits in: broadly IP65 inside the shower, IP44 within a couple of metres of it, and ordinary fittings only well away from both. Everything in a bathroom also needs RCD protection. The practical result is that a fitting you like from a general lighting range often cannot go where you want it.',
     intro: 'Bathrooms are small, wet, and the one room where lighting is genuinely a safety matter rather than a matter of taste. The good news is that the constraint mostly affects position: there is usually a way to get the look you want, it is just not always directly above the bath.',
-    checkTitle: 'Worth checking before you buy',
+    checkTitle: 'What the regulations decide for you',
     checks: [
-      ['IP rating against the zone', 'The number that decides whether a fitting can legally go where you want it. Directly over a bath or in a shower needs a much higher rating than a fitting on the far wall. Tell us where you want it and we will tell you what rating it needs.'],
+      ['IP rating against the zone', 'The number that decides whether a fitting can legally go where you want it. Directly over a bath or in a shower needs a much higher rating than a fitting on the far wall. Tell us where you want it and we will find something rated for that position.'],
       ['Illuminated mirrors', 'Almost all need a permanent supply and a fused connection behind them, not a plug. Many also have demisters and shaver sockets, which change what the circuit needs. Best decided before tiling, because the supply has to come out in exactly the right place.'],
       ['Extraction', 'Often the same job. Whether the fan runs with the light, on a timer, or on humidity affects the wiring, and a fan in a bathroom without an opening window is a building regulations requirement rather than a preference.'],
       ['Colour temperature', 'Around 3000K suits a bathroom: crisp enough to see properly, not clinical. Very cold light is unflattering in the one room where people look closely at themselves.'],
@@ -198,7 +203,7 @@ const guides = [
     photo: null,
     answer: 'Outdoor lighting has to survive water, cold and being strimmed, none of which apply indoors. That means an IP rating chosen for where the fitting actually sits, RCD protection on the circuit, and cable that is either armoured and buried at a proper depth or run in suitable containment. The design question is simpler than people expect: light the things you want to see, not the whole garden. Aiming light down onto planting, steps and paths gives a far better result than flooding the lawn, and does not annoy the neighbours.',
     intro: 'Most gardens are lit by one very bright floodlight that makes everything outside its beam look darker. A few low-level fittings, aimed at something, transform a garden in a way a floodlight never does.',
-    checkTitle: 'Worth checking before you buy',
+    checkTitle: 'What outdoor fittings have to cope with',
     checks: [
       ['IP rating for the position', 'Not just "outdoor". A fitting on a sheltered wall and one sitting in a border collecting water need different ratings. Spike lights in planting have the hardest life of any fitting we install.'],
       ['Mains or low voltage', 'Low-voltage garden systems run from a transformer and are easier to extend later. Mains fittings are brighter and more permanent. Both need doing properly; the difference is mostly in how the cable is run.'],
@@ -231,7 +236,7 @@ const guides = [
     photo: null,
     answer: 'LED strip is the fitting that most often disappoints, and almost always for the same two reasons: the strip is visible, or the driver was an afterthought. Strip should be hidden behind a lip, a coving edge or a channel so you see the light and not the diodes, and every run needs a driver of the right wattage sitting somewhere it can be reached when it eventually fails. Get those right and it is the cheapest way to make a room look considered.',
     intro: 'Strip lighting is used well when you cannot see where it is coming from. Under a run of wall units, behind a coving lip, along the underside of a floating shelf. Used badly it is a bright line of dots reflected in a gloss worktop.',
-    checkTitle: 'Worth checking before you buy',
+    checkTitle: 'What makes strip lighting look good or cheap',
     checks: [
       ['Where the driver will live', 'Every run needs one, it is the part most likely to fail, and it has to be reachable without dismantling the kitchen. Deciding this at the end is how drivers end up sealed behind plasterboard.'],
       ['Density of the LEDs', 'A low-density strip gives a visible line of dots, especially in a diffuser or reflected in a gloss surface. Higher density costs more and is the difference between a line of light and a row of spots.'],

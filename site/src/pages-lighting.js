@@ -37,9 +37,12 @@ const checkList = list => `
   ${list.map(([h, p]) => `<div class="check">${ic('check')}<div><b>${esc(h)}</b><p>${esc(p)}</p></div></div>`).join('\n  ')}
 </div>`;
 
-/* Neutral on who buys the fitting until Stephen confirms - see
-   pending.lightingSupply. Kept in one place so it is one edit, not seven. */
-const SUPPLY_LINE = 'Whether you have already bought the fitting or would like us to help you find the right one, send a photo or a link and we will tell you what it needs before anything is ordered.';
+/* Stephen buys the fittings as well as fitting them, so supply is the lead
+   offer rather than a caveat. Still explicitly accepts something the customer
+   has already bought: people buy a light they love before they ring an
+   electrician, and turning that work away would be daft.
+   One constant, used on the hub and all seven guides. */
+const SUPPLY_LINE = 'We supply the fittings as well as installing them, so you can leave the sourcing to us: tell us the look you are after and we will find something that works in your room. If you have already bought something, send us a photo or a link and we will tell you what it needs.';
 
 /* ---------------- HUB ---------------- */
 function lightingHub() {
@@ -48,14 +51,14 @@ function lightingHub() {
     depth: d, slug: HUB, nav: HUB,
     trail: [[HUB, 'Lighting']],
     title: 'Lighting Guides | S. Sparham Electrical',
-    description: `What is involved in fitting chandeliers, pendants, downlights, wall lights, bathroom and outdoor lighting, and what to check before you buy. Call ${biz.phone}.`,
+    description: `Chandeliers, pendants, downlights, wall lights, bathroom and outdoor lighting. We supply and fit, and these guides cover what makes each one work. Call ${biz.phone}.`,
     waLabel: 'Lighting guides'
   };
   p.schema = graph(p);
 
   const body = phead(d, {
     h1: 'Lighting guides',
-    sub: 'What each style of light actually involves, and what to check before you buy one.',
+    sub: 'We supply and fit. These guides cover what makes each style work, and what we check before ordering one.',
     bg: 'g2.jpg'
   }) + `
 <section class="sec"><div class="wrap">
@@ -66,8 +69,16 @@ function lightingHub() {
 
   <div class="prose">
     <p>Most lighting problems are decided before an electrician is anywhere near the job. A chandelier arrives that the ceiling will not hold. Downlights get spaced in a grid that lights the floor and not the worktop. LED strip goes in with the driver sealed behind plasterboard. None of that is hard to avoid — it just has to be thought about while there is still a choice.</p>
-    <p>So these are not catalogue pages and there are no prices on them. They are the things we would tell you on site, written down so you can read them before you order rather than after.</p>
+    <p>That is most of the reason we source the fittings ourselves. It is a great deal easier to make a room look right when the thing being fitted was chosen against the ceiling, the joists and the switching, rather than bought first and worked around afterwards.</p>
+    <p>These are not catalogue pages and there are no prices on them. They are the things we would tell you on site, written down.</p>
   </div>
+
+  <div class="prose"><h2>How it works</h2></div>
+  ${steps([
+    ['Tell us the look you want', 'A photo of the room, and a picture of the sort of thing you like. It does not need to be a specific product — a style, a finish, a photograph off the internet is plenty to work from.'],
+    ['We find something that fits it', 'Sourced against the actual room: what the ceiling will hold, where the joists are, the drop height, the IP rating if it is a bathroom, and whether it will dim if you want it to.'],
+    ['We fit, test and certificate it', 'Installed, switched the way you want the room lit, tested, and a certificate issued for the work that needs one.']
+  ])}
 
   <div class="cards cards--3" style="margin-top:clamp(20px,3vw,32px)">
     ${guides.map(g => `<a class="card" href="${href(d, guideSlug(g))}">
@@ -101,7 +112,7 @@ function lightingGuide(g) {
     trail: [[HUB, 'Lighting'], [slug, g.nav]],
     title: `${g.title} | S. Sparham Electrical`,
     ogTitle: g.title,
-    description: `${g.blurb} What to check before you buy one, and what fitting it involves. Call ${biz.phone}.`,
+    description: `${g.blurb} What makes one work in your room, and what fitting it involves. Call ${biz.phone}.`,
     faqs: g.faqs,
     waLabel: g.title,
     ogImage: g.photo ? g.photo[0] : undefined
@@ -124,7 +135,7 @@ function lightingGuide(g) {
     <div class="prose">
       <p>${esc(g.intro)}</p>
       <h2>${esc(g.checkTitle)}</h2>
-      <p>${esc(SUPPLY_LINE)}</p>
+      <p>This is what we look at before ordering anything. ${esc(SUPPLY_LINE)}</p>
     </div>
     ${checkList(g.checks)}
 

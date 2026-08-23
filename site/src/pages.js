@@ -162,7 +162,7 @@ ${credStrip(d)}
     <div class="sec-head sec-head--mid">
       <div class="eyebrow">Before and after</div>
       <h2>A job from start to finish</h2>
-      <p>Drag the handle across each picture to see the same room during the work and finished.</p>
+      <p>Watch the same room go from stripped back to finished.</p>
     </div>
     ${projects.map((p, i) => projectRow(d, p, i)).join('\n')}
     <p class="proj__more">${ph()} More before and after projects to be added as the photographs come in.</p>

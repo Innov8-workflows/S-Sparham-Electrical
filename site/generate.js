@@ -75,6 +75,7 @@ const MEDIA = [
   'hero-1.jpg', 'hero-2.jpg', 'hero-3.jpg', 'hero-poster.jpg',
   'about.jpg', 'about-2.jpg', 'cta.jpg',
   'ba-before.jpg', 'ba-after.jpg',
+  'ba-1.mp4', 'ba-1-poster.jpg',
   'g1.jpg', 'g2.jpg', 'g3.jpg', 'g4.jpg',
   'g5.jpg', 'g6.jpg', 'g7.jpg', 'g8.jpg',
   'favicon.png', 'og-default.jpg'
