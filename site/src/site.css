@@ -34,8 +34,21 @@ body{
   margin:0;background:var(--bg);color:var(--ink);
   font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
   font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
 }
+/* clip, NOT hidden, and on both elements.
+   overflow-x:hidden on body alone is the usual incantation and it has two
+   problems. It often does not even work, because the scrolling element is
+   html rather than body; and on iOS it can turn body into a scroll container,
+   which drops the page off the fast scrolling path and costs the momentum
+   feel. clip suppresses the overflow without creating a scroll container at
+   all, which is what was wanted in the first place.
+
+   REASONED, NOT MEASURED. Headless Chrome has no vsync, so scroll smoothness
+   cannot be measured here - only rendering cost, which this does not change.
+   Nothing on the site actually overflows sideways (checked at 390px:
+   scrollWidth equals innerWidth on every page), so this is a safety net
+   either way, and Safari before 16 ignores clip and behaves as it did. */
+html,body{overflow-x:clip}
 h1,h2,h3,h4{font-family:'Archivo',system-ui,Arial,sans-serif;font-weight:800;line-height:1.08;margin:0;letter-spacing:-.015em}
 p,figure{margin:0}
 img,video{display:block;max-width:100%}
@@ -100,7 +113,9 @@ ul{margin:0;padding:0;list-style:none}
 .nav__call:hover{background:var(--brand-lt);transform:translateY(-1px)}
 .nav__call .ic{width:16px;height:16px}
 .nav__call span{display:none}
-.nav__burger{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;color:#fff;background:rgba(255,255,255,.08)}
+/* 44px, not 40: this is the only way into the menu on a phone and it was
+   under the minimum comfortable target on every touch guideline there is. */
+.nav__burger{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;color:#fff;background:rgba(255,255,255,.08)}
 .nav__burger .ic{width:22px;height:22px}
 .nav__panel{
   display:none;background:var(--ink);border-top:1px solid rgba(255,255,255,.09);
@@ -186,6 +201,37 @@ ul{margin:0;padding:0;list-style:none}
   .hero__cta .btn{flex:0 0 auto}
 }
 
+/* ---- the hero, on a phone ----
+   Measured before this block, on a 390x844 screen: the hero came out 658px
+   tall - 78% of the screen - with the logo at 79% of the viewport width and
+   113px of empty video below the town strip. Nothing below the hero was
+   reachable without scrolling, and the logo crowded out the clip it sits on.
+
+   min-height was clamp(500px,78svh,760px), which is a floor written for a
+   desktop window and far too tall for a phone held in one hand. Dropping it
+   to 62svh lets the hero size itself to its own content instead, which is
+   what pulls the trust bar up into view: a visitor can see there is more
+   page without having to guess.
+
+   svh not vh, deliberately, and that is unchanged - vh on iOS is the LARGE
+   viewport, so a 100vh-ish hero grows behind the URL bar and the layout
+   lurches as the bar hides on scroll. That lurch is itself often what
+   "juttery" means on a phone. */
+@media(max-width:600px){
+  .hero__in{
+    min-height:min(62svh,560px);
+    padding-block:26px 32px;
+  }
+  .hero__logo{width:min(560px,68%);margin-bottom:12px}
+  .hero__cta{margin-top:18px;gap:9px}
+  .hero__cta .btn{flex:1 1 100%;max-width:none}
+  .hero__strip{margin-top:16px;gap:5px 14px;font-size:.75rem}
+  /* the clip is 2.19:1 landscape in a portrait box, so cover shows only the
+     middle third. Sitting it slightly above centre keeps the pendants and the
+     lit ceiling in frame rather than the dark floor. */
+  .hero-video{object-position:50% 42%}
+}
+
 /* ============================================================
    TRUST BAR
    ============================================================ */
@@ -213,6 +259,9 @@ ul{margin:0;padding:0;list-style:none}
 }
 .svc__ico .ic{width:18px;height:18px}
 .svc__c h3{font-size:clamp(.95rem,2.9vw,1.16rem);line-height:1.2}
+/* the heading IS the link into the service page; 34px of text was the whole
+   target. Padding on the inline-block lifts it to 44 without moving the card. */
+.svc__c h3 a{display:inline-block;padding-block:5px}
 .svc__c p{color:var(--muted);font-size:clamp(.78rem,2.2vw,.92rem);line-height:1.45}
 @media(min-width:900px){
   .svc{grid-template-columns:repeat(3,1fr);gap:16px}
@@ -350,7 +399,7 @@ ul{margin:0;padding:0;list-style:none}
 .rv__who small{display:block;color:var(--muted);font-size:.74rem}
 .rv__nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:20px}
 .rv__btn{
-  width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--white);
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--white);
   display:grid;place-items:center;color:var(--ink);transition:background .18s,border-color .18s;flex:none;
 }
 .rv__btn:hover{background:var(--ink);color:var(--brand);border-color:var(--ink)}
@@ -412,7 +461,7 @@ ul{margin:0;padding:0;list-style:none}
 }
 .ct__row .ic{width:19px;height:19px;color:var(--brand-dp);flex:none}
 .ct__row>div{min-width:0}
-.ct__row small{display:block;color:var(--muted);font-size:.68rem;letter-spacing:.04em;text-transform:uppercase}
+.ct__row small{display:block;color:var(--muted);font-size:.76rem;letter-spacing:.04em;text-transform:uppercase}
 .ct__row b{display:block;font-family:'Archivo';font-weight:700;font-size:.92rem;word-break:break-word;line-height:1.25}
 .form{
   background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
@@ -422,9 +471,14 @@ ul{margin:0;padding:0;list-style:none}
 .form>p{color:var(--muted);font-size:.83rem;margin-top:5px;margin-bottom:13px}
 .field{margin-bottom:10px}
 .field label{display:block;font-size:.75rem;font-weight:600;color:var(--steel);margin-bottom:4px}
+/* 16px IS A HARD FLOOR, NOT A STYLE CHOICE. iOS Safari zooms the whole page
+   in when a focused form control has text under 16px, and it does not zoom
+   back out. This was .92rem - 14.72px - so every tap into the quote form
+   yanked the page about on an iPhone. The desktop size is restored in the
+   900px block below, where no browser does this. */
 .field input,.field select,.field textarea{
   width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:var(--radius-sm);
-  font:inherit;font-size:.92rem;background:var(--bg-2);color:var(--ink);transition:border-color .18s,background .18s;
+  font:inherit;font-size:16px;background:var(--bg-2);color:var(--ink);transition:border-color .18s,background .18s;
 }
 .field textarea{min-height:76px;resize:vertical}
 .field input:focus,.field select:focus,.field textarea:focus{
@@ -432,7 +486,11 @@ ul{margin:0;padding:0;list-style:none}
 }
 .form__2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .form__note{margin-top:10px;font-size:.72rem;color:var(--muted);text-align:center;line-height:1.5}
-@media(max-width:359px){.form__2,.ct__side{grid-template-columns:1fr}}
+/* One column on a phone, not two. The contact rows were two-up down to
+   359px, which left each card about 170px wide - narrow enough that
+   stephen_sparham@hotmail.co.uk broke mid-word across three lines. The
+   address and the email both need the full width to read as one string. */
+@media(max-width:539px){.form__2,.ct__side{grid-template-columns:1fr}}
 @media(min-width:900px){
   .ct{grid-template-columns:.8fr 1.2fr;gap:clamp(24px,3.4vw,44px);align-items:start}
   .ct__side{grid-template-columns:1fr;gap:10px}
@@ -440,6 +498,7 @@ ul{margin:0;padding:0;list-style:none}
   .ct__row b{font-size:1rem}
   .ct__row small{font-size:.73rem}
   .field textarea{min-height:92px}
+  .field input,.field select,.field textarea{font-size:.92rem}
 }
 
 /* ============================================================
@@ -468,10 +527,19 @@ ul{margin:0;padding:0;list-style:none}
 .ft__logo img{height:44px;width:auto;margin-bottom:10px}
 .ft h4{color:#fff;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;font-weight:700}
 .ft a:hover{color:var(--brand-lt)}
+/* The footer links were 22px tall with a 7px gap between them - sixteen
+   targets stacked barely a fingertip apart, which on a phone is how you tap
+   Reviews and land on FAQs. The gap becomes padding INSIDE each link, so the
+   whole 44px is tappable rather than just the text, and the column grows by
+   far less than sixteen taller rows would suggest. */
 .ft__li{display:flex;flex-direction:column;gap:7px}
+@media(max-width:899px){
+  .ft__li{gap:0}
+  .ft__li a{display:block;padding-block:11px}
+}
 .ft__soc{display:flex;gap:9px;margin-top:14px}
 .ft__soc a{
-  width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);
+  width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);
   display:grid;place-items:center;color:#fff;transition:background .18s,color .18s;
 }
 .ft__soc a:hover{background:var(--brand);color:var(--ink)}
@@ -662,7 +730,11 @@ ul{margin:0;padding:0;list-style:none}
 .badges--ft .badge{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);box-shadow:none;padding:10px 12px}
 .badges--ft .badge .ic{width:17px;height:17px;color:var(--brand)}
 .badges--ft .badge b{font-size:.78rem;color:#fff}
-.badges--ft .badge small{font-size:.67rem;color:#8B929C}
+/* .67rem is 10.7px - too small to read on a phone at arm length. The
+   desktop grid squeezes six badges across, so the tighter size is kept only
+   where the room actually runs out. */
+.badges--ft .badge small{font-size:.76rem;color:#8B929C}
+@media(min-width:1040px){.badges--ft .badge small{font-size:.67rem}}
 
 /* ============================================================
    PROJECT ZIG-ZAG
@@ -831,3 +903,30 @@ ul{margin:0;padding:0;list-style:none}
 .btn--facebook{background:#1877F2;color:#fff}
 .btn--facebook:hover{background:#0F62D6;transform:translateY(-2px);box-shadow:0 10px 26px rgba(24,119,242,.34)}
 .fmark{width:19px;height:19px;flex:none}
+
+/* ============================================================
+   DO NOT ADD content-visibility:auto TO THE SECTIONS
+   ============================================================
+   It was tried on 2026-08-23 and it made scrolling MEASURABLY WORSE. Keeping
+   the note because it is the obvious thing to reach for on a page this long,
+   and the first measurement of it lies.
+
+   Injecting the rule into an already-loaded page and then scrolling showed
+   main-thread rendering falling from 116.5ms to 69.1ms - a 41% win. That
+   number is an artefact. By the time the rule was injected every section had
+   already been laid out once, so contain-intrinsic-size:auto knew all their
+   real heights and never had to guess.
+
+   Shipped in the stylesheet, from a cold load, it knows nothing. Every
+   section starts at the placeholder height, and is re-laid-out as the scroll
+   reaches it. Same page, same 390x844 screen, same 6x CPU throttle, scrolling
+   end to end:
+
+     content-visibility off :  Layout   8.3ms   Paint 89.6ms   TOTAL 111.8ms
+     content-visibility on  :  Layout 106.1ms   Paint 49.4ms   TOTAL 196.3ms
+
+   It does cut paint roughly in half. It costs thirteen times as much layout
+   to do it, and layout is the part that blocks the frame. A tuned
+   contain-intrinsic-size per section might close the gap, but these sections
+   run from 200px to 3000px tall, so any single guess is wrong nearly
+   everywhere. Not worth it. */

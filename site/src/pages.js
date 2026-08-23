@@ -78,7 +78,10 @@ const galleryBlock = (d, items) => `
 const lightbox = () => `
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
   <button class="lb__x" id="lbX" aria-label="Close">${ic('x')}</button>
-  <img id="lbImg" src="" alt="">
+  <!-- no src attribute at all: src="" is not an empty image, it resolves
+       against the document, and older browsers re-request the PAGE as an
+       image. site.js sets src and alt when a photo is actually opened. -->
+  <img id="lbImg" alt="">
 </div>`;
 
 /* ============================================================
