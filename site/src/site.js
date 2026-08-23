@@ -37,19 +37,25 @@
         the page; a user gesture satisfies every autoplay policy there is, and
         no control is ever shown.
 
-     2. prefers-reduced-motion. The loop attribute comes OFF for those users, so
-        the lights come up once and hold on the lit frame instead of cycling
-        every ten seconds. That is the difference between this and the mid-page
-        clip: a one-shot dissolve is mild enough to leave alone, an endless loop
-        directly under the logo is not. The video is never hidden - the
-        stylesheet stills motion but keeps hero media, because a hidden hero is
-        a black box. */
+     prefers-reduced-motion is NOT handled here, and that is a decision rather
+     than an omission. An earlier version stripped the loop for those users, so
+     the hero played once and stopped; on a machine that reports reduce - which
+     Brave does, and which is how a play button ended up on the mid-page clip
+     too - that reads as "the video is not looping", because it is not.
+
+     The site's stance, set on the hero from the start, is to still the motion
+     and keep the content rather than remove it. This is a muted, silent
+     cross-dissolve of lights fading up behind a heavy dark scrim: no parallax,
+     no zoom, no rotation, nothing carrying a vestibular risk.
+
+     Worth knowing: WCAG 2.2.2 wants a pause mechanism for automatic motion that
+     runs past five seconds, and a loop never stops. The considered trade is a
+     looping ambient hero with no control, which is what most sites with hero
+     video do. If that is ever revisited, a small discreet pause toggle in the
+     corner of the hero is the fix - not the browser's own control bar, which is
+     what caused the original complaint. */
   var hero = document.querySelector('.hero-video');
   if (hero) {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      hero.loop = false;
-      hero.removeAttribute('loop');
-    }
     var heroArmed = false;
     var heroPlay = function () {
       var pr = hero.play();
