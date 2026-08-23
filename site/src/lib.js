@@ -340,23 +340,27 @@ function projectRow(d, p, i) {
    it, so pulling 2 MB on every page load would be paid for by everybody to
    benefit some. site.js starts it on an IntersectionObserver.
 
-   NO loop attribute, deliberately. It plays once and stops on the last frame,
-   which is the finished kitchen rather than the rubble it started on. That is
-   both a better still to leave on screen and the reason no pause control is
-   needed: WCAG 2.2.2 applies to motion that runs past five seconds, and a
-   looping five-second clip never stops. Playing once means it does.
+   loop, on the client's instruction (2026-08-23). It used to play once and
+   stop on the last frame, which was the tidier still to leave on screen and
+   sidestepped WCAG 2.2.2: that criterion applies to motion running past five
+   seconds, so a clip that stops on its own needs no pause control while a
+   looping one does. Looping reopens that, which makes it a considered trade
+   rather than an oversight - the same call already taken on the hero. If it
+   is ever revisited, the fix is a small discreet corner toggle, NOT the
+   browser's control bar; that is what put a play button on this page once
+   already.
 
-   pvid__still is the finished room, shown INSTEAD of the video for a visitor
-   who has asked for reduced motion. They get the outcome with no movement and
-   still nothing to press. Hiding the video and showing nothing would leave a
-   black box, and adding controls is what put a play button on the page in the
-   first place. */
+   pvid__still is the finished room, shown INSTEAD of the video only when
+   playback has been refused for good - see the giveUp path in site.js. It is
+   not a reduced-motion branch: gating on reduced motion is what put a play
+   button on the page in the first place. Hiding the video and showing nothing
+   would leave a black box, hence the stand-in. */
 function videoCompare(d, p) {
   const [file, poster, alt] = p.video;
   const [af, aalt] = p.after;
   return `
 <div class="pvid">
-  <video class="pvid__v" muted playsinline preload="metadata"
+  <video class="pvid__v" muted loop playsinline preload="metadata"
          poster="${asset(d, poster)}" aria-label="${esc(alt)}">
     <source src="${asset(d, file)}" type="video/mp4">
   </video>

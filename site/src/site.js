@@ -126,20 +126,23 @@
      No controls, no play button, nothing to press. Three things make that
      work rather than just hoping:
 
-     1. It plays ONCE and stops on the finished room. A looping clip is motion
-        that never ends, which is what WCAG 2.2.2 wants a pause control for;
-        playing once removes the requirement instead of ignoring it. Scrolling
-        away and back replays it, so it is not a one-shot either.
+     1. It LOOPS, on the client's instruction (2026-08-23), and the loop
+        attribute in lib.js is what does that — not this file. All this does is
+        start it when it scrolls into view and pause it when it leaves, so the
+        loop only runs while somebody can actually see it. Scrolling back
+        resumes rather than restarts, which is why nothing resets currentTime
+        on the way in.
 
      2. prefers-reduced-motion is NOT gated on here, deliberately, and this is
         a judgement call worth knowing about. An earlier version added controls
         for it, which is exactly how a play button ended up on the page. The
         site's existing stance, set on the hero, is to still the motion rather
         than remove the content — and this is a muted five-second cross-dissolve
-        between two photographs that plays once and stops. No parallax, no zoom,
-        no rotation, nothing that carries a vestibular risk, and no loop, so
-        WCAG 2.2.2 does not bite. If a gentler treatment is ever wanted, reveal
-        pvid__still instead of playing: the markup is already there for it.
+        between two photographs: no parallax, no zoom, no rotation, nothing that
+        carries a vestibular risk. Now that it loops, WCAG 2.2.2 does bite; the
+        answer if it is ever revisited is a small discreet corner toggle, or
+        revealing pvid__still instead of playing — the markup is already there
+        for that.
 
      3. play() returns a promise and browsers reject it when their autoplay
         policy says no — Brave's shields do this by default. Rather than
@@ -174,8 +177,9 @@
       evs.forEach(function (e) { window.addEventListener(e, go, { once: true, passive: true }); });
     };
 
+    /* No currentTime reset: a looping clip never reaches its end, so scrolling
+       back to it resumes where it was rather than jumping to the start. */
     var playNow = function (v) {
-      if (v.ended || v.currentTime >= v.duration - 0.05) { try { v.currentTime = 0; } catch (e) {} }
       var pr = v.play();
       if (pr && pr['catch']) pr['catch'](function () { armRetry(v); });
     };

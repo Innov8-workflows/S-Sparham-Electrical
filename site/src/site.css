@@ -813,12 +813,13 @@ ul{margin:0;padding:0;list-style:none}
 }
 /* the Before/After tags sit at opposite corners, as on the wipe */
 .pvid .ba__tag{z-index:2}
-/* controls only appear for prefers-reduced-motion, where site.js adds them.
-   Give them room so they are not flush against the rounded corner. */
+/* Nothing adds controls any more — an earlier reduced-motion branch did, and
+   that is how a play button ended up on the page. Kept as a safety net so a
+   browser forcing its own bar in does not crop the frame behind it. */
 .pvid__v[controls]{object-fit:contain}
 
-/* The reduced-motion stand-in: same box as the video it replaces, so the
-   zig-zag row does not shift depending on which one a visitor gets. */
+/* The stand-in shown when playback is refused outright: same box as the video
+   it replaces, so the zig-zag row does not shift depending which one lands. */
 .pvid__still{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
 }
