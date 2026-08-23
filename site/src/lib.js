@@ -309,10 +309,9 @@ function projectRow(d, p, i) {
   const [bf, balt] = p.before, [af, aalt] = p.after;
 
   /* A project with a transition clip shows the clip. One with only a pair of
-     stills gets the drag-wipe. Both paths are live: the video is what the
-     client sent for this job, the wipe is what the next pair of photographs
-     will arrive as. */
-  const media = p.video ? videoCompare(d, p) : wipeCompare(d, bf, balt, af, aalt);
+     stills gets the drag-wipe. Both paths are live: project 01 is the clip
+     the client sent, project 02 is a pair of stills. */
+  const media = p.video ? videoCompare(d, p) : wipeCompare(d, bf, balt, af, aalt, p.labels);
 
   return `
 <article class="proj${i % 2 ? ' proj--flip' : ''}">
@@ -369,14 +368,21 @@ function videoCompare(d, p) {
 <p class="ba__cap">${ic('play')} The same kitchen, start to finish.</p>`;
 }
 
-/* The drag-wipe, for a project supplied as a pair of stills. */
-function wipeCompare(d, bf, balt, af, aalt) {
+/* The drag-wipe, for a project supplied as a pair of stills.
+
+   The two corner tags take their wording from the project. They used to read
+   During / Finished for every project, which was written for the kitchen -
+   that "before" really is a half-demolished room. On the outdoor lighting it
+   was simply wrong: nothing is under way in that photograph, it is the house
+   as it was. Default stays Before / After, which is true of any pair. */
+function wipeCompare(d, bf, balt, af, aalt, labels) {
+  const [lb, la] = labels || ['Before', 'After'];
   return `
 <div class="ba">
   <img class="ba__after" src="${asset(d, af)}" alt="${esc(aalt)}" loading="lazy" width="1080" height="1080">
   <img class="ba__before" src="${asset(d, bf)}" alt="${esc(balt)}" loading="lazy" width="1080" height="1080">
-  <span class="ba__tag ba__tag--b">During</span>
-  <span class="ba__tag ba__tag--a">Finished</span>
+  <span class="ba__tag ba__tag--b">${esc(lb)}</span>
+  <span class="ba__tag ba__tag--a">${esc(la)}</span>
   <div class="ba__handle" aria-hidden="true"></div>
   <input class="ba__range" type="range" min="0" max="100" value="50" step="1"
          aria-label="Drag to reveal more of the finished room or more of the work in progress">

@@ -98,6 +98,30 @@ cp2 19.jpeg  g27.jpg  "crop=1400:1400:80:300"   # new consumer unit; tight, it i
 cp_img b1.jpg        ba-before.jpg
 cp_img 5.jpg         ba-after.jpg
 
+# ---------------------------------------------------------------------------
+# Second before/after pair (project 02): the rear elevation of a house before
+# and after three up-and-down wall lights went on it. Both from assets-v2.
+#
+# THE TWO SHOTS ARE NOT THE SAME FRAMING and this is the whole difficulty.
+# They were taken from different distances - the "after" is 4.6% larger and
+# sits lower in frame - so dropped in raw the house JUMPS as the wipe handle
+# is dragged, which is the one thing a wipe must not do.
+#
+# The transform was solved rather than eyeballed: both frames reduced to
+# 300x400 grayscale, Sobel edge maps taken (a plain intensity match is
+# useless here, one shot is overcast daylight and the other is dusk with the
+# lights on), then a scale/dx/dy search maximising normalised cross-
+# correlation. Best fit was scale 0.954, dx -22, dy +120 at full resolution,
+# correlating at 0.50 - which for a cross-exposure edge match is a solid lock,
+# and it was then confirmed by eye at three wipe positions.
+#
+# The crops below are that transform applied, reduced to the largest square
+# the two frames have IN COMMON. Change one and you must change the other or
+# the alignment goes. If a re-shot pair ever arrives from the same tripod
+# position, both of these become a plain square crop.
+cp2 b1.jpeg  ba2-before.jpg "crop=1144:1144:48:96"
+cp2 a1.jpeg  ba2-after.jpg  "crop=1199:1199:0:182,scale=1144:1144"
+
 # Stephen on site, in branded workwear. This is the only photograph of him we
 # have, and the audit's finding was that nobody was named or shown at all.
 cp_img about-polished.JPG about.jpg

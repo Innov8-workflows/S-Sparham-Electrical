@@ -124,9 +124,12 @@ const pending = {
           'lighting, LED strip, three-phase and industrial work. Still unillustrated: ' +
           'CCTV, and chandeliers for the lighting guide. Thirty photographs in total, ' +
           'so pages no longer reuse the same handful.',
-  beforeAfter: 'MORE BEFORE AND AFTER PAIRS. Only one genuine pair exists (the ' +
-               'kitchen, stripped back and finished). For rewires and consumer ' +
-               'unit work these sell the job better than a finished photo does.',
+  beforeAfter: 'MORE BEFORE AND AFTER PAIRS. Two exist: the kitchen (clip) and ' +
+               'the outdoor wall lights (drag-wipe). Both were shot handheld, and ' +
+               'the second pair needed solving for scale and offset before it ' +
+               'would wipe cleanly. A pair shot twice from the SAME spot, ideally ' +
+               'marked on the floor, needs no such work. For rewires and consumer ' +
+               'unit changes these sell the job better than a finished photo does.',
   prices: 'PRICE GUIDANCE. Nothing is published, so nothing is claimed. Even a ' +
           'rough call-out figure helps with AI answers and filters out enquiries ' +
           'that were never in budget.',
@@ -141,11 +144,15 @@ const pending = {
                   'filled from the second batch on 2026-08-23. CHANDELIERS is the only ' +
                   'guide left running on copy alone, and it says so on the page. One ' +
                   'photograph finishes the section.',
-  projectDetails: 'KITCHEN PROJECT WRITE-UP. The case study on the homepage was ' +
-                  'drafted from the two photographs, so everything in it is visible ' +
-                  'in frame. Location, how long it took, and anything about the ' +
-                  'customer were deliberately left out rather than guessed. Give ' +
-                  'Stephen a read of it before treating it as a signed-off case study.'
+  projectDetails: 'PROJECT WRITE-UPS. Both case studies were drafted from the ' +
+                  'photographs alone, so everything in them is visible in frame: ' +
+                  'the kitchen from its clip, the outdoor lighting from the pair. ' +
+                  'Location, how long either took, and anything about the customers ' +
+                  'were deliberately left out rather than guessed. Two lines in the ' +
+                  'outdoor scope list are trade practice rather than anything the ' +
+                  'camera shows - the RCD-protected supply and the test certificate ' +
+                  '- and they are there because the site already commits to both. ' +
+                  'Give Stephen a read of both before treating either as signed off.'
 };
 
 /* ---------- CREDENTIALS ----------
@@ -225,6 +232,37 @@ const projects = [
       'Three pendants over the breakfast bar, separately switched',
       'Under-cabinet lighting to the run of base units',
       'Tested, certificated and the board relabelled on completion'
+    ]
+  },
+  {
+    slug: 'outdoor-wall-lighting',
+    eyebrow: 'Project 02',
+
+    /* NO video on this one, deliberately. projectRow falls through to the
+       drag-wipe when a project has stills and no clip, and this is the pair
+       that path was written for: one camera position, one thing changed.
+       A dissolve would be the weaker treatment here - the whole point is
+       being able to hold the handle half way and see the same wall lit and
+       unlit at once, which a clip cannot do.
+
+       The two shots were NOT taken from the same spot; the crops in
+       make-photos.sh are what makes them line up. See the note there before
+       touching either file. */
+    title: 'Outdoor lighting to the back of a house',
+    /* Corner tags. NOT the default Before/After here only because the shots
+       are day and dusk, which is the honest reason the two look so different
+       and worth saying rather than letting somebody wonder. */
+    labels: ['Before, daytime', 'After, dusk'],
+    before: ['ba2-before.jpg', 'The back of the house before the work, in daylight, with bare brickwork above the patio doors and no exterior lighting fitted'],
+    after: ['ba2-after.jpg', 'The same elevation at dusk, with three up-and-down wall lights throwing light up the brickwork and down over the patio below'],
+    lead: 'The back of a house is usually the part that gets used after dark and the part with no light on it at all. Three fittings changed that here, and the photographs are the same wall, one in daylight and one at dusk.',
+    body: 'Most outdoor lighting goes wrong by being too much of it in one place: a single floodlight over the door that makes everything outside its beam look darker than before. The approach here was the opposite. Three up-and-down wall lights were set across the elevation at a matching height, so each one washes the brickwork above and drops light onto the patio below, and the three together cover the whole back of the house evenly. Nothing is aimed out into the garden or over the boundary, which is what causes the light to land in a neighbour’s bedroom and the complaint that follows.',
+    scope: [
+      'Three up-and-down wall lights across the rear elevation',
+      'Set at a matching height and spaced to light the whole wall evenly',
+      'Aimed to wash the brickwork and the patio rather than the garden',
+      'Outdoor-rated fittings on an RCD-protected supply',
+      'Tested and certificated on completion'
     ]
   }
 ];
