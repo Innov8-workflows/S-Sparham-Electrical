@@ -37,13 +37,24 @@ const biz = {
   whatsapp: '447557448945',
   email: 'stephen_sparham@hotmail.co.uk',
   facebook: 'https://www.facebook.com/profile.php?id=100063680856858',
+  /* the Page's own reviews tab, which is where a customer can WRITE one.
+     biz.facebook lands on the timeline, where they cannot. */
+  facebookReviews: 'https://www.facebook.com/profile.php?id=100063680856858&sk=reviews',
   instagram: 'https://www.instagram.com/s.sparham_electrical',
   mybuilder: 'https://www.mybuilder.com/profile/s-sparham-electrical',
   /* Two different Google links, and they are not interchangeable:
      googleProfile lands on the listing where a customer READS the reviews,
-     googleReview opens the WRITE-a-review dialog. */
+     googleReview opens the WRITE-a-review dialog.
+
+     googleReview is the link off the "Ask for reviews" button in Stephen's
+     own Google Business Profile, supplied 2026-08-23. It replaced one ending
+     EBM, which resolved to the identical place and dialog (same CID,
+     0x4841825bdf82c768) by a different entry point - the difference is only
+     Google's own laa= attribution parameter, merchant-review-solicitation
+     rather than nmx-review-solicitation-ia2. Not a broken link that was
+     fixed; the merchant one is simply the horse's mouth. */
   googleProfile: 'https://g.page/r/CWjHgt9bgkFIEBM',
-  googleReview: 'https://g.page/r/CWjHgt9bgkFIEBM/review',
+  googleReview: 'https://g.page/r/CWjHgt9bgkFIEAE/review',
 
   /* Confirmed on the onboarding form. Every value here is a business claim
      that appears publicly, so it may only change on Stephen's say-so. */

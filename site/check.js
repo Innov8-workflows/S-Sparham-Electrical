@@ -123,14 +123,23 @@ for (const f of htmls) {
   imgs.forEach(t => { if (!/\salt=/.test(t)) problems.push(`${id}: <img> with no alt attribute`); });
 }
 
-/* --- sitemap covers every page and nothing else --- */
+/* --- sitemap covers every indexable page, and nothing else ---
+   A noindex page must be ABSENT: listing it asks Google to crawl the page
+   that tells it not to, which is a mixed signal rather than a neutral one.
+   The rule is enforced both ways, so an indexable page cannot go missing and
+   a noindex one cannot creep in. /review/ is the case this exists for. */
 const sm = fs.readFileSync(path.join(OUT, 'sitemap.xml'), 'utf8');
 const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
-const pageUrls = htmls.filter(f => !f.endsWith('404.html'))
+const isNoindex = f => /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(fs.readFileSync(f, 'utf8'));
+const indexable = htmls.filter(f => !f.endsWith('404.html') && !isNoindex(f));
+const noindexUrls = htmls.filter(f => !f.endsWith('404.html') && isNoindex(f))
+  .map(f => SITE_URL + '/' + rel(f).replace(/index\.html$/, ''));
+const pageUrls = indexable
   .map(f => rel(f).replace(/index\.html$/, ''))
   .map(u => SITE_URL + '/' + u);
 pageUrls.forEach(u => { if (!locs.includes(u)) problems.push(`sitemap: missing ${u}`); });
 locs.forEach(u => { if (!pageUrls.includes(u)) problems.push(`sitemap: lists non-existent ${u}`); });
+noindexUrls.forEach(u => { if (locs.includes(u)) problems.push(`sitemap: lists ${u}, which is noindex`); });
 if (!/sitemaps\.org/.test(sm)) problems.push('sitemap: wrong namespace');
 
 console.log(`Checked ${htmls.length} pages, ${files.length} files.`);

@@ -17,6 +17,7 @@ const D = require('./src/data.js');
 const Pages = require('./src/pages.js');
 const Info = require('./src/pages-info.js');
 const Light = require('./src/pages-lighting.js');
+const Review = require('./src/pages-review.js');
 const A = require('./src/assets.js');
 const llms = require('./src/llms.js');
 
@@ -47,7 +48,8 @@ const pages = [
   Info.reviews(),
   Info.faqs(),
   Info.privacy(),
-  Info.terms()
+  Info.terms(),
+  Review.reviewLanding()
 ];
 const notFound = Info.notFound();
 
@@ -100,9 +102,13 @@ const priority = p => {
   if (p.slug === 'privacy-policy' || p.slug === 'terms') return '0.3';
   return '0.8';
 };
+/* noindex pages are excluded. /review/ is handed out by text, WhatsApp or a
+   QR code and carries a noindex tag; listing it in the sitemap would be
+   asking Google to index the page that tells it not to. check.js knows about
+   this exemption and enforces it in both directions. */
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map(p => `  <url>
+${pages.filter(p => !p.noindex).map(p => `  <url>
     <loc>${D.SITE_URL}/${p.slug ? p.slug + '/' : ''}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
