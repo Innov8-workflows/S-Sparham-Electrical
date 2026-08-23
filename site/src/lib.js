@@ -64,6 +64,10 @@ const ic = (n, cls) => `<svg class="${cls || 'ic'}" viewBox="0 0 24 24" aria-hid
 /* The Google "G", exact paths from the gilbarbara/logos set. Full colour, on
    its own 256x262 viewBox, so it cannot live in the 24x24 ICON map above.
    Never redraw this by hand: it is a trademark and an approximation looks it. */
+const F_MARK = '<svg class="fmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+  '<path fill="currentColor" d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/>' +
+  '</svg>';
+
 const G_MARK = '<svg class="gmark" viewBox="0 0 256 262" aria-hidden="true" focusable="false">' +
   '<path d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" fill="#4285F4"/>' +
   '<path d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" fill="#34A853"/>' +
@@ -144,7 +148,7 @@ function head(p) {
 <link rel="apple-touch-icon" href="${asset(d, 'favicon.png')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${asset(d, A.cssName)}">
 <script type="application/ld+json">${JSON.stringify(p.schema)}</script>
 </head>
@@ -453,14 +457,17 @@ function ratingsBar(d) {
 function reviewLinks(d) {
   return `
 <div class="rvout">
-  <a class="btn btn--google" href="${biz.googleProfile}" target="_blank" rel="noopener">
+  <a class="btn btn--google" href="${esc(biz.googleProfile)}" target="_blank" rel="noopener">
     ${G_MARK} Read all ${ratings.google.count} Google reviews ${ic('arrow')}
   </a>
-  <a class="btn btn--dark" href="${ratings.mybuilder.url}" target="_blank" rel="noopener">
+  <a class="btn btn--facebook" href="${esc(ratings.facebook.url)}" target="_blank" rel="noopener">
+    ${F_MARK} ${ratings.facebook.recommendPct}% recommend from ${ratings.facebook.count} reviews ${ic('arrow')}
+  </a>
+  <a class="btn btn--dark" href="${esc(ratings.mybuilder.url)}" target="_blank" rel="noopener">
     ${ic('check')} ${ratings.mybuilder.score}.0 from ${ratings.mybuilder.count} on MyBuilder ${ic('arrow')}
   </a>
 </div>
-<p class="rvout__note">${esc(biz.name)} is rated ${ratings.google.score} out of 5 across ${ratings.google.count} Google reviews and ${ratings.mybuilder.score} out of 5 from ${ratings.mybuilder.count} reviews on MyBuilder, with ${ratings.facebook.recommendPct}% recommending on <a href="${ratings.facebook.url}" target="_blank" rel="noopener">Facebook</a>. Scores as at ${esc(ratings.asAt)}.</p>`;
+<p class="rvout__note">Every review on this site is a real one, reproduced word for word. Scores as at ${esc(ratings.asAt)}.</p>`;
 }
 
 /* Carousel of real reviews for the homepage. */
@@ -683,7 +690,7 @@ function serviceNode(s, areaNames) {
 }
 
 module.exports = {
-  esc, root, href, asset, abs, ic, ICON, WA_GLYPH, G_MARK, ph, waLink, tel,
+  esc, root, href, asset, abs, ic, ICON, WA_GLYPH, G_MARK, F_MARK, ph, waLink, tel,
   WA_PREFILL, PAGE_TOKEN, pageLabel,
   head, header, crumbs, phead, ticks, steps, faqBlock, band,
   quotePanel, servicePanel, areaPanel, footer,

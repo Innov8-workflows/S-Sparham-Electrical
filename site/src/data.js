@@ -232,7 +232,7 @@ const projects = [
 const ratings = {
   google: { score: 4.9, count: 13, url: 'https://g.page/r/CWjHgt9bgkFIEBM/review' },
   mybuilder: { score: 5, count: 4, url: 'https://www.mybuilder.com/profile/s-sparham-electrical' },
-  facebook: { recommendPct: 100, count: 5, url: 'https://www.facebook.com/profile.php?id=100063680856858' },
+  facebook: { recommendPct: 100, count: 5, url: 'https://www.facebook.com/profile.php?id=100063680856858&sk=reviews' },
   asAt: '21 August 2026'
 };
 

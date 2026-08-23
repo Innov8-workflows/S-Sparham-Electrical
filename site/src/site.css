@@ -823,3 +823,10 @@ ul{margin:0;padding:0;list-style:none}
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
 }
 .pvid__still[hidden]{display:none}
+
+/* Facebook button: white on Facebook blue, which is the treatment their brand
+   guidance expects. Unlike the Google mark, theirs is a single monochrome path,
+   so it takes currentColor and needs no special ground. */
+.btn--facebook{background:#1877F2;color:#fff}
+.btn--facebook:hover{background:#0F62D6;transform:translateY(-2px);box-shadow:0 10px 26px rgba(24,119,242,.34)}
+.fmark{width:19px;height:19px;flex:none}

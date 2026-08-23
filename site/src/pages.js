@@ -177,7 +177,6 @@ ${credStrip(d)}
       <p>Watch the same room go from stripped back to finished.</p>
     </div>
     ${projects.map((p, i) => projectRow(d, p, i)).join('\n')}
-    <p class="proj__more">${ph()} More before and after projects to be added as the photographs come in.</p>
   </div>
 </section>
 
