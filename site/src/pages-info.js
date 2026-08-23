@@ -162,7 +162,7 @@ function ourWork() {
 <section class="sec"><div class="wrap">
   <div class="keyfact">
     <h2>In short</h2>
-    <p>These are photographs of real jobs carried out by ${esc(biz.name)}: lighting installations, kitchen and renovation work, socket and consumer unit work, and EV charger installations across ${esc(biz.baseArea)}. None of them is a stock photograph. ${ph()} More photographs to be added, including consumer units, EICR work and outdoor lighting.</p>
+    <p>These are photographs of real jobs carried out by ${esc(biz.name)}: lighting and LED work, kitchen and renovation jobs, consumer units and testing, outdoor and garden lighting, EV chargers, and three-phase and industrial installations across ${esc(biz.baseArea)}. None of them is a stock photograph.</p>
   </div>
   ${galleryBlock(d, gallery)}
 </div></section>

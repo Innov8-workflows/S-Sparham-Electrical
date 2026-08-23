@@ -108,11 +108,11 @@ const pending = {
   email: 'BUSINESS EMAIL. The site currently shows stephen_sparham@hotmail.co.uk. ' +
          'Once the domain is live, info@ssparhamelectrical.co.uk reads as far ' +
          'more established and costs nothing.',
-  photos: 'MORE PHOTOGRAPHS. Stephen wrote on the form: "I have loads of pictures ' +
-          'but could only seem to upload one on here so I will send you more if you ' +
-          'want them." Only eleven distinct photos exist so far, and several pages ' +
-          'reuse them. Consumer units, EICR work, CCTV, outdoor lighting and ' +
-          'industrial jobs are all unillustrated. Ask for them.',
+  photos: 'MORE PHOTOGRAPHS. A second batch of nineteen arrived on 2026-08-22 and ' +
+          'is now on /our-work/, which covers off consumer units, testing, outdoor ' +
+          'lighting, LED strip, three-phase and industrial work. Still unillustrated: ' +
+          'CCTV, and chandeliers for the lighting guide. Thirty photographs in total, ' +
+          'so pages no longer reuse the same handful.',
   beforeAfter: 'MORE BEFORE AND AFTER PAIRS. Only one genuine pair exists (the ' +
                'kitchen, stripped back and finished). For rewires and consumer ' +
                'unit work these sell the job better than a finished photo does.',
@@ -126,11 +126,10 @@ const pending = {
                 '"verification badge image / certificates" but never reached us. ' +
                 'The credential strip under the hero is TEXT badges in the meantime. ' +
                 'Send the certificates and they become real badge images.',
-  lightingPhotos: 'LIGHTING GUIDE PHOTOGRAPHS. Chandeliers, outdoor lighting and LED ' +
-                  'strip have no photograph of that style of job, so those three pages ' +
-                  'run on copy alone and say so. Pendants, downlights, wall lights and ' +
-                  'bathroom lighting are covered by existing photos. Three photographs ' +
-                  'would finish the section.',
+  lightingPhotos: 'LIGHTING GUIDE PHOTOGRAPHS. Outdoor lighting and LED strip were ' +
+                  'filled from the second batch on 2026-08-23. CHANDELIERS is the only ' +
+                  'guide left running on copy alone, and it says so on the page. One ' +
+                  'photograph finishes the section.',
   projectDetails: 'KITCHEN PROJECT WRITE-UP. The case study on the homepage was ' +
                   'drafted from the two photographs, so everything in it is visible ' +
                   'in frame. Location, how long it took, and anything about the ' +
@@ -774,7 +773,20 @@ const locations = [
 /* ---------- GALLERY ----------
    Every photograph is the company's own work. Alt text describes what is
    actually in the frame, because the audit found all eight photos on the
-   old site shared the alt text "Gallery Image". */
+   old site shared the alt text "Gallery Image".
+
+   g1-g8 are the first batch. g9-g27 arrived 2026-08-22 and are keyed to the
+   client's own numbering: g9 is his 1.jpeg, g27 his 19.jpeg, which is worth
+   keeping straight because his two batches both start at 1 and 1.jpg is a
+   different photograph from 1.jpeg. See site/make-photos.sh.
+
+   The whole array renders on /our-work/. The homepage takes the first six,
+   so the order here decides what a first-time visitor sees.
+
+   Nothing in the alt text is inferred. Equipment is named only where the
+   label is legible in the frame - the FuseBox unit and its surge device in
+   g27, the Kewtech tester in g15 - and nothing claims a scheme, a standard
+   or a price. */
 const gallery = [
   ['g1.jpg', 'Brushed steel double socket with USB charging, newly installed and chased into a bare plaster wall'],
   ['g2.jpg', 'Navy shaker kitchen with glass globe pendants over the breakfast bar and recessed downlights through the ceiling'],
@@ -783,7 +795,26 @@ const gallery = [
   ['g5.jpg', 'Open-plan kitchen and dining space with three glass pendant lights over the island and downlights beyond'],
   ['g6.jpg', 'Renovated room with recessed downlights, exposed stone wall and a slatted oak feature wall with flush sockets'],
   ['g7.jpg', 'Bathroom with an illuminated LED mirror, brass wall light and an electric shower installed in a tiled recess'],
-  ['g8.jpg', 'Living room after renovation with downlights set through the ceiling and a restored stone fireplace']
+  ['g8.jpg', 'Living room after renovation with downlights set through the ceiling and a restored stone fireplace'],
+  ['g9.jpg', 'Finished kitchen in matt black with a wood-effect worktop, downlights set through the ceiling and lighting under the wall units'],
+  ['g10.jpg', 'Black surface-mounted spotlights installed across a newly plastered ceiling in an open-plan room, lit and working before the room is decorated'],
+  ['g11.jpg', 'Vaulted ceiling with two roof windows and downlights fitted into the slope between them'],
+  ['g12.jpg', 'Room at plastering stage with the new downlights and spotlights already installed and switched on'],
+  ['g13.jpg', 'Outdoor lighting at dusk over a catering unit and seating area, with lamps along the canopy and the serving hatch lit'],
+  ['g14.jpg', 'Weatherproof outdoor socket recessed into a plywood-lined wall, with the cable coiled ready for second fix'],
+  ['g15.jpg', 'Testing in progress at a consumer unit, with a Kewtech multifunction tester clipped to the circuit conductors'],
+  ['g16.jpg', 'Outdoor distribution board in a lockable steel enclosure, with two industrial blue sockets mounted on the wall beside it'],
+  ['g17.jpg', 'Converted loft room with white painted brickwork, adjustable wall spotlights and a ceiling light over the exposed chimney breast'],
+  ['g18.jpg', 'Wall-mounted electric car charger on a house wall, plugged in and charging, with the car on the drive behind'],
+  ['g19.jpg', 'Finished kitchen in sage green with downlights through the ceiling, a wood-effect worktop and a lit extractor over the hob'],
+  ['g20.jpg', 'Three-phase switch and busbar inside a distribution board, with the incoming tails and earthing terminated and the ways numbered'],
+  ['g21.jpg', 'Utility area and rear porch with a downlight over the fitted units'],
+  ['g22.jpg', 'Living room media wall in slatted timber, with concealed lighting to the shelves, a wall-mounted television and an electric fire below'],
+  ['g23.jpg', 'Brick house lit at night by exterior downlights washing the walls and lighting the path around it'],
+  ['g24.jpg', 'Garden room and patio lit at night by wall lights along the length of the building'],
+  ['g25.jpg', 'Junction box opened up with the brass cover plate lowered, showing the connector blocks and the cables landed in them'],
+  ['g26.jpg', 'LED strip lighting fitted along the inside of a fitted wardrobe, lighting the rail below'],
+  ['g27.jpg', 'New FuseBox consumer unit with the cover off, fully populated with circuit breakers, a 100 amp main switch and a surge protection device, and every circuit cable terminated']
 ];
 
 /* Genuine pair: the same kitchen stripped back to brick with the props in,

@@ -70,14 +70,19 @@ fs.writeFileSync(path.join(OUT, '404.html'), notFound.html);
 fs.writeFileSync(path.join(OUT_ASSETS, A.cssName), A.cssSource);
 fs.writeFileSync(path.join(OUT_ASSETS, A.jsName), A.jsSource);
 
+/* The gallery filenames are READ FROM THE DATA rather than repeated here.
+   They were listed by hand until 2026-08-23, and adding nineteen photographs
+   to data.js while forgetting this list produced nineteen dead images that
+   only check.js caught. Anything referenced by the gallery now ships by
+   definition. The rest are one-offs referenced from a single template, so
+   they stay listed. */
 const MEDIA = [
   'logo-hero.webp', 'logo-mark.webp',
   'hero-loop.mp4', 'hero-loop-poster.jpg', 'hero-poster.jpg',
   'about.jpg', 'about-2.jpg', 'cta.jpg',
   'ba-before.jpg', 'ba-after.jpg',
   'ba-1.mp4', 'ba-1-poster.jpg',
-  'g1.jpg', 'g2.jpg', 'g3.jpg', 'g4.jpg',
-  'g5.jpg', 'g6.jpg', 'g7.jpg', 'g8.jpg',
+  ...D.gallery.map(([f]) => f),
   'favicon.png', 'og-default.jpg'
 ];
 const missingAssets = [];

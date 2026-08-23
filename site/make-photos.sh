@@ -53,6 +53,47 @@ cp_img hero.jpg      g6.jpg   "crop=1440:1440:0:320"
 cp_img hero03.jpg    g7.jpg   "crop=1440:1440:0:320"
 cp_img hero02.jpg    g8.jpg   "crop=1440:1440:0:320"
 
+# ---------------------------------------------------------------------------
+# Second batch, sent 2026-08-22 and added to the gallery on 2026-08-23. These
+# live in a SUBFOLDER of the originals and are .jpeg, not .jpg, so they take
+# their own source dir rather than being renamed into the first batch: the
+# numbering collides (1.jpg and 1.jpeg are different photographs).
+#
+# EVERY GALLERY IMAGE IS SQUARE. The markup declares 900x900, /our-work/ boxes
+# them at 3/4 and the homepage at 1/1, both object-fit:cover, so a non-square
+# file would advertise the wrong intrinsic ratio and shift the layout. The
+# crops below square each one off WITHOUT scaling, keeping full source
+# resolution for the lightbox, which shows them up to 88svh tall.
+#
+# The y offsets are chosen per photograph, not centred by default: a centre
+# crop cuts the ceiling out of the shots whose subject IS the ceiling.
+S2="$SRC/assets-v2"
+cp2 () {  # cp2 <source file> <dest name> <crop>
+  local from="$S2/$1" to="$A/$2"
+  [ -f "$from" ] || { echo "MISSING SOURCE: $from"; return 1; }
+  ffmpeg -y -v error -i "$from" -vf "$3" $Q "$to"
+}
+
+cp2 1.jpeg   g9.jpg   "crop=768:768:128:0"      # black kitchen, landscape
+cp2 2.jpeg   g10.jpg  "crop=1200:1200:0:60"     # spots on a new ceiling; hold the ceiling
+cp2 3.jpeg   g11.jpg  "crop=1200:1200:0:0"      # vaulted ceiling + roof windows; top of frame
+cp2 4.jpeg   g12.jpg  "crop=1536:1536:0:120"    # room at plaster stage, lights already live
+cp2 5.jpeg   g13.jpg  "crop=1436:1436:2:0"      # outdoor evening lighting
+cp2 6.jpeg   g14.jpg  "crop=1100:1100:520:330"  # outdoor socket; tight, or the socket is a speck
+cp2 7.jpeg   g15.jpg  "crop=1536:1536:0:256"    # testing at a consumer unit
+cp2 8.jpeg   g16.jpg  "crop=1536:1536:0:256"    # outdoor industrial board
+cp2 9.jpeg   g17.jpg  "crop=1536:1536:0:256"    # loft room
+cp2 10.jpeg  g18.jpg  "crop=1536:1536:0:256"    # EV charger, charging
+cp2 11.jpeg  g19.jpg  "crop=1536:1536:0:256"    # green kitchen
+cp2 12.jpeg  g20.jpg  "crop=1536:1536:0:256"    # three-phase switch
+cp2 13.jpeg  g21.jpg  "crop=1536:1536:0:256"    # utility and porch
+cp2 14.jpeg  g22.jpg  "crop=1536:1536:0:256"    # media wall
+cp2 15.jpeg  g23.jpg  "crop=1086:1086:0:181"    # night exterior, brick house
+cp2 16.jpeg  g24.jpg  "crop=1086:1086:0:181"    # night exterior, garden room
+cp2 17.jpeg  g25.jpg  "crop=1536:1536:0:256"    # junction box opened up
+cp2 18.jpeg  g26.jpg  "crop=1536:1536:0:150"    # wardrobe LED strip
+cp2 19.jpeg  g27.jpg  "crop=1400:1400:80:300"   # new consumer unit; tight, it is the subject
+
 # before / after: same kitchen, first fix and finished
 cp_img b1.jpg        ba-before.jpg
 cp_img 5.jpg         ba-after.jpg
