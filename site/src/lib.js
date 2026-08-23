@@ -326,33 +326,39 @@ function projectRow(d, p, i) {
 </article>`;
 }
 
-/* The transition clip.
+/* The transition clip. Autoplay, no controls, nothing to press.
 
-   AUTOPLAY WITHOUT A PLAY BUTTON, which is what makes this work at all:
-     - muted and playsinline are NOT optional. Every browser blocks autoplay
-       of anything with sound, and without playsinline iOS takes the video
-       fullscreen the moment it starts.
-     - preload=metadata, not auto: it sits mid-page and most visitors never
-       reach it, so pulling 2 MB on every page load would be paid for by
-       everybody to benefit some.
-     - site.js starts it on an IntersectionObserver when it scrolls into view
-       and pauses it when it leaves. It is NOT left on autoplay, because a
-       clip that has already looped four times before anyone sees it has
-       shown them nothing.
+   muted and playsinline are NOT optional. Every browser blocks autoplay of
+   anything with sound, and without playsinline iOS takes the video fullscreen
+   the moment it starts.
 
-   controls are absent by default and added by site.js ONLY for a visitor who
-   has asked for reduced motion. They get a still and a way to play it
-   deliberately, rather than either a silent auto-loop or nothing at all. */
+   preload=metadata, not auto: it sits mid-page and most visitors never reach
+   it, so pulling 2 MB on every page load would be paid for by everybody to
+   benefit some. site.js starts it on an IntersectionObserver.
+
+   NO loop attribute, deliberately. It plays once and stops on the last frame,
+   which is the finished kitchen rather than the rubble it started on. That is
+   both a better still to leave on screen and the reason no pause control is
+   needed: WCAG 2.2.2 applies to motion that runs past five seconds, and a
+   looping five-second clip never stops. Playing once means it does.
+
+   pvid__still is the finished room, shown INSTEAD of the video for a visitor
+   who has asked for reduced motion. They get the outcome with no movement and
+   still nothing to press. Hiding the video and showing nothing would leave a
+   black box, and adding controls is what put a play button on the page in the
+   first place. */
 function videoCompare(d, p) {
   const [file, poster, alt] = p.video;
+  const [af, aalt] = p.after;
   return `
 <div class="pvid">
-  <video class="pvid__v" muted loop playsinline preload="metadata"
+  <video class="pvid__v" muted playsinline preload="metadata"
          poster="${asset(d, poster)}" aria-label="${esc(alt)}">
     <source src="${asset(d, file)}" type="video/mp4">
   </video>
+  <img class="pvid__still" src="${asset(d, af)}" alt="${esc(aalt)}" hidden loading="lazy" width="1080" height="1080">
 </div>
-<p class="ba__cap">${ic('play')} The same kitchen, start to finish. Plays as you scroll to it.</p>`;
+<p class="ba__cap">${ic('play')} The same kitchen, start to finish.</p>`;
 }
 
 /* The drag-wipe, for a project supplied as a pair of stills. */

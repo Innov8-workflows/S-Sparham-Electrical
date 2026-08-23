@@ -91,47 +91,74 @@
   }
 
   /* ---- transformation clips: play on scroll into view ----
-     No play button, by design. The clip starts when it is actually on screen
-     and pauses when it is not, so nobody arrives at a video that has already
-     looped six times, and a visitor who never scrolls that far never pays for
-     the download.
+     No controls, no play button, nothing to press. Three things make that
+     work rather than just hoping:
 
-     Reduced motion is handled rather than ignored. Somebody who has asked their
-     OS for less movement gets the poster frame and a set of controls, so the
-     clip is still available deliberately instead of being hidden or forced on
-     them. Hiding it outright would leave a black box, which is worse than both.
+     1. It plays ONCE and stops on the finished room. A looping clip is motion
+        that never ends, which is what WCAG 2.2.2 wants a pause control for;
+        playing once removes the requirement instead of ignoring it. Scrolling
+        away and back replays it, so it is not a one-shot either.
 
-     play() is promise-returning and rejects if the browser declines (a battery
-     saver, an autoplay policy we did not anticipate). Swallow it: an unplayed
-     video already shows its poster, so there is nothing to recover. */
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* querySelectorAll direct rather than the $ helper: nothing subtle, it just
-     survives being written through a shell heredoc without losing a dollar. */
+     2. prefers-reduced-motion is NOT gated on here, deliberately, and this is
+        a judgement call worth knowing about. An earlier version added controls
+        for it, which is exactly how a play button ended up on the page. The
+        site's existing stance, set on the hero, is to still the motion rather
+        than remove the content — and this is a muted five-second cross-dissolve
+        between two photographs that plays once and stops. No parallax, no zoom,
+        no rotation, nothing that carries a vestibular risk, and no loop, so
+        WCAG 2.2.2 does not bite. If a gentler treatment is ever wanted, reveal
+        pvid__still instead of playing: the markup is already there for it.
+
+     3. play() returns a promise and browsers reject it when their autoplay
+        policy says no — Brave's shields do this by default. Rather than
+        leaving the visitor on a static shot of a building site, a rejection
+        arms a one-time retry on the first real interaction anywhere on the
+        page, which is enough of a user gesture to satisfy every policy. Still
+        no button: they never know it happened. */
   var vids = Array.prototype.slice.call(document.querySelectorAll('.pvid__v'));
 
-  if (vids.length && reduceMotion) {
-    vids.forEach(function (v) { v.setAttribute('controls', ''); });
-  } else if (vids.length && 'IntersectionObserver' in window) {
-    var vio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        var v = en.target;
-        if (en.isIntersecting) {
-          var pr = v.play();
-          if (pr && pr['catch']) pr['catch'](function () {});
-        } else if (!v.paused) {
-          v.pause();
-        }
-      });
-    }, { threshold: 0.35 });
-    vids.forEach(function (v) { vio.observe(v); });
-  } else {
-    /* No IntersectionObserver (very old browser): fall back to plain autoplay
-       rather than a video that can never start. */
-    vids.forEach(function (v) {
-      v.setAttribute('autoplay', '');
+  if (vids.length) {
+    var armed = false;
+
+    /* Playback failed for good. Show the finished room instead of leaving the
+       visitor on the poster, which is the building site the clip starts on. */
+    var giveUp = function (v) {
+      var still = v.parentNode.querySelector('.pvid__still');
+      if (still) { still.hidden = false; v.hidden = true; }
+    };
+
+    /* A rejected play() arms one retry on the first real interaction anywhere
+       on the page. A user gesture satisfies every autoplay policy there is,
+       and the visitor never knows it happened — no button, no prompt. */
+    var armRetry = function (v) {
+      if (armed) { giveUp(v); return; }
+      armed = true;
+      var evs = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
+      var go = function () {
+        evs.forEach(function (e) { window.removeEventListener(e, go); });
+        var pr = v.play();
+        if (pr && pr['catch']) pr['catch'](function () { giveUp(v); });
+      };
+      evs.forEach(function (e) { window.addEventListener(e, go, { once: true, passive: true }); });
+    };
+
+    var playNow = function (v) {
+      if (v.ended || v.currentTime >= v.duration - 0.05) { try { v.currentTime = 0; } catch (e) {} }
       var pr = v.play();
-      if (pr && pr['catch']) pr['catch'](function () {});
-    });
+      if (pr && pr['catch']) pr['catch'](function () { armRetry(v); });
+    };
+
+    if ('IntersectionObserver' in window) {
+      var vio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) playNow(en.target);
+          else if (!en.target.paused) en.target.pause();
+        });
+      }, { threshold: 0.35 });
+      vids.forEach(function (v) { vio.observe(v); });
+    } else {
+      vids.forEach(playNow);
+    }
   }
 
   /* ---- before / after comparison ----
