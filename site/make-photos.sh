@@ -38,10 +38,9 @@ cp_img hero03.jpg    hero-3.jpg
 
 # the page-header band behind every inner page's <h1>, and the closing CTA
 cp_img hero.jpg      hero-poster.jpg
-# The closing call-to-action band. Keeps the cta.jpg output name so nothing
-# downstream changes; media is served with must-revalidate rather than a long
-# TTL, so replacing it in place picks up on the next visit.
-cp_img final-hero-cta.jpeg cta.jpg
+# The closing CTA band is a VIDEO as of 2026-08-24 - cta.mp4 and its poster
+# are built by make-video.sh, not here. final-hero-cta.jpeg is still in use:
+# it is assets-v2/5.jpeg, which is gallery image g13.
 
 # gallery, in the order they appear on /our-work/
 cp_img 1.jpg         g1.jpg

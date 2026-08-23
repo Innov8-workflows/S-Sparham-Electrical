@@ -150,7 +150,12 @@
         arms a one-time retry on the first real interaction anywhere on the
         page, which is enough of a user gesture to satisfy every policy. Still
         no button: they never know it happened. */
-  var vids = Array.prototype.slice.call(document.querySelectorAll('.pvid__v'));
+  /* .fcta__bg, the closing CTA band, rides along with the transformation
+     clips: same play-on-scroll-in, pause-on-scroll-out, same autoplay-refusal
+     retry. It has no .pvid__still sibling, and giveUp below is written to
+     cope with that - it leaves the poster showing rather than hiding the
+     element, which is the right outcome for a background. */
+  var vids = Array.prototype.slice.call(document.querySelectorAll('.pvid__v, .fcta__bg'));
 
   if (vids.length) {
     var armed = false;

@@ -284,7 +284,24 @@ ${credStrip(d)}
 </section>
 
 <section class="fcta">
-  <img class="fcta__bg" src="${asset(d, 'cta.jpg')}" alt="" aria-hidden="true" loading="lazy" width="1440" height="1436">
+  <!-- Was a still until 2026-08-24. Autoplaying and looping, on the client's
+       instruction, exactly as the hero and the transformation clip do.
+
+       preload=metadata, not auto: this sits at the very bottom of the longest
+       page on the site, so most visitors never reach it and pulling the whole
+       clip on every homepage load would be paid for by everybody to benefit
+       some. site.js starts it on the same IntersectionObserver the
+       transformation clips use, and pauses it again on the way out.
+
+       poster is the clip's own first frame through the same crop, so there is
+       no jump when playback begins - and it is what a visitor keeps if their
+       browser refuses to autoplay at all. aria-hidden and tabindex=-1 because
+       it is decoration behind a heading; the band's meaning is entirely in
+       the text and buttons above it. -->
+  <video class="fcta__bg" autoplay muted loop playsinline preload="metadata"
+         poster="${asset(d, 'cta-poster.jpg')}" aria-hidden="true" tabindex="-1">
+    <source src="${asset(d, 'cta.mp4')}" type="video/mp4">
+  </video>
   <div class="wrap fcta__in">
     <h2>Need an electrician you can trust?</h2>
     <p>Call, text or send a photo of the job on WhatsApp and you will get a straight answer on what it needs. Quotes are free and there is no obligation.</p>

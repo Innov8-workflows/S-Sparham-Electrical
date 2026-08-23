@@ -82,7 +82,8 @@ fs.writeFileSync(path.join(OUT_ASSETS, A.jsName), A.jsSource);
 const MEDIA = [
   'logo-hero.webp', 'logo-mark.webp',
   'hero-loop.mp4', 'hero-loop-poster.jpg', 'hero-poster.jpg',
-  'about.jpg', 'about-2.jpg', 'cta.jpg',
+  'about.jpg', 'about-2.jpg',
+  'cta.mp4', 'cta-poster.jpg',
   ...D.gallery.map(([f]) => f),
   ...D.projects.flatMap(p => [p.before[0], p.after[0], ...(p.video ? [p.video[0], p.video[1]] : [])]),
   'favicon.png', 'og-default.jpg'

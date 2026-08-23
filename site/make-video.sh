@@ -20,24 +20,51 @@ cd "$(dirname "$0")"
 SRC="${1:-K:/AI/innov8 Workflows/Claude v2/S. Sparham Electrical}"
 A=assets
 
-enc () {  # enc <source file> <output name>
-  local from="$SRC/$1" to="$A/$2"
+enc () {  # enc <source file> <output name> [crop/scale filter]
+  local from="$SRC/$1" to="$A/$2" vf="${3:-}"
   [ -f "$from" ] || { echo "MISSING SOURCE: $from"; return 1; }
-  ffmpeg -y -v error -i "$from" \
+  ffmpeg -y -v error -i "$from" ${vf:+-vf "$vf"} \
     -c:v libx264 -profile:v high -pix_fmt yuv420p \
     -crf 27 -preset slow -movflags +faststart -an \
     "$to"
-  # Poster: the true first frame, so there is no jump between the still the
-  # browser shows before playback and the first frame it plays.
-  ffmpeg -y -v error -i "$from" -frames:v 1 -q:v 3 -pix_fmt yuvj420p \
+  # Poster: the true first frame, THROUGH THE SAME FILTER, so there is no jump
+  # between the still the browser shows before playback and the first frame it
+  # plays. Getting the crop wrong here shows up as the picture shifting the
+  # instant the clip starts.
+  ffmpeg -y -v error -i "$from" ${vf:+-vf "$vf"} -frames:v 1 -q:v 3 -pix_fmt yuvj420p \
     "${to%.mp4}-poster.jpg"
 }
 
 enc b-a-1.mp4 ba-1.mp4
 
-ls -l "$A"/ba-1.mp4 "$A"/ba-1-poster.jpg | sed 's/^/  /'
+# The closing call-to-action band, which was a still until 2026-08-24.
+#
+# The source is PORTRAIT, 1244x1660, and the band it fills is never portrait:
+# measured on the live page it runs from 1.05:1 on a phone to 4.91:1 on a
+# 1920 screen. object-fit:cover therefore only ever shows a horizontal slice
+# through the middle, so most of the frame height is encoded and thrown away.
+# Cropping to 4:3 up front drops 44% of the pixels and, more usefully, PINS
+# the slice on the heater: the crop is centred on it at 41% of frame height
+# rather than on the geometric middle, which is bare ceiling.
+#
+# It also needs the bitrate dealing with. The original is 6.3 Mbps, 7.9 MB for
+# ten seconds, for something that sits below the fold behind an 80% black
+# scrim on one page.
+#
+# No loop treatment, and it does not need the xfade the hero below gets.
+# Comparing the EXACT first and last frames (select=eq(n,0) and eq(n,count-1);
+# -sseof lands on the wrong frame and flatters it), this clip seams at SSIM
+# 0.958 against the hero's 0.877. It is a static shot of a lamp, so there is
+# almost nothing to cut between.
+#
+# Worth knowing if the hero is ever revisited: the comment on the hero block
+# claims 0.958 for its output, and the file it actually produces measures
+# 0.877. Whatever that figure described, it is not the encode that is live.
+enc final-hero-cta-vid.mp4 cta.mp4 "crop=1244:933:0:214"
+
+ls -l "$A"/ba-1.mp4 "$A"/ba-1-poster.jpg "$A"/cta.mp4 "$A"/cta-poster.jpg | sed 's/^/  /'
 echo
-echo "Source was $(ffprobe -v error -show_entries format=size -of csv=p=0 "$SRC/b-a-1.mp4") bytes."
+echo "Sources were $(ffprobe -v error -show_entries format=size -of csv=p=0 "$SRC/b-a-1.mp4") and $(ffprobe -v error -show_entries format=size -of csv=p=0 "$SRC/final-hero-cta-vid.mp4") bytes."
 echo "Now run: npm run build"
 
 # ---------------------------------------------------------------------------
