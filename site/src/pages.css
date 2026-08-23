@@ -7,10 +7,14 @@
 
 /* page header band, sits under the navbar in place of the hero */
 .phead{position:relative;background:var(--ink);color:#fff;isolation:isolate;overflow:hidden}
-.phead__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.34;z-index:0}
+.phead__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.6;z-index:0}
+/* The scrim. Cut by 40% from .86/.7/.94 along with the image opacity above,
+   so the photograph reads instead of sitting under near-black. The h1 is white
+   and sits in the upper half, which is why the top stop stays the darkest of
+   the three rather than being flattened to a single value. */
 .phead::after{
   content:"";position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,rgba(16,18,21,.86),rgba(16,18,21,.7) 45%,rgba(16,18,21,.94));
+  background:linear-gradient(180deg,rgba(16,18,21,.52),rgba(16,18,21,.42) 45%,rgba(16,18,21,.56));
 }
 .phead__in{position:relative;z-index:2;padding-block:clamp(26px,4.6vw,54px) clamp(30px,4.6vw,58px)}
 .phead h1{font-size:clamp(1.75rem,5.6vw,3rem);text-wrap:balance;max-width:20ch}

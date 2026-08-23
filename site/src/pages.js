@@ -281,7 +281,7 @@ ${credStrip(d)}
 </section>
 
 <section class="fcta">
-  <img class="fcta__bg" src="${asset(d, 'cta.jpg')}" alt="" aria-hidden="true" loading="lazy" width="1400" height="1867">
+  <img class="fcta__bg" src="${asset(d, 'cta.jpg')}" alt="" aria-hidden="true" loading="lazy" width="1440" height="1436">
   <div class="wrap fcta__in">
     <h2>Need an electrician you can trust?</h2>
     <p>Call, text or send a photo of the job on WhatsApp and you will get a straight answer on what it needs. Quotes are free and there is no obligation.</p>

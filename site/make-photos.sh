@@ -38,7 +38,10 @@ cp_img hero03.jpg    hero-3.jpg
 
 # the page-header band behind every inner page's <h1>, and the closing CTA
 cp_img hero.jpg      hero-poster.jpg
-cp_img hero02.jpg    cta.jpg
+# The closing call-to-action band. Keeps the cta.jpg output name so nothing
+# downstream changes; media is served with must-revalidate rather than a long
+# TTL, so replacing it in place picks up on the next visit.
+cp_img final-hero-cta.jpeg cta.jpg
 
 # gallery, in the order they appear on /our-work/
 cp_img 1.jpg         g1.jpg
