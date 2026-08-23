@@ -154,6 +154,22 @@ Sheet `19dCrVPtgHicdGFT644-jbHXdMcAQwAnHvXUc9QQkhMc`. CRM key
 `lk_2e1cd74c79b615d4f713a3090e5309f5`. Beacon type strings are **Title Case**
 and must stay identical to `NOTIFY_TYPES`. Never `navigator.sendBeacon`.
 
+## 2b. Done since this document was written (2026-08-23)
+
+- The **transformation clip loops**, on the client's instruction. It used to
+  stop on the last frame, which is what kept it clear of WCAG 2.2.2.
+- **Nineteen more photographs** (`assets-v2`) are in the gallery, taking
+  /our-work/ to 27. Consumer units, testing, outdoor lighting, LED strip and
+  industrial work are all illustrated now; **CCTV and chandeliers are the only
+  gaps left**. Outdoor lighting and LED strip guides got their real photo.
+  `MEDIA` in generate.js now derives gallery filenames from data.js.
+- **`/review/` exists** — the leave-us-a-review card, modelled on Redline's.
+  Source `site/src/pages-review.js`, self-contained, noindex, kept out of the
+  sitemap (check.js enforces that both ways now). **It is not `/reviews/`**,
+  which is still the public page where reviews are read. Remember the CSP has
+  no `script-src 'unsafe-inline'` — that page has zero inline script, and
+  anything added later must keep it that way or it fails silently.
+
 ## 3. Still to build
 
 - **GA4**, consent-gated, `click_to_call` / `click_whatsapp` / `generate_lead`.
