@@ -10,7 +10,7 @@ C:\Users\Jay\Projects\s-sparham-electrical\HANDOVER.md and the memory file
 project_s_sparham_electrical.md first, then wait for my instructions.
 ```
 
-Everything below is the state as at 2026-08-23.
+Everything below is the state as at 2026-08-24.
 
 ---
 
@@ -139,27 +139,47 @@ He saves them into `_incoming/` with the exact filenames. Then:
 - **remove "Every picture on this website is our own work"** from the homepage
   and `/our-work/` — Jay's explicit decision; it stops being true
 
-## 2. Lead chain — BLOCKED ON JAY
+## 2. Lead chain — LIVE (2026-08-24)
 
-`site/apps-script/Code.gs` is written and configured. Jay must:
-1. paste it over the blank script (project `1vFaqOCq9POlHL6_85DkV0Ycigy2cCgAajXLN3zEMg68fNMR67ZenVcxi`)
-2. run `innov8Test` once from the editor and click Allow
-3. Deploy → Web app → Execute as Me → Anyone, and send the `/exec` URL
+Working end to end. `site/apps-script/Code.gs` is deployed as a public web app
+and `biz.leadEndpoint` is set, so all 43 pages carry the beacon.
 
-Then set `biz.leadEndpoint` in `data.js` and rebuild. **No beacon is emitted
-while it is null**, deliberately — a beacon pointing at a dead URL fails
-silently and looks exactly like a working site.
+Verified in two stages, because "the script works" and "the site reaches the
+script" are different questions:
+
+- `doGet` returns the OK string at 200 and 302s to the googleusercontent host,
+  which is why the CSP names **both** `script.google.com` and
+  `script.googleusercontent.com`. A public 200 also proves the deployment is
+  set to *Anyone* rather than *Only myself*.
+- One POST of each of the four types, sent as the site sends them
+  (`text/plain` carrying JSON, which dodges the CORS preflight) — all
+  `{"ok":true}`, which is only returned after the row, the alert and the CRM
+  hop have all completed.
+- Then a real browser on the live site clicking the real buttons: all four
+  beacons observed on the wire, no CSP violations, no failed requests. The
+  quote form one matters most — submitting it navigates the tab to WhatsApp,
+  so that beacon has to survive unload. It does; that is `keepalive`, and it
+  is what silently breaks if anyone ever swaps this back to
+  `navigator.sendBeacon`.
 
 Sheet `19dCrVPtgHicdGFT644-jbHXdMcAQwAnHvXUc9QQkhMc`.
 
+**On any future edit to Code.gs:** paste it into the editor and redeploy via
+Manage deployments → pencil → New version. A brand-new deployment mints a
+different `/exec` URL and silently orphans the site's beacon.
+
 **The CRM key is NOT in this repo and must not go back in.** The repo is
-public. Add it as a Script Property instead — Apps Script editor → Project
-Settings → Script properties → `INNOV8_KEY` = the `lk_...` string from the
-Client Dash. Unset, the Sheet row and the email alert still work and only the
-CRM hop is skipped, with a warning in the Executions log.
+public. It lives in Script Properties — Apps Script editor → Project Settings
+→ Script properties → `INNOV8_KEY`. Unset, the Sheet row and the email alert
+still work and only the CRM hop is skipped, with a warning in the Executions
+log.
 
 Beacon type strings are **Title Case** and must stay identical to
-`NOTIFY_TYPES`. Never `navigator.sendBeacon`.
+`NOTIFY_TYPES`, or alerts stop without an error. Never
+`navigator.sendBeacon`.
+
+**Housekeeping:** 8 test rows were written during setup (4 direct, 4 from the
+browser run), all labelled TEST. Delete them if they are still there.
 
 ## 2b. Done since this document was written (2026-08-23)
 
@@ -234,11 +254,6 @@ quickly if anything about the certificate or the apex changes.
 
 ## 3. Still to build
 
-- **THE LEAD CHAIN IS NOT CONNECTED.** `biz.leadEndpoint` is still null, so a
-  submitted quote form opens WhatsApp and logs NOTHING — no Sheet row, no
-  email alert, no CRM lead. Everything else on this list is polish; this one
-  is the site not doing its job. `site/apps-script/Code.gs` is ready to paste;
-  deploy it and put the /exec URL in data.js. See §2 for the gotchas.
 - **track.js is failing on every page load.** `crm.innov8workflows.co.uk/api/track`
   rejects the preflight: `Access-Control-Allow-Origin` is `*` while the request
   sends credentials. It is a CRM-side fix, not a site-side one, and it affects
@@ -255,21 +270,36 @@ quickly if anything about the certificate or the apex changes.
 ## 4. Open with the client
 
 - **Competent-person scheme** — registered with anyone? Decides Part P
-  self-certification, and it is the first thing a homeowner checks.
-- **His GBP says BRINSLEY**, everything else says RIPLEY. Direct drag on local
-  ranking, two-minute fix on his end.
+  self-certification, and it is the first thing a homeowner checks. `check.js`
+  fails the build if any scheme name appears, so nothing can claim one by
+  accident.
+- **Opening hours** — the GBP shows 07:00–19:00 Monday to Friday; Saturday and
+  Sunday were cut off in the screenshot. Confirm the full week and they can go
+  into schema, which is what answer engines quote for "open now".
 - **Street address** — the form gave 19 Honey Field Drive DE5 3JL, which looks
-  like his home. The site publishes "Ripley, Derbyshire DE5" only.
-- **Opening hours** — old site said 07:00–19:00 seven days. Unconfirmed.
-- **More photographs** — he offered them on the form and has not sent them.
-  Only 11 distinct photos exist. Consumer units, EICRs, CCTV, outdoor lighting
-  and industrial work are all unillustrated, and 3 of the 7 lighting guides say
-  so on the page.
-- **Kitchen case-study details** — the write-up was drafted from the two
-  photographs, so it names nothing not visible in frame: no location, no
-  duration, no price. Wants his sign-off.
+  like his home. LIKELY SETTLED: the GBP is a service-area listing publishing
+  no address, so the site showing "Ripley, Derbyshire DE5" only matches it.
+  Confirm and close.
+- **GBP service areas** — Ilkeston, Matlock, Chesterfield and Eastwood have
+  pages on the site but are not listed as service areas on his profile. The
+  site side of that gap is closed (Codnor and Swanwick pages added 2026-08-24).
+- **Two photographs would finish the site**: CCTV, and a chandelier for the one
+  lighting guide still running on copy alone. Thirty photos exist now, so
+  everything else is covered.
+- **Both case studies want his sign-off.** Each was drafted from the
+  photographs only — no location, no duration, no price, nothing not visible in
+  frame. Two lines in the outdoor scope list are trade practice rather than
+  anything the camera shows.
 - **Business email** — `info@ssparhamelectrical.co.uk` would read better than
   the Hotmail address the audit flagged.
+- **Logo source file** — the current one is keyed out of a black raster PNG,
+  and his workwear carries a lightning-bolt mark the supplied file does not.
+  Ask for the vector.
+- **Certificate images** — IMG_1079.png was attached to the onboarding form but
+  never arrived. The credential strip is text badges in the meantime.
+
+NOTE: the old "his GBP says BRINSLEY" item is WITHDRAWN — it was never true.
+See the comment in `data.js` where `gbpAreas` now sits.
 
 ## 5. Possible follow-ups, not requested
 
