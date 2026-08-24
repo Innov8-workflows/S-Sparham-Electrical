@@ -86,7 +86,7 @@ const MEDIA = [
   'cta.mp4', 'cta-poster.jpg',
   ...D.gallery.map(([f]) => f),
   ...D.projects.flatMap(p => [p.before[0], p.after[0], ...(p.video ? [p.video[0], p.video[1]] : [])]),
-  'favicon.png', 'og-default.jpg'
+  'favicon.png', 'og-default.jpg', 'og-review.jpg'
 ];
 const missingAssets = [];
 for (const f of MEDIA) {

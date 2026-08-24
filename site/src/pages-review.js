@@ -181,13 +181,13 @@ function reviewLanding() {
 <meta property="og:title" content="Leave ${esc(biz.name)} a review">
 <meta property="og:description" content="${esc(p.description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${D.SITE_URL}/assets/og-default.jpg">
+<meta property="og:image" content="${D.SITE_URL}/assets/og-review.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Leave ${esc(biz.name)} a review">
 <meta name="twitter:description" content="${esc(p.description)}">
-<meta name="twitter:image" content="${D.SITE_URL}/assets/og-default.jpg">
+<meta name="twitter:image" content="${D.SITE_URL}/assets/og-review.jpg">
 <link rel="icon" href="${asset('favicon.png')}" sizes="any">
 <link rel="apple-touch-icon" href="${asset('favicon.png')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
