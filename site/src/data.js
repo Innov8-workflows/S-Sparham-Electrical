@@ -92,7 +92,7 @@ const biz = {
      which is the one failure mode worth designing out: it looks exactly like a
      working site right up until you go looking for the leads. */
   trackingId: 'proj_0e50b9b530d3',
-  leadEndpoint: null,
+  leadEndpoint: 'https://script.google.com/macros/s/AKfycby_xIU5vBNAEPlx9xYUd9bE3cAGa68Ldk6hCiQ7VifxsuTAMzoQeHllmY16rLWaLqc/exec',
 
   /* ga4Id: Google Analytics 4, added 2026-08-24. Unlike trackingId and
      leadEndpoint this one DOES set cookies, so it is consent-gated - see the
