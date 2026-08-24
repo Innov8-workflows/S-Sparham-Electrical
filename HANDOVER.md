@@ -170,17 +170,44 @@ and must stay identical to `NOTIFY_TYPES`. Never `navigator.sendBeacon`.
   no `script-src 'unsafe-inline'` — that page has zero inline script, and
   anything added later must keep it that way or it fails silently.
 
+## 2c. Also done (2026-08-24)
+
+- **Project 02** on the zig-zag: outdoor wall lights, as a drag-wipe. The two
+  shots were taken from different distances; `make-photos.sh` carries the
+  solved crops that align them. Do not change one without the other.
+- **Mobile pass.** Hero was 78% of a phone screen with 113px of dead video
+  under it — now 62%. The quote form's fields were 14.72px, which made iOS
+  zoom the page on every tap. Touch targets to 44px. `content-visibility` was
+  tried and REVERTED; see the note in site.css before reaching for it again.
+- **Closing CTA band is a video** (`cta.mp4`), built by make-video.sh.
+- **GA4 `G-7XZBCEYXTR`, consent-gated.** Consent Mode v2 denied by default,
+  banner with equal-weight Reject/Accept, no cookie until Accept. The privacy
+  policy was rewritten — it previously said the site set no cookies, which the
+  tag would have made false. **Google's own snippet does not work here**: it
+  is inline, and the CSP has no `script-src 'unsafe-inline'`. The bootstrap is
+  at the end of site.js.
+- **`/review/` has its own link card** (`og-review.jpg`), source in `site/og/`.
+- **Search Console tag** is live on every page from `biz.googleVerification`.
+
 ## 3. Still to build
 
-- **GA4**, consent-gated, `click_to_call` / `click_whatsapp` / `generate_lead`.
-  The `data-track` hooks are already on every call and WhatsApp link. **Widen
-  the CSP in the same commit** — `connect-src` currently blocks it silently.
-  GA4 also sets cookies, so the privacy policy needs updating again.
-- **Proper OG card** via `/link-card`. `assets/og-default.jpg` is an interim
-  build. A replacement needs a **new filename** or the old thumbnail stays
-  cached everywhere.
-- **Search Console** verification + sitemap submission.
+- **THE LEAD CHAIN IS NOT CONNECTED.** `biz.leadEndpoint` is still null, so a
+  submitted quote form opens WhatsApp and logs NOTHING — no Sheet row, no
+  email alert, no CRM lead. Everything else on this list is polish; this one
+  is the site not doing its job. `site/apps-script/Code.gs` is ready to paste;
+  deploy it and put the /exec URL in data.js. See §2 for the gotchas.
+- **track.js is failing on every page load.** `crm.innov8workflows.co.uk/api/track`
+  rejects the preflight: `Access-Control-Allow-Origin` is `*` while the request
+  sends credentials. It is a CRM-side fix, not a site-side one, and it affects
+  every client site carrying track.js — so the Client Dash traffic tiles are
+  empty for all of them.
+- **Homepage OG card** is still the interim build. `/link-card`'s centred
+  layout is now wired up in `site/og/` — the homepage version is the same
+  recipe with a different headline. Needs a **new filename**.
 - Point the **Google Business Profile** website field at the new domain.
+- Search Console: the tag is live, but somebody still has to press **Verify**
+  and submit `sitemap.xml`. Use the **apex** as the property, not www — www
+  301s to it, so a www property reports every page as a redirect.
 
 ## 4. Open with the client
 
