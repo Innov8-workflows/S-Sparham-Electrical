@@ -122,14 +122,33 @@ const pending = {
           'the first thing a homeowner is told to check before letting anyone ' +
           'near a consumer unit, and it also decides whether Part P notifiable ' +
           'work can be self-certified or has to go to building control.',
-  address: 'STREET ADDRESS. The form gives 19 Honey Field Drive, Ripley DE5 3JL, ' +
-           'which reads like a home address. The site currently publishes ' +
-           '"Ripley, Derbyshire DE5" only. Confirm whether the full address ' +
-           'should appear, because Google Business Profile and a visible ' +
-           'address both help local ranking.',
-  gbpLocation: 'The Google Business Profile says the business is in BRINSLEY, ' +
-               'while the form, MyBuilder and the old site all say RIPLEY. ' +
-               'One of them is wrong and the mismatch weakens local ranking.',
+  address: 'STREET ADDRESS. The form gives 19 Honey Field Drive, Ripley DE5 ' +
+           '3JL, which reads like a home address. LIKELY SETTLED: the Google ' +
+           'Business Profile was checked on 2026-08-24 and is a service-area ' +
+           'listing - "No location; deliveries and home services only" - so ' +
+           'Google publishes no address either. The site showing "Ripley, ' +
+           'Derbyshire DE5" only is consistent with that, and publishing his ' +
+           'home address would not match the profile. Confirm and close.',
+  /* WITHDRAWN 2026-08-24. This used to read "The Google Business Profile says
+     the business is in BRINSLEY, while the form, MyBuilder and the old site
+     all say RIPLEY", and it was simply not true. The profile was checked: it
+     is a SERVICE-AREA business, "No location; deliveries and home services
+     only", so it names no town at all and there was never a conflict.
+
+     The claim traces to a misreading of the Aug-2026 audit, whose only
+     mention of Brinsley is that the OLD sitelift site listed "twenty-six
+     towns from Ripley and Codnor to Alfreton and Brinsley" as areas covered.
+     Brinsley was one entry in a coverage list, not the business address.
+     That audit also invented "53 reviews", so treat anything from it as a
+     lead to check rather than a fact.
+
+     What IS worth acting on is the coverage list, which is a real gap: */
+  gbpAreas: 'GBP SERVICE AREAS vs AREA PAGES. The profile lists Derby, Codnor, ' +
+            'Heanor, Swanwick, Nottingham, Ripley DE5, Belper DE56 and Alfreton ' +
+            'DE55. CODNOR and SWANWICK have no page on the site, and Ilkeston, ' +
+            'Matlock, Chesterfield and Eastwood have pages but are not on the ' +
+            'profile. Making the two lists agree is free and is one of the few ' +
+            'local-ranking signals fully within our control.',
   hours: 'OPENING HOURS. The old site advertised 07:00-19:00, seven days, and ' +
          'Google says "Opens 7am". Confirm before it goes into schema, because ' +
          'answer engines repeat it when somebody asks for an electrician open now.',
