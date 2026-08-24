@@ -145,10 +145,12 @@ const pending = {
      What IS worth acting on is the coverage list, which is a real gap: */
   gbpAreas: 'GBP SERVICE AREAS vs AREA PAGES. The profile lists Derby, Codnor, ' +
             'Heanor, Swanwick, Nottingham, Ripley DE5, Belper DE56 and Alfreton ' +
-            'DE55. CODNOR and SWANWICK have no page on the site, and Ilkeston, ' +
-            'Matlock, Chesterfield and Eastwood have pages but are not on the ' +
-            'profile. Making the two lists agree is free and is one of the few ' +
-            'local-ranking signals fully within our control.',
+            'DE55. HALF CLOSED. The site side is done: Codnor and Swanwick ' +
+            'pages were written on 2026-08-24, so every town on the profile ' +
+            'now has a page behind it. The profile side sits with Jay - ' +
+            'Ilkeston, Matlock, Chesterfield and Eastwood have pages but are ' +
+            'not listed as service areas on the GBP. Add those four and the ' +
+            'two lists agree in both directions.',
   hours: 'OPENING HOURS. The old site advertised 07:00-19:00, seven days, and ' +
          'Google says "Opens 7am". Confirm before it goes into schema, because ' +
          'answer engines repeat it when somebody asks for an electrician open now.',
@@ -852,6 +854,34 @@ const locations = [
     slug: 'eastwood', name: 'Eastwood', county: 'Nottinghamshire',
     context: 'Eastwood sits on the Derbyshire border in the corridor between Heanor and Nottingham, and it has the same mining history as its neighbours: rows of colliery terraces, the D. H. Lawrence birthplace among them, and later estates built out towards Newthorpe and Giltbrook. The terraces are small, solid-walled and often extended at the back, which tends to mean a kitchen circuit added at some point that was never quite up to what a modern kitchen asks of it. Being on the county boundary, it is a normal part of our working week rather than a trip out.',
     nearby: ['Newthorpe', 'Giltbrook', 'Kimberley', 'Brinsley', 'Underwood', 'Awsworth']
+  },
+
+  /* Added 2026-08-24 to close the gap against the Google Business Profile,
+     which lists Codnor and Swanwick as service areas while the site had a page
+     for neither. Google cross-references the two lists, and it was the one
+     local signal fully within our control.
+
+     APPENDED rather than slotted into geographic order, on purpose:
+     locationPage picks its fourth FAQ with `rotating[i % rotating.length]`, so
+     inserting these mid-array would silently reword six pages that are already
+     indexed. At the end, every existing page stays byte-identical.
+
+     Both are ex-mining Amber Valley villages minutes from Ripley, which is the
+     trap. Written carelessly they would repeat what Ripley, Heanor and
+     Alfreton already say about pit terraces and ex-council estates, and four
+     near-identical pages are worth less to Google than two distinct ones. So
+     Codnor is written around its pre-mining core and the industrial units at
+     Codnor Gate, and Swanwick around its newer estates, where the problem is
+     load growth rather than ageing cable. */
+  {
+    slug: 'codnor', name: 'Codnor', county: 'Derbyshire',
+    context: 'Codnor sits on the high ground between Ripley and Heanor, close enough that it is part of the normal week rather than a trip out. The village has an older core of stone and solid-brick cottages that predate the mining terraces around it, and those take the most care: there is no cavity to drop a cable down, ceilings are low, and most have been altered or extended more than once, so what is behind a wall is rarely what the layout suggests. Along the main road are the terraces, and behind them the newer closes, which means there is no single typical Codnor house. The units at Codnor Gate are a different job again, and three-phase work on an industrial estate is as ordinary to us as a domestic board change.',
+    nearby: ['Ripley', 'Waingroves', 'Loscoe', 'Codnor Park', 'Golden Valley', 'Heanor']
+  },
+  {
+    slug: 'swanwick', name: 'Swanwick', county: 'Derbyshire',
+    context: 'Swanwick has more modern housing than most of the villages around it, and that changes what we get called out for. A house built in the last twenty years does not need rewiring; what it needs is more out of its installation than it was designed to give, whether that is a charger on the drive, a hot tub, a garden room at the bottom of the plot or an island added to the kitchen. That is a question about spare ways, cable size and what the existing board will take rather than about ageing wiring, and it is worth asking before the trench is dug rather than after. The older part of the village is the familiar mining stock it shares with Alfreton and Riddings, and there the work is the usual rewires, board changes and testing.',
+    nearby: ['Alfreton', 'Leabrooks', 'Somercotes', 'Riddings', 'Pentrich', 'Ripley']
   }
 ];
 
