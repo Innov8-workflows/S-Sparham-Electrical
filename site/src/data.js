@@ -100,7 +100,16 @@ const biz = {
      which had to be rewritten because it previously said the site set none.
 
      Null disables the whole thing cleanly: no banner, no gtag, no cookies. */
-  ga4Id: 'G-7XZBCEYXTR'
+  ga4Id: 'G-7XZBCEYXTR',
+
+  /* Google Search Console ownership, added 2026-08-24. Just proof that we
+     control the domain - it sets nothing, sends nothing, and is not analytics,
+     so it sits outside the consent gate.
+
+     DO NOT REMOVE once Search Console says "verified". Google re-checks
+     periodically and silently unverifies the property when the tag disappears,
+     which takes the sitemap and the performance data with it. */
+  googleVerification: 'HpoRHdcfTJOH5EXINNPOpAYdjGJYURZgFao-2liIBdE'
 };
 
 /* Everything here renders with a visible [Placeholder] chip so it cannot be

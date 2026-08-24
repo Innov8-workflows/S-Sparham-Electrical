@@ -130,7 +130,8 @@ function head(p) {
 <meta name="description" content="${esc(p.description)}">
 <link rel="canonical" href="${canonical}">
 <meta name="theme-color" content="#0B0E12">
-<meta name="robots" content="${robots}">
+<meta name="robots" content="${robots}">${biz.googleVerification ? `
+<meta name="google-site-verification" content="${esc(biz.googleVerification)}">` : ''}
 <meta property="og:type" content="${p.slug ? 'article' : 'website'}">
 <meta property="og:site_name" content="${esc(biz.name)}">
 <meta property="og:locale" content="en_GB">

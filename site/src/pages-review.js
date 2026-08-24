@@ -174,7 +174,8 @@ function reviewLanding() {
 <meta name="description" content="${esc(p.description)}">
 <link rel="canonical" href="${url}">
 <meta name="theme-color" content="#0B0E12">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="noindex, nofollow">${biz.googleVerification ? `
+<meta name="google-site-verification" content="${esc(biz.googleVerification)}">` : ''}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(biz.name)}">
 <meta property="og:locale" content="en_GB">
