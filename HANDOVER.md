@@ -150,9 +150,16 @@ Then set `biz.leadEndpoint` in `data.js` and rebuild. **No beacon is emitted
 while it is null**, deliberately — a beacon pointing at a dead URL fails
 silently and looks exactly like a working site.
 
-Sheet `19dCrVPtgHicdGFT644-jbHXdMcAQwAnHvXUc9QQkhMc`. CRM key
-`lk_2e1cd74c79b615d4f713a3090e5309f5`. Beacon type strings are **Title Case**
-and must stay identical to `NOTIFY_TYPES`. Never `navigator.sendBeacon`.
+Sheet `19dCrVPtgHicdGFT644-jbHXdMcAQwAnHvXUc9QQkhMc`.
+
+**The CRM key is NOT in this repo and must not go back in.** The repo is
+public. Add it as a Script Property instead — Apps Script editor → Project
+Settings → Script properties → `INNOV8_KEY` = the `lk_...` string from the
+Client Dash. Unset, the Sheet row and the email alert still work and only the
+CRM hop is skipped, with a warning in the Executions log.
+
+Beacon type strings are **Title Case** and must stay identical to
+`NOTIFY_TYPES`. Never `navigator.sendBeacon`.
 
 ## 2b. Done since this document was written (2026-08-23)
 
@@ -188,6 +195,42 @@ and must stay identical to `NOTIFY_TYPES`. Never `navigator.sendBeacon`.
   at the end of site.js.
 - **`/review/` has its own link card** (`og-review.jpg`), source in `site/og/`.
 - **Search Console tag** is live on every page from `biz.googleVerification`.
+
+## 2d. Security check (2026-08-24)
+
+Checked against the live site, not assumed. In place: HTTPS enforced (http
+301s to https), www 301s to the apex preserving the path, TLS 1.2 minimum with
+1.0 refused, and a CSP carrying **no `script-src 'unsafe-inline'`** plus
+`frame-ancestors 'none'`, `base-uri 'none'`, `object-src 'none'` and
+`form-action 'self'`. Also `X-Content-Type-Options: nosniff`,
+`X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`,
+`Cross-Origin-Opener-Policy: same-origin` and a locked-down
+`Permissions-Policy`. No directory listing, no mixed content, every external
+link carries `rel="noopener"`, and `.git/config`, `_headers`, `package.json`,
+`wrangler.toml` and the Apps Script source all 404. Exactly one third-party
+script loads: the CRM's `track.js`.
+
+**FOUND AND PART-FIXED — the innov8 CRM key was committed in plaintext.**
+`site/apps-script/Code.gs` held `INNOV8_KEY` as a string literal, and this
+repo is PUBLIC, so it was fetchable by anyone from raw.githubusercontent.com.
+Paired with `INNOV8_CRM_URL` in the same file, that is everything needed to
+POST invented leads into the Client Dash as this client. It now reads from
+Script Properties, and no key literal remains anywhere in the tracked tree.
+
+**The key still needs ROTATING, and only Jay can do it.** Taking it out of
+HEAD does not take it out of git history — the old blob is still served by
+GitHub, so the string must be treated as burned. Mint a replacement from the
+Client Dash (`/api/projects/<id>/lead-key`), revoke the old one, and put the
+new value in Script Properties rather than in the file.
+
+Checked and clear: the leads Sheet is **not** world-readable (401 both for the
+edit URL and the CSV export), and no sibling client repo carries a `Code.gs`
+at all (five checked). The exposure is contained to this one key.
+
+**HSTS is still off**, deliberately — see Hosting above. It is the only
+remaining header gap. Ramp it from a short `max-age` rather than shipping a
+year, because once browsers have cached the policy it cannot be undone
+quickly if anything about the certificate or the apex changes.
 
 ## 3. Still to build
 

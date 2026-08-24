@@ -41,9 +41,24 @@ const BRAND_ACCENT = '#14AEE3';                 // eyebrow text
 const BRAND_LABEL  = 'SSPARHAMELECTRICAL.CO.UK';
 const BIZ_SHORT    = 'S. Sparham Electrical';
 
-// innov8 CRM. Minted from the Client Dash: /api/projects/<id>/lead-key
+/* innov8 CRM. Minted from the Client Dash: /api/projects/<id>/lead-key
+
+   THE KEY IS NOT IN THIS FILE AND MUST NOT GO BACK INTO IT. This repo is
+   PUBLIC, so a literal here is readable by anyone at raw.githubusercontent.com
+   - which it was, from the day this file was committed until a security check
+   on 2026-08-24 found it. Anyone holding the key can POST invented leads into
+   the Client Dash under this client's name.
+
+   It lives in Script Properties instead, which stay inside the Apps Script
+   project and never reach git:
+     Apps Script editor -> Project Settings -> Script properties -> Add
+       property  INNOV8_KEY
+       value     the lk_... string from the Client Dash
+
+   Unset, only the CRM hop is disabled - the Sheet row and the email alert
+   still work, which is the right way round for a lead logger to fail. */
 const INNOV8_CRM_URL = 'https://crm.innov8workflows.co.uk/api/webhook/client-leads';
-const INNOV8_KEY     = 'lk_2e1cd74c79b615d4f713a3090e5309f5';   // unique to this client - do not reuse
+const INNOV8_KEY     = PropertiesService.getScriptProperties().getProperty('INNOV8_KEY') || '';
 /* ================================================================ */
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit';
@@ -210,6 +225,16 @@ function doGet() {
 
 function innov8Forward(e, sheet) {
   try {
+    /* No key set in Script Properties: skip the CRM hop and say so plainly in
+       the Executions log. Firing the request anyway would just earn a 401 that
+       reads like a broken integration rather than an unfinished one. The Sheet
+       row and the email alert have already happened by this point, so a lead
+       is never lost to a missing key. */
+    if (!INNOV8_KEY) {
+      console.warn('innov8 CRM sync skipped: no INNOV8_KEY in Script Properties. '
+                 + 'Project Settings -> Script properties -> add INNOV8_KEY.');
+      return;
+    }
     var d = {};
     try { d = JSON.parse(e.postData.contents); } catch (err) { d = (e && e.parameter) || {}; }
     var rawType = String(d.type || d.event || FORM_TYPE);
